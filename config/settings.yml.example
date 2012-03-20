@@ -1,4 +1,7 @@
 defaults: &defaults
+  github:
+    client_id: <%= ENV['GITHUB_CLIENT_ID'] %>
+    secret: <%= ENV['GITHUB_SECRET'] %>
 
 development:
   <<: *defaults
