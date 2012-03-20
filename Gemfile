@@ -23,8 +23,6 @@ end
 gem 'settingslogic'
 
 gem 'sorcery'
-gem 'omniauth'
-gem 'omniauth-github', :git => 'git://github.com/intridea/omniauth-github.git'
 
 gem 'jquery-rails'
 
