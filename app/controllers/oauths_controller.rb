@@ -12,6 +12,11 @@ class OauthsController < ApplicationController
     else
       begin
         @user = create_from(provider)
+        # TODO transaction
+        auth = @user.authentication(provider)
+        auth.token = token_from_credential(provider)
+        auth.save!
+
         # NOTE: this is the place to add '@user.activate!' if you are using user_activation submodule
 
         reset_session # protect from session fixation attack
@@ -21,5 +26,11 @@ class OauthsController < ApplicationController
         redirect_to root_path, alert: "Failed to login from #{provider.titleize}!"
       end
     end
+  end
+
+  private
+
+  def token_from_credential(provider)
+    Config.send(provider).access_token.token
   end
 end
