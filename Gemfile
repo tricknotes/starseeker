@@ -21,6 +21,8 @@ group :assets do
 end
 
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-github', :git => 'git://github.com/intridea/omniauth-github.git'
 
 gem 'jquery-rails'
 
