@@ -4,6 +4,8 @@ WatchMen::Application.routes.draw do
   match '/auth/:provider/callback', to: 'sessions#create'
   match '/auth/failure', to: 'sessions#failure'
 
+  root to: 'root#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
