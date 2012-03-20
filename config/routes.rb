@@ -1,6 +1,7 @@
 WatchMen::Application.routes.draw do
-  match '/auth/:provider/callback', to: 'sessions#create'
-  match '/auth/failure', to: 'sessions#failure'
+
+  get 'oauth/callback' => 'oauths#callback'
+  match 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
 
   root to: 'root#index'
 
