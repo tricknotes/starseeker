@@ -7,6 +7,8 @@ WatchMen::Application.routes.draw do
 
   root to: 'root#index'
 
+  delete 'logout' => 'sessions#destroy'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
