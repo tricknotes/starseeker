@@ -28,6 +28,7 @@ gem 'jquery-rails'
 
 gem 'haml-rails'
 
+gem 'typhoeus'
 
 group :test, :development do
   gem 'rspec-rails'

@@ -8,4 +8,14 @@ class User < ActiveRecord::Base
   def authentication(provider)
     authentications.find_by_provider(provider)
   end
+
+  def received_event(page = 1)
+    GithubEvents.received_event(
+      user: username,
+      params: {
+        access_token: authentication(:github).token,
+        page: page
+      }
+    )
+  end
 end
