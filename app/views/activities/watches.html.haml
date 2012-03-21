@@ -1,0 +1,7 @@
+%h1= @user.username
+
+%ul
+  - @watch_events.each do |event|
+    %li
+      = link_to event['repo']['name'], github_url(event['repo']['name'])
+      = link_to image_tag(gravatar_url(event['actor']['gravatar_id']), :size => '20x20'), event['actor']['url']

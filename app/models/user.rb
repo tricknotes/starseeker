@@ -9,13 +9,21 @@ class User < ActiveRecord::Base
     authentications.find_by_provider(provider)
   end
 
+  def access_token
+    @access_token ||= authentication(:github).token
+  end
+
   def received_event(page = 1)
     GithubEvents.received_event(
       user: username,
       params: {
-        access_token: authentication(:github).token,
+        access_token: access_token,
         page: page
       }
     )
+  end
+
+  def all_received_event
+    (1..10).map {|i| received_event(i) }.flatten
   end
 end
