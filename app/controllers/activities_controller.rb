@@ -3,7 +3,6 @@ class ActivitiesController < ApplicationController
 
   def watches
     @user = current_user
-    all_received_event = @user.all_received_event
-    @watch_events = all_received_event.select {|e| e['type'] == 'WatchEvent' }
+    @watch_events = @user.all_received_event.reverse
   end
 end

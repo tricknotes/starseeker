@@ -27,6 +27,8 @@ gem 'haml-rails'
 
 gem 'sorcery'
 gem 'typhoeus'
+gem 'mongoid'
+gem 'bson_ext'
 
 group :test, :development do
   gem 'rspec-rails'

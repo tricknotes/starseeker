@@ -24,6 +24,19 @@ class User < ActiveRecord::Base
   end
 
   def all_received_event
-    (1..10).map {|i| received_event(i) }.flatten
+    following_names = followings.map do |following|
+      following['login']
+    end
+    WatchEvent.any_in('actor.login' => following_names)
+  end
+
+  def followings
+    # TODO handle `followings.count > 30`
+    GithubEvents.followings(
+      user: username,
+      params: {
+        access_token: access_token
+      }
+    )
   end
 end

@@ -5,4 +5,5 @@ module GithubEvents
                   base_uri: 'https://api.github.com'
 
   define_remote_method :received_event, path: '/users/:user/received_events'
+  define_remote_method :followings, path: '/users/:user/following'
 end
