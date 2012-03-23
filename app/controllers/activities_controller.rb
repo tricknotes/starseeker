@@ -3,6 +3,6 @@ class ActivitiesController < ApplicationController
 
   def watches
     @user = current_user
-    @watch_events = @user.all_received_event.reverse
+    @watch_events = @user.watch_events_by_followings.reverse
   end
 end

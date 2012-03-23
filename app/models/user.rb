@@ -13,17 +13,7 @@ class User < ActiveRecord::Base
     @access_token ||= authentication(:github).token
   end
 
-  def received_event(page = 1)
-    GithubEvents.received_event(
-      user: username,
-      params: {
-        access_token: access_token,
-        page: page
-      }
-    )
-  end
-
-  def all_received_event
+  def watch_events_by_followings
     following_names = followings.map do |following|
       following['login']
     end
