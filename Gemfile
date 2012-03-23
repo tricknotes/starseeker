@@ -22,12 +22,10 @@ end
 
 gem 'settingslogic'
 
-gem 'sorcery'
-
 gem 'jquery-rails'
-
 gem 'haml-rails'
 
+gem 'sorcery'
 gem 'typhoeus'
 
 group :test, :development do
