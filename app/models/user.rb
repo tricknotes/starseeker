@@ -31,12 +31,20 @@ class User < ActiveRecord::Base
   end
 
   def followings
-    # TODO handle `followings.count > 30`
-    GithubEvents.followings(
-      user: username,
-      params: {
-        access_token: access_token
-      }
-    )
+    page = 1
+    followings = []
+    loop do
+      data = GithubEvents.followings(
+        user: username,
+        params: {
+          access_token: access_token,
+          page: page
+        }
+      )
+      break if data.empty?
+      followings += data
+      page += 1
+    end
+    followings
   end
 end
