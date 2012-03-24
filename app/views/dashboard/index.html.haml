@@ -2,6 +2,7 @@
 
 %p Hello, #{@user.name}
 
-= image_tag @user.avatar_url
+%p
+  = link_to image_tag(@user.avatar_url, size: '20x20'), github_url(@user.username)
 
-%p username: #{@user.username}
+= link_to 'Watched repository lanking', activities_watches_path
