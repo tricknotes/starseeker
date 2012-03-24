@@ -1,0 +1,11 @@
+Dir, <%= @user.username %>
+
+The lanking for watched repositories by your followings.
+
+<%
+grouped_events = @watch_events.group_by {|event| event['repo']['name'] }
+sorted_grouped_events = grouped_events.sort_by {|repo_name, events| -events.count }
+%>
+<% sorted_grouped_events.each do |repo_name, events| %>
+* [<%= repo_name %>](<%= github_url(repo_name) %>): (<%= events.map {|event| event['actor']['login'] }.join(', ') %>)
+<% end %>
