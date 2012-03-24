@@ -4,6 +4,7 @@ defaults: &defaults
     secret: <%= ENV['GITHUB_SECRET'] %>
   mail:
     sender: <%= ENV['MAIL_SENDER'] %>
+    password: <%= ENV['MAIL_PASSWORD'] %>
 
 development:
   <<: *defaults
