@@ -1,10 +1,10 @@
 defaults: &defaults
   github:
-    client_id: <%= ENV['GITHUB_CLIENT_ID'] %>
-    secret: <%= ENV['GITHUB_SECRET'] %>
+    client_id: 'YOUR GITHUB CLINT ID'
+    secret: 'YOUR GITHUB SECRET'
   mail:
-    sender: <%= ENV['MAIL_SENDER'] %>
-    password: <%= ENV['MAIL_PASSWORD'] %>
+    sender: 'exampel@gmail.com'
+    password: 'your password'
 
 development:
   <<: *defaults
