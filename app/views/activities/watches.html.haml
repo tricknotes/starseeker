@@ -1,4 +1,5 @@
-%h1= @user.username
+%h1
+  Watched repositories by #{@user.username}'s followings
 
 %ul
   - grouped_events = @watch_events.group_by {|event| event['repo']['name'] }
