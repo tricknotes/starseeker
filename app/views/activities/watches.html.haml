@@ -2,9 +2,7 @@
   Watched repositories by #{@user.username}'s followings
 
 %ul
-  - grouped_events = @watch_events.group_by {|event| event['repo']['name'] }
-  - sorted_grouped_events = grouped_events.sort_by {|repo_name, events| -events.count }
-  - sorted_grouped_events.each do |repo_name, events|
+  - @watch_events.watched_lanking.each do |repo_name, events|
     %li
       = link_to repo_name, github_url(repo_name)
       - events.each do |event|
