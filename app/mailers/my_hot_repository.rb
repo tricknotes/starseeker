@@ -1,6 +1,6 @@
 class MyHotRepository < ActionMailer::Base
   helper :application
-  default from: Settings.mailer.from
+  default from: "WatchMen <#{Settings.mailer.from}>"
 
   def notify(user)
     @user = user
