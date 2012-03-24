@@ -1,4 +1,5 @@
 defaults: &defaults
+  base_url: <%= ENV['BASE_URL'] %>
   github:
     client_id: <%= ENV['GITHUB_CLIENT_ID'] %>
     secret: <%= ENV['GITHUB_SECRET'] %>

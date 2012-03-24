@@ -96,7 +96,7 @@ Rails.application.config.sorcery.configure do |config|
   #
   config.github.key = Settings.github.client_id
   config.github.secret = Settings.github.secret
-  config.github.callback_url = "http://localhost:3000/oauth/callback?provider=github"
+  config.github.callback_url = "#{Settings.base_url}/oauth/callback?provider=github"
   config.github.user_info_mapping = {
     :username => 'login',
     :name => 'name',
