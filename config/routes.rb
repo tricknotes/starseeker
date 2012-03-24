@@ -1,6 +1,6 @@
 WatchMen::Application.routes.draw do
 
-  get 'dashboard' => 'dashboard#index'
+  resource 'dashboard', only: %w(show edit update), controller: 'dashboard'
   get 'activities/watches'
 
   get 'oauth/callback' => 'oauths#callback'
