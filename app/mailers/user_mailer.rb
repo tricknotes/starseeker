@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_success_email(user)
     @user = user
-    @url  = "#{Settings.base_url}/login"
+    @url  = Settings.base_url + auth_at_provider_path(provider: :github)
     mail to: user.email
   end
 end

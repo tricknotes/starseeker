@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
     @user = User.load_from_activation_token(params[:activation_token])
     if @user
       @user.activate!
+      UserMailer.activation_success_email(@user).deliver
       redirect_to dashboard_path, notice: 'User was successfully activated.'
     else
       not_authenticated
