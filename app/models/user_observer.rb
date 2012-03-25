@@ -7,6 +7,6 @@ class UserObserver < ActiveRecord::Observer
 
   private
   def send_confirmation_mail(user)
-    UserMailer.activation_needed_email(user)
+    UserMailer.activation_needed_email(user).deliver
   end
 end
