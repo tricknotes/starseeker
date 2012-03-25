@@ -8,6 +8,7 @@ WatchMen::Application.routes.draw do
 
   root to: 'root#index'
 
+  get 'activate/:activation_token' => 'sessions#activate'
   delete 'logout' => 'sessions#destroy'
 
   # The priority is based upon order of creation:
