@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_needed_email(user)
     @user = user
-    @url  = "#{Settings.base_url}/sessions/#{user.activation_token}/activate"
+    @url  = Settings.base_url + activate_path(user.activation_token)
     mail to: user.email
   end
 
