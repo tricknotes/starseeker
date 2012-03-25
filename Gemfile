@@ -35,7 +35,7 @@ group :test, :development do
 end
 
 # for heroku
-gem 'pg'
+gem 'pg', groups: %w(production)
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
