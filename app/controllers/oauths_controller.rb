@@ -21,7 +21,11 @@ class OauthsController < ApplicationController
 
         reset_session # protect from session fixation attack
         auto_login(@user)
-        redirect_to dashboard_path, notice: "Logged in from #{provider.titleize}!"
+        if @user.email.present?
+          redirect_to dashboard_path, notice: "Logged in from #{provider.titleize}!"
+        else
+          redirect_to setting_email_path, notice: "Please regist your email."
+        end
       rescue
         redirect_to root_path, alert: "Failed to login from #{provider.titleize}!"
       end
