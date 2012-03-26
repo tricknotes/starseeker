@@ -1,8 +1,9 @@
 WatchMen::Application.routes.draw do
 
   resource 'dashboard', only: %w(show), controller: 'dashboard'
-  get 'settings/email' => 'settings#email'
-  put 'settings/email' => 'settings#update_email'
+  namespace :settings do
+    resource 'email', only: %w(show update)
+  end
 
   get 'activities/watches'
 
