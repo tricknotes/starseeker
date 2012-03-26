@@ -1,6 +1,9 @@
 WatchMen::Application.routes.draw do
 
-  resource 'dashboard', only: %w(show edit update), controller: 'dashboard'
+  resource 'dashboard', only: %w(show), controller: 'dashboard'
+  get 'settings/email' => 'settings#email'
+  put 'settings/email' => 'settings#update_email'
+
   get 'activities/watches'
 
   get 'oauth/callback' => 'oauths#callback'

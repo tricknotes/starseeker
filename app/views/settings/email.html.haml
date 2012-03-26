@@ -1,4 +1,6 @@
-= form_for @user, url: dashboard_path do |f|
+%h1 Editing email
+
+= form_for @user, url: settings_email_path do |f|
   -if @user.errors.any?
     #error_explanation
       %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
@@ -9,11 +11,7 @@
   .field
     = f.label :email
     = f.text_field :email
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :receive_mail
-    = f.check_box :receive_mail
   .actions
     = f.submit 'Save'
+
+= link_to 'Back', dashboard_path
