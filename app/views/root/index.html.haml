@@ -1,4 +1,10 @@
 %h1 Root#index
-%p Find me in app/views/root/index.html.haml
+
+Members:
+
+%ul
+- @users.each do |user|
+  %li
+    = image_tag user.avatar_url, :size => '35x35'
 
 = link_to 'Sign in with GitHub', auth_at_provider_path(:provider => :github)
