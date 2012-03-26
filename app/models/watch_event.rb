@@ -3,7 +3,9 @@ class WatchEvent
   # TODO enable this
   # default_scope type: 'WatchEvent'
 
-  scope :newly, ->(from) { where(created_at: {'$gte' => from}) }
+  DATETIME_FORMAT = '%Y-%m-%dT%TZ'
+
+  scope :newly, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
 
   def self.watched_lanking
     grouped_events = self.all.group_by {|event| event['repo']['name'] }
