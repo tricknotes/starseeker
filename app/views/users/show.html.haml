@@ -1,0 +1,7 @@
+= link_to(image_tag(@user.avatar_url, size: '40x40'), github_url(@user.username))
+= @user.username
+
+%ul
+  - @watch_events.each do |watch_event|
+    %li
+      = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
