@@ -7,7 +7,10 @@
     = csrf_meta_tags
 
   %body
-    = link_to 'Logout', logout_path, method: :delete if logged_in?
+    - if logged_in?
+      = link_to 'Logout', logout_path, method: :delete if logged_in?
+    - else
+      = link_to 'Sign in with GitHub', auth_at_provider_path(:provider => :github)
     %p#notice= notice
 
     = yield
