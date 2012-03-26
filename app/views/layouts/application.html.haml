@@ -8,5 +8,6 @@
 
   %body
     = link_to 'Logout', logout_path, method: :delete if logged_in?
+    %p#notice= notice
 
     = yield
