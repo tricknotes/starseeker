@@ -5,3 +5,4 @@
   - @watch_events.each do |watch_event|
     %li
       = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
+      = time_ago_in_words watch_event.created_at
