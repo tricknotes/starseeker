@@ -13,6 +13,10 @@ class WatchEvent
     lanking
   end
 
+  def self.with(login)
+    self.all.also_in('actor.login' => [login])
+  end
+
   def created_at
     self['created_at'].to_datetime
   end
