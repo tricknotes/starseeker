@@ -5,6 +5,24 @@
 %p
   = link_to image_tag(@user.avatar_url, size: '20x20'), github_url(@user.username)
 
+%h2 Your watching repositories:
+%ul
+- @watch_event.each do |watch_event|
+  %li
+    = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
+    = time_ago_in_words watch_event.created_at
+- if @watch_event.empty?
+  Not watched.
+
+%h2 Watched Your repositories:
+%ul
+- @watched_event.each do |watched_event|
+  %li
+    = link_to(watched_event['repo']['name'], github_url(watched_event['repo']['name']))
+    = time_ago_in_words watched_event.created_at
+- if @watched_event.empty?
+  Not watched.
+
 = link_to 'Edit email', settings_email_path
 = link_to 'Edit subscribe', settings_subscribe_path
 = link_to 'Watched repository ranking', activities_watches_path
