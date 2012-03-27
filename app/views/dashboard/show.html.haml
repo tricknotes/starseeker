@@ -5,6 +5,8 @@
 %p
   = link_to image_tag(@user.avatar_url, size: '20x20'), github_url(@user.username)
 
+= link_to 'Watched repository ranking', activities_watches_path
+
 %h2 Your watching repositories:
 %ul
 - @watch_event.each do |watch_event|
@@ -23,6 +25,7 @@
 - if @watched_event.empty?
   Not watched.
 
-= link_to 'Edit email', settings_email_path
-= link_to 'Edit subscribe', settings_subscribe_path
-= link_to 'Watched repository ranking', activities_watches_path
+%h2 Menu
+%div
+  = link_to 'Edit email', settings_email_path
+  = link_to 'Edit subscribe', settings_subscribe_path
