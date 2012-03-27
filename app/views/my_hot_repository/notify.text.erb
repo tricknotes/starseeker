@@ -1,7 +1,7 @@
 Dir, <%= @user.username %>
 
-The lanking for watched repositories by your followings.
+The ranking for watched repositories by your followings.
 
-<% @watch_events.watched_lanking.each do |repo_name, events| %>
+<% @watch_events.watched_ranking.each do |repo_name, events| %>
 * [<%= repo_name %>](<%= github_url(repo_name) %>): (<%= events.map {|event| event['actor']['login'] }.join(', ') %>)
 <% end %>

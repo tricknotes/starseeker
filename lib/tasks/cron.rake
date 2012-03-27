@@ -1,2 +1,2 @@
 desc 'Run cron jobs'
-task cron: %w(send_lanking)
+task cron: %w(send_ranking)

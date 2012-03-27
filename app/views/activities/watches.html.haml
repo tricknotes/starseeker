@@ -2,7 +2,7 @@
   Watched repositories by #{@user.username}'s followings
 
 %ul
-  - @watch_events.watched_lanking.each do |repo_name, events|
+  - @watch_events.watched_ranking.each do |repo_name, events|
     %li
       = link_to repo_name, github_url(repo_name)
       - events.each do |event|
