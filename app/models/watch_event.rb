@@ -5,7 +5,7 @@ class WatchEvent
 
   DATETIME_FORMAT = '%Y-%m-%dT%TZ'
 
-  scope :newly, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
+  scope :latest, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
 
   def self.watched_ranking
     grouped_events = self.all.group_by {|event| event['repo']['name'] }
