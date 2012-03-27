@@ -16,7 +16,7 @@ class WatchEvent
     self.all.any_in('actor.login' => logins )
   end
 
-  def self.with(login)
+  def self.by(login)
     self.all.also_in('actor.login' => [login])
   end
 
