@@ -1,4 +1,4 @@
-class Settings::ReceiveMailsController < ApplicationController
+class Settings::SubscribesController < ApplicationController
   before_filter :require_login, :assing_curent_user
 
   def show

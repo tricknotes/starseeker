@@ -3,7 +3,7 @@ WatchMen::Application.routes.draw do
   resource 'dashboard', only: %w(show), controller: 'dashboard'
   namespace :settings do
     resource 'email', only: %w(show update)
-    resource 'receive_mail', only: %w(show update)
+    resource 'subscribe', only: %w(show update)
   end
 
   get 'activities/watches'

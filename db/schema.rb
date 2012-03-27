@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120325065704) do
+ActiveRecord::Schema.define(:version => 20120327120623) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20120325065704) do
     t.datetime "updated_at",                                    :null => false
     t.string   "name"
     t.string   "avatar_url"
-    t.boolean  "receive_mail",                :default => true
+    t.boolean  "subscribe",                   :default => true
     t.string   "activation_state"
     t.string   "activation_token"
     t.datetime "activation_token_expires_at"
