@@ -8,10 +8,4 @@ class Settings::SubscribesController < ApplicationController
     @user.update_attributes!(params[:user])
     redirect_to dashboard_path, notice: 'Update receive setting.'
   end
-
-  private
-
-  def assing_curent_user
-    @user = current_user
-  end
 end

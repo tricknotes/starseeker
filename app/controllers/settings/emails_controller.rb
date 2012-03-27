@@ -12,10 +12,4 @@ class Settings::EmailsController < ApplicationController
       render action: 'show'
     end
   end
-
-  private
-
-  def assing_curent_user
-    @user = current_user
-  end
 end
