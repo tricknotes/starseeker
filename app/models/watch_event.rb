@@ -6,6 +6,7 @@ class WatchEvent
   DATETIME_FORMAT = '%Y-%m-%dT%TZ'
 
   scope :latest, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
+  scope :newly, order_by([:created_at, :desc])
   scope :all_by, ->(logins) { self.all.any_in('actor.login' => logins ) }
   scope :owner, ->(login) { where('repo.name' => /^#{login}\//) }
 
