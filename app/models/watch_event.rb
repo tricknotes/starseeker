@@ -7,14 +7,11 @@ class WatchEvent
 
   scope :latest, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
   scope :all_by, ->(logins) { self.all.any_in('actor.login' => logins ) }
+  scope :by, ->(login) { self.all.also_in('actor.login' => [login]) }
 
   def self.watched_ranking
     grouped_events = self.all.group_by {|event| event['repo']['name'] }
     grouped_events.sort_by {|repo_name, events| -events.count }
-  end
-
-  def self.by(login)
-    self.all.also_in('actor.login' => [login])
   end
 
   def created_at
