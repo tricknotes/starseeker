@@ -7,6 +7,7 @@ class WatchEvent
 
   scope :latest, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
   scope :all_by, ->(logins) { self.all.any_in('actor.login' => logins ) }
+  scope :owner, ->(login) { where('repo.name' => /^#{login}\//) }
 
   def self.by(login)
     self.all.also_in('actor.login' => [login])
