@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     following_names = followings.map do |following|
       following['login']
     end
-    WatchEvent.any_in('actor.login' => following_names)
+    WatchEvent.all_by(following_names)
   end
 
   def followings

@@ -12,6 +12,10 @@ class WatchEvent
     grouped_events.sort_by {|repo_name, events| -events.count }
   end
 
+  def self.all_by(logins)
+    self.all.any_in('actor.login' => logins )
+  end
+
   def self.with(login)
     self.all.also_in('actor.login' => [login])
   end
