@@ -98,10 +98,10 @@ Rails.application.config.sorcery.configure do |config|
   config.github.secret = Settings.github.secret
   config.github.callback_url = "#{Settings.base_url}/oauth/callback?provider=github"
   config.github.user_info_mapping = {
-    :username => 'login',
-    :name => 'name',
-    :email => 'email',
-    :avatar_url => 'avatar_url'
+    username:   'login',
+    name:       'name',
+    semail:     'email',
+    avatar_url: 'avatar_url'
   }
   #
   # config.google.key = ""
