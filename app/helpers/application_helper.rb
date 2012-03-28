@@ -6,4 +6,13 @@ module ApplicationHelper
   def github_url(name)
     "https://github.com/#{name}"
   end
+
+  def github_button(repo, type = 'watch')
+    username, reponame = repo.split('/')
+    button = <<-BUTTON
+    <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=#{username}&repo=#{reponame}&type=#{type}&count=true&size"
+      allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
+    BUTTON
+    raw(button)
+  end
 end
