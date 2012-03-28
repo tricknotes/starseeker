@@ -100,6 +100,7 @@ Rails.application.config.sorcery.configure do |config|
   config.github.user_info_mapping = {
     :username => 'login',
     :name => 'name',
+    :email => 'email',
     :avatar_url => 'avatar_url'
   }
   #
