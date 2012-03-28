@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
     WatchEvent.all_by(following_names)
   end
 
+  def watch_events_by_followings_with_me
+    watch_events_by_followings.by(username)
+  end
+
   def followings
     page = 1
     followings = []
