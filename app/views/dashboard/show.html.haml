@@ -1,6 +1,6 @@
-%h1 Dashboard#index
+%h1 #{@user.name}
 
-%p Hello, #{@user.name}
+%p Hello, #{link_to "@#{@user.username}", github_url(@user.username)}
 
 %p
   = link_to image_tag(@user.avatar_url, size: '20x20'), github_url(@user.username)
