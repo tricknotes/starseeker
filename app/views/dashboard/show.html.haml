@@ -4,6 +4,11 @@
 
 %p
   = link_to image_tag(@user.avatar_url, size: '20x20'), github_url(@user.username)
+  = @user.email
+  - if @user.active?
+    (Verified)
+  - else
+    (Not verified yet.)
 
 = link_to 'Watched repository ranking', activities_watches_path
 

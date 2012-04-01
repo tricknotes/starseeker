@@ -26,6 +26,10 @@ class User < ActiveRecord::Base
     email.present? && subscribe
   end
 
+  def active?
+    'active' == activation_state
+  end
+
   def watch_events_by_followings
     following_names = followings.map do |following|
       following['login']
