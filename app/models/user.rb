@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :subscribe, :authentications_attributes
 
   scope :email_sendables, where(subscribe: true, activation_state: 'active')
+  scope :newly, order('created_at DESC')
 
   has_many :authentications, :dependent => :destroy
   accepts_nested_attributes_for :authentications
