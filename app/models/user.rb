@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
   attr_accessible :name, :email, :subscribe, :authentications_attributes
 
+  scope :email_sendables, where(subscribe: true, activation_state: 'active')
+
   has_many :authentications, :dependent => :destroy
   accepts_nested_attributes_for :authentications
 
