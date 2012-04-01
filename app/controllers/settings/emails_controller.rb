@@ -6,7 +6,7 @@ class Settings::EmailsController < ApplicationController
 
   def update
     if @user.update_attributes(params[:user])
-      message = @user.email.present? ? 'Send email to your address.' : nil
+      message = @user.email_sendable? ? 'Send email to your address.' : 'Email info was updated'
       redirect_to dashboard_path, notice: message
     else
       render action: 'show'

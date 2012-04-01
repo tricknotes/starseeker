@@ -9,8 +9,12 @@
           %li= msg
 
   .field
-    = f.label :email
-    = f.text_field :email
+    %p
+      = f.label :email
+      = f.text_field :email
+    %p
+      = f.label :subscribe
+      = f.check_box :subscribe
   .actions
     = f.submit 'Save'
 

@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
     @access_token ||= authentication(:github).token
   end
 
+  def email_sendable?
+    email.present? && subscribe
+  end
+
   def watch_events_by_followings
     following_names = followings.map do |following|
       following['login']
