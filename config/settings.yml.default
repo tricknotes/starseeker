@@ -4,7 +4,7 @@ defaults: &defaults
     client_id: <%= ENV['GITHUB_CLIENT_ID'] %>
     secret: <%= ENV['GITHUB_SECRET'] %>
   mail:
-    sender: <%= ENV['SENDGRID_USERNAME'] %>
+    user_name: <%= ENV['SENDGRID_USERNAME'] %>
     password: <%= ENV['SENDGRID_PASSWORD'] %>
 
 development:

@@ -4,7 +4,7 @@ defaults: &defaults
     client_id: 'YOUR GITHUB CLINT ID'
     secret: 'YOUR GITHUB SECRET'
   mail:
-    sender: 'exampel@gmail.com'
+    user_name: 'exampel@gmail.com'
     password: 'your password'
 
 development:
