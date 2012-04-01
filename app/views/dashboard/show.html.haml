@@ -8,6 +8,7 @@
 = link_to 'Watched repository ranking', activities_watches_path
 
 %h2 Your watching repositories:
+(Within 7 days from now)
 %ul
 - @watch_event.each do |watch_event|
   %li
@@ -17,6 +18,7 @@
   Not watched.
 
 %h2 Watched Your repositories:
+(Within 7 days from now)
 %ul
 - @watched_event.each do |watched_event|
   %li
