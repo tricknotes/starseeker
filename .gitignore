@@ -16,3 +16,6 @@
 
 # Ignore application settings.
 /config/settings.yml
+
+# Ignore generated caches
+/.sass-cache
