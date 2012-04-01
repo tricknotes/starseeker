@@ -4,6 +4,10 @@ defaults: &defaults
     client_id: 'YOUR GITHUB CLINT ID'
     secret: 'YOUR GITHUB SECRET'
   mail:
+    address: 'smtp.example.com'
+    port: 587
+    domain: 'example.com'
+    authentication: :plain
     user_name: 'exampel@gmail.com'
     password: 'your password'
 
