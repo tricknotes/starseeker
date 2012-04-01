@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   before_save do
     if self.email_changed?
-      self.activation_state = 'inactive'
+      self.activation_state = nil
     end
     if self.activation_state != 'active'
       self.activation_token ||= OpenSSL::Random.random_bytes(16).unpack("H*").first
