@@ -35,6 +35,6 @@ class OauthsController < ApplicationController
   private
 
   def token_from_credential(provider)
-    Config.send(provider).access_token.token
+    Sorcery::Controller::Config.send(provider).access_token.token
   end
 end
