@@ -26,7 +26,8 @@ class OauthsController < ApplicationController
         else
           redirect_to setting_email_path, notice: "Please regist your email."
         end
-      rescue
+      rescue => e
+        logger.error ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
         redirect_to root_path, alert: "Failed to login from #{provider.titleize}!"
       end
     end
