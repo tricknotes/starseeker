@@ -15,23 +15,23 @@
 %h2 Your watching repositories:
 (Within 7 days from now)
 %ul
-- @watch_event.each do |watch_event|
+- @watch_events.each do |watch_event|
   %li
     = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
     = time_ago_in_words watch_event.created_at
-- if @watch_event.empty?
+- if @watch_events.empty?
   Not watched.
 
 %h2 Watched Your repositories:
 (Within 7 days from now)
 %ul
-- @watched_event.watched_ranking.each do |repo_name, events|
+- @watched_events.watched_ranking.each do |repo_name, events|
   %li
     = link_to(repo_name, github_url(repo_name))
     - events.each do |event|
       = image_link_to_github_url_from_event(event)
       = time_ago_in_words event.created_at
-- if @watched_event.empty?
+- if @watched_events.empty?
   Not watched.
 
 %h2 Menu
