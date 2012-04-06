@@ -32,8 +32,9 @@ gem 'typhoeus'
 gem 'mongoid'
 gem 'bson_ext'
 
-group :test, :development do
-  gem 'rspec-rails'
+group :test do
+  gem 'rspec-rails', groups: %w(development)
+  gem 'factory_girl_rails'
 end
 
 # To use ActiveModel has_secure_password
