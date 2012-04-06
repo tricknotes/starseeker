@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe User do
+  describe 'default attributes' do
+    its(:activation_state) { should be_nil }
+    its(:subscribe) { should be_true }
+  end
+
   describe '#authentication' do
     subject do
       FactoryGirl.create(:user, authentications: [FactoryGirl.build(:github)])
