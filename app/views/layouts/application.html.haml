@@ -10,6 +10,7 @@
     %h1
       = link_to 'WatchMen', Settings.base_url
     - if logged_in?
+      = link_to 'ranking', activities_watches_path
       = link_to 'dashboard', dashboard_path
       = link_to 'Logout', logout_path, method: :delete if logged_in?
     - else
