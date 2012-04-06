@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   end
 
   def access_token
-    @access_token ||= authentication(:github).token
+    @access_token ||= authentication(:github).try(:token)
   end
 
   def email_sendable?

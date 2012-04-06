@@ -8,5 +8,6 @@ FactoryGirl.define do
   factory :github, class: :authentication do
     provider 'github'
     uid 'GITHUB'
+    token 'GITHUB_TOKEN'
   end
 end
