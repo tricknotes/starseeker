@@ -4,4 +4,9 @@ FactoryGirl.define do
     email 'user@example.com'
     activation_state 'active'
   end
+
+  factory :github, class: :authentication do
+    provider 'github'
+    uid 'GITHUB'
+  end
 end
