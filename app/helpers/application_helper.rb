@@ -17,6 +17,6 @@ module ApplicationHelper
   end
 
   def image_link_to_github_url_from_event(event)
-    link_to image_tag(gravatar_url(event['actor']['gravatar_id']), :size => '20x20'), github_url(event['actor']['login'])
+    link_to image_tag(gravatar_url(event['actor']['gravatar_id']), size: '20x20'), github_url(event['actor']['login'])
   end
 end

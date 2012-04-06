@@ -13,7 +13,7 @@
       = link_to 'dashboard', dashboard_path
       = link_to 'Logout', logout_path, method: :delete if logged_in?
     - else
-      = link_to 'Sign in with GitHub', auth_at_provider_path(:provider => :github)
+      = link_to 'Sign in with GitHub', auth_at_provider_path(provider: :github)
     %p#notice= notice
 
     = yield
