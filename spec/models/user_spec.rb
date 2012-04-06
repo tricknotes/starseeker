@@ -50,4 +50,17 @@ describe User do
       its(:email_sendable?) { should be_true }
     end
   end
+
+  describe '#active?' do
+    subject { FactoryGirl.build(:user) }
+
+    context 'when activation_state is "active"' do
+      its(:active?) { should be_true }
+    end
+
+    context 'when activation_state is `nil`' do
+      before { subject.activation_state = nil }
+      its(:active?) { should be_false }
+    end
+  end
 end
