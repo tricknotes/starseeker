@@ -32,4 +32,22 @@ describe User do
       its(:access_token) { should be_nil }
     end
   end
+
+  describe '#email_sendable?' do
+    subject { FactoryGirl.build(:user) }
+
+    context 'when email is not exist' do
+      before { subject.email = nil}
+      its(:email_sendable?) { should be_false }
+    end
+
+    context 'when subscribe is false' do
+      before { subject.subscribe = false }
+      its(:email_sendable?) { should be_false }
+    end
+
+    context 'when email is exist and subscribe is true' do
+      its(:email_sendable?) { should be_true }
+    end
+  end
 end
