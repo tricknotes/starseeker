@@ -1,4 +1,4 @@
-function showRepoDescription() {
+function showRepoDetails() {
   var $repo = $(this);
   var repo_name = $repo.data('repo_name');
 
