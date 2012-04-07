@@ -3,8 +3,16 @@
 
 %ul
   - @watch_events.watched_ranking.each do |repo_name, events|
-    %li
-      = github_button(repo_name)
-      = link_to repo_name, github_url(repo_name)
-      - events.each do |event|
-        = image_link_to_github_url_from_event(event)
+    %li.repo{'data-repo_name' => repo_name}
+      %div
+        = link_to repo_name, github_url(repo_name)
+        - events.each do |event|
+          = image_link_to_github_url_from_event(event)
+        %span.watchers
+      %div
+        %span.description
+
+:javascript
+  jQuery(function($) {
+    $('.repo').each(showRepoDetails);
+  });
