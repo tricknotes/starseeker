@@ -8,7 +8,7 @@ function showRepoDetails() {
         dataType: 'jsonp'
       , success: function(repo) {
           var $description = $repo.find('.description');
-          $description.html(repo.data.description);
+          $description.text(repo.data.description);
       }
     }
   );
