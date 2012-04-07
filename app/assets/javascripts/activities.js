@@ -1,9 +1,9 @@
 function showRepoDetails() {
   var $repo = $(this)
-    , repo_name = $repo.data('repo_name')
+    , repoName = $repo.data('repo_name')
 
   $.ajax(
-      'https://api.github.com/repos/'+repo_name
+      'https://api.github.com/repos/'+repoName
     , {
         dataType: 'jsonp'
       , success: function(repo) {
