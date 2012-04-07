@@ -9,9 +9,13 @@ function showRepoDetails() {
       , success: function(repo) {
           var $description = $repo.find('.description')
             , $wathers = $repo.find('.watchers')
+            , $linkToWatchers = $('<a/>')
 
           $description.text(repo.data.description);
-          $wathers.text('['+repo.data.watchers+']');
+
+          $linkToWatchers.attr('href', repo.data.html_url + '/watchers');
+          $linkToWatchers.text('['+repo.data.watchers+']');
+          $wathers.html($linkToWatchers);
       }
     }
   );
