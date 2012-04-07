@@ -8,7 +8,9 @@ function showRepoDetails() {
         dataType: 'jsonp'
       , success: function(repo) {
           var $description = $repo.find('.description');
+          var $wathers = $repo.find('.watchers');
           $description.text(repo.data.description);
+          $wathers.text('['+repo.data.watchers+']');
       }
     }
   );

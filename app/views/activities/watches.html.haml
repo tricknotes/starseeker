@@ -8,9 +8,9 @@
         = link_to repo_name, github_url(repo_name)
         - events.each do |event|
           = image_link_to_github_url_from_event(event)
+        %span.watchers
       %div
         %span.description
-        = github_button(repo_name)
 
 :javascript
   jQuery(function($) {
