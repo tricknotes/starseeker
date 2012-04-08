@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MyHotRepository do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
 
   describe '#notify' do
     subject { MyHotRepository.notify(user) }

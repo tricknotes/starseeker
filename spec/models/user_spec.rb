@@ -8,7 +8,7 @@ describe User do
 
   describe '#authentication' do
     subject do
-      FactoryGirl.create(:user, authentications: [FactoryGirl.build(:github)])
+      create(:user, authentications: [build(:github)])
     end
 
     context 'when provider is exist' do
@@ -27,7 +27,7 @@ describe User do
   describe '#access_token' do
     context 'when github authentication is exist' do
       subject do
-        FactoryGirl.create(:user, authentications: [FactoryGirl.build(:github)])
+        create(:user, authentications: [build(:github)])
       end
 
       its(:access_token) { should eq('GITHUB_TOKEN') }
@@ -39,7 +39,7 @@ describe User do
   end
 
   describe '#email_sendable?' do
-    subject { FactoryGirl.build(:user) }
+    subject { build(:user) }
 
     context 'when email is not exist' do
       before { subject.email = nil}
@@ -57,7 +57,7 @@ describe User do
   end
 
   describe '#active?' do
-    subject { FactoryGirl.build(:user) }
+    subject { build(:user) }
 
     context 'when activation_state is "active"' do
       its(:active?) { should be_true }

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UserObserver do
   subject { UserObserver.instance }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
   let(:mailer) { mock(UserMailer) }
 
   describe '#after_save' do

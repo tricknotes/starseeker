@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe UserMailer do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { create(:user) }
 
   describe '#activation_needed_email' do
     subject { UserMailer.activation_needed_email(user) }
