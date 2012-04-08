@@ -12,4 +12,9 @@ class Settings::EmailsController < ApplicationController
       render action: 'show'
     end
   end
+
+  def send_confirmation
+    UserMailer.activation_needed_email(current_user).deliver
+    redirect_to dashboard_path, notice: 'Confirmation mail has been sent to your mailbox.'
+  end
 end
