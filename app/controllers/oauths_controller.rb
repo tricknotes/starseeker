@@ -11,11 +11,12 @@ class OauthsController < ApplicationController
       redirect_to dashboard_path, notice: "Logged in from #{provider.titleize}!"
     else
       begin
-        @user = create_from(provider)
-        # TODO transaction
-        auth = @user.authentication(provider)
-        auth.token = token_from_credential(provider)
-        auth.save!
+        User.transaction do
+          @user = create_from(provider)
+          auth = @user.authentication(provider)
+          auth.token = token_from_credential(provider)
+          auth.save!
+        end
 
         # NOTE: this is the place to add '@user.activate!' if you are using user_activation submodule
 
