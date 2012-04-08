@@ -25,7 +25,7 @@ class OauthsController < ApplicationController
         if @user.email.present?
           redirect_to dashboard_path, notice: "Logged in from #{provider.titleize}!"
         else
-          redirect_to setting_email_path, notice: "Please regist your email."
+          redirect_to settings_email_path, notice: "Please regist your email."
         end
       rescue => e
         logger.error ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
