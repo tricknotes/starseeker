@@ -5,7 +5,7 @@ WatchMen::Application.routes.draw do
     resource 'email', only: %w(show update)
   end
 
-  get 'activities/watches'
+  get 'activities/watching'
 
   get 'oauth/callback' => 'oauths#callback'
   match 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
