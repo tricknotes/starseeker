@@ -1,4 +1,6 @@
 # TODO
 
 * Add spec
-* design
+* Design
+* Layout mail content
+* HTML mail
