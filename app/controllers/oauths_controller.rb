@@ -24,7 +24,7 @@ class OauthsController < ApplicationController
         auto_login(@user)
       rescue => e
         logger.error ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
-        redirect_to root_path, alert: "Failed to login from #{provider.titleize}!"
+        redirect_to root_path, alert: "Failed to login from #{provider.titleize}. Wait a minutes and try again."
         return
       end
       if @user.email.present?
