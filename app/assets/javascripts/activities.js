@@ -12,7 +12,9 @@ function showRepoDetails() {
             , $linkToWatchers = $('<a/>')
             , data = repo.data
 
-          $description.text(data.description);
+          if (data.description) {
+            $description.text(data.description);
+          }
 
           $linkToWatchers.attr('href', data.html_url + '/watchers');
           $linkToWatchers.text('['+data.watchers+']');
