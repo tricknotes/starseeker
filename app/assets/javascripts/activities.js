@@ -10,11 +10,12 @@ function showRepoDetails() {
           var $description = $repo.find('.description')
             , $wathers = $repo.find('.watchers')
             , $linkToWatchers = $('<a/>')
+            , data = repo.data
 
-          $description.text(repo.data.description);
+          $description.text(data.description);
 
-          $linkToWatchers.attr('href', repo.data.html_url + '/watchers');
-          $linkToWatchers.text('['+repo.data.watchers+']');
+          $linkToWatchers.attr('href', data.html_url + '/watchers');
+          $linkToWatchers.text('['+data.watchers+']');
           $wathers.html($linkToWatchers);
       }
     }
