@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-WatchMen::Application.load_tasks
+Watchmen::Application.load_tasks
