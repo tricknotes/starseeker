@@ -1,3 +1,3 @@
-# WatchMen
+# Watchmen
 
 http://watchmen.herokuapp.com/
