@@ -11,7 +11,7 @@
     (Not verified yet.)
     = link_to 'Send confamation mail', send_confirmation_settings_email_path
 
-%h2 Your watching repositories:
+%h2 Repositories you watched recently:
 (Within 7 days from now)
 %ul
 - @watch_events.each do |watch_event|
@@ -21,7 +21,7 @@
 - if @watch_events.empty?
   Not watched.
 
-%h2 Watched Your repositories:
+%h2 Your repositories recently watched by someone:
 (Within 7 days from now)
 %ul
 - @watched_events.watched_ranking.each do |repo_name, events|
