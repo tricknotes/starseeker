@@ -1,4 +1,4 @@
-WatchMen::Application.routes.draw do
+Watchmen::Application.routes.draw do
 
   resource 'dashboard', only: %w(show), controller: 'dashboard'
   namespace :settings do
