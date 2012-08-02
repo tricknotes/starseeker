@@ -1,8 +1,11 @@
 module GithubEvents
-  include Typhoeus
-  remote_defaults on_success: ->(response) { JSON.parse(response.body) },
-                  on_failure: ->(response) { [] },
-                  base_uri: 'https://api.github.com'
-
-  define_remote_method :followings, path: '/users/:user/following'
+  def self.followings(options)
+    response = Typhoeus.get('https://api.github.com/users/' + options.delete(:user) + '/following', options)
+    status = response.code
+    if 200 <= status && status < 300
+      JSON.parse(response.body)
+    else
+      []
+    end
+  end
 end
