@@ -28,9 +28,8 @@ gem 'jquery-rails'
 gem 'haml-rails'
 
 gem 'sorcery'
-gem 'bcrypt-ruby', '~> 3.0.1'
-gem 'typhoeus'
-gem 'mongoid'
+gem 'typhoeus', '~> 0.3.0'
+gem 'mongoid', '~> 2.0'
 gem 'bson_ext'
 
 group :test do
