@@ -1,8 +1,12 @@
 = link_to(image_tag(@user.avatar_url, size: '40x40'), github_url(@user.username))
 = @user.username
 
+%h2 Repositories #{link_to @user.username, github_url(@user.username)} watched recently:
+(Within 7 days from now)
 %ul
   - @watch_events.each do |watch_event|
     %li
       = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
       = time_ago_in_words watch_event.created_at
+- if @watch_events.empty?
+  Not watched.
