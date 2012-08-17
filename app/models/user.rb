@@ -45,20 +45,19 @@ class User < ActiveRecord::Base
   end
 
   def followings
-    page = 1
+    max_page = 10
     followings = []
-    loop do
-      data = GithubEvents.followings(
-        user: username,
-        params: {
-          access_token: access_token,
-          page: page
-        }
-      )
-      break if data.empty?
-      followings += data
-      page += 1
+    (1..max_page).each do |page|
+      followings_in_one_page = github_client.following(username, page: page)
+      break if followings_in_one_page.empty?
+      followings += followings_in_one_page
     end
     followings
+  end
+
+  private
+
+  def github_client
+    @github_client ||= Octokit::Client.new(login: username, oauth_token: access_token)
   end
 end

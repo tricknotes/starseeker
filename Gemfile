@@ -28,9 +28,9 @@ gem 'jquery-rails'
 gem 'haml-rails'
 
 gem 'sorcery'
-gem 'typhoeus', '0.5.0.pre'
 gem 'mongoid', '~> 2.0'
 gem 'bson_ext'
+gem 'octokit'
 
 group :test do
   gem 'rspec-rails', groups: %w(development)
