@@ -1,5 +1,6 @@
 %h1
-  Watched repositories by #{@user.username}'s followings
+  Daily ranking:
+Watched repositories by #{@user.username}'s followings
 
 %ul
   - @watch_events.watched_ranking.each do |repo_name, events|
