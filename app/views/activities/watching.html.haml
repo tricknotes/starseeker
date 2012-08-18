@@ -4,7 +4,7 @@
 %ul
   - @watch_events.watched_ranking.each do |repo_name, events|
     - repo = events.first.repository!
-    %li.repo{'data-repo_name' => repo_name}
+    %li.repo
       %div
         = link_to repo_name, github_url(repo_name)
         - events.each do |event|
