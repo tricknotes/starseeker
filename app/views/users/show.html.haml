@@ -6,6 +6,8 @@
 %ul
   - @watch_events.each do |watch_event|
     %li
+      - repo = watch_event.repository!
+      = image_link_to_github_url(repo['owner'])
       = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
       = time_ago_in_words watch_event.created_at
 - if @watch_events.empty?
