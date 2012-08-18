@@ -6,7 +6,7 @@
     - repo = events.first.repository!
     %li.repo
       %div
-        = link_to repo_name, github_url(repo_name)
+        = link_to_repo repo_name
         - events.each do |event|
           = image_link_to_github_url_from_event(event)
         %span.watchers

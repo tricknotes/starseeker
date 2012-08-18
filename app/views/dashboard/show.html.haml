@@ -29,7 +29,7 @@
 - @watched_events.watched_ranking.each do |repo_name, events|
   - repo = watch_event.repository!
   %li
-    = link_to(repo_name, github_url(repo_name))
+    = link_to_repo repo_name
     - events.each do |event|
       = image_link_to_github_url_from_event(event)
       = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))

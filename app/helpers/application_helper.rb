@@ -16,6 +16,10 @@ module ApplicationHelper
     raw(button)
   end
 
+  def link_to_repo(repo_name)
+    link_to repo_name, github_url(repo_name)
+  end
+
   def image_link_to_github_url(user)
     link_to image_tag(gravatar_url(user['gravatar_id']), size: '20x20'), github_url(user['login'])
   end
