@@ -27,7 +27,7 @@
 (Within 7 days from now)
 %ul
 - @watched_events.watched_ranking.each do |repo_name, events|
-  - repo = watch_event.repository!
+  - repo = events.first.repository!
   %li
     = link_to_repo repo_name
     - events.each do |event|
