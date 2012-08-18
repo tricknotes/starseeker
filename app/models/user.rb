@@ -45,14 +45,15 @@ class User < ActiveRecord::Base
   end
 
   def followings
+    return @followings if @followings
     max_page = 10
-    followings = []
+    @followings = []
     (1..max_page).each do |page|
       followings_in_one_page = github_client.following(username, page: page)
       break if followings_in_one_page.empty?
-      followings += followings_in_one_page
+      @followings += followings_in_one_page
     end
-    followings
+    @followings
   end
 
   private
