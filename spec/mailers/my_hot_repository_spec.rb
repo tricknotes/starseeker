@@ -10,7 +10,15 @@ describe MyHotRepository do
       subject.body.should match('USER')
     end
 
+    it 'should contains watch count' do
+      pending 'Factories required.'
+    end
+
     it 'should contains watched reposotories' do
+      pending 'Factories required.'
+    end
+
+    it 'should contains repository description' do
       pending 'Factories required.'
     end
   end
