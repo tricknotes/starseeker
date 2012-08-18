@@ -19,6 +19,7 @@
   %li
     = image_link_to_github_url(repo['owner'])
     = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
+    = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
     = time_ago_in_words watch_event.created_at
 - if @watch_events.empty?
   Not watched.
@@ -27,10 +28,12 @@
 (Within 7 days from now)
 %ul
 - @watched_events.watched_ranking.each do |repo_name, events|
+  - repo = watch_event.repository!
   %li
     = link_to(repo_name, github_url(repo_name))
     - events.each do |event|
       = image_link_to_github_url_from_event(event)
+      = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
       = time_ago_in_words event.created_at
 - if @watched_events.empty?
   Not watched.
