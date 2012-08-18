@@ -5,10 +5,15 @@
 (Within 7 days from now)
 %ul
   - @watch_events.each do |watch_event|
+    - repo = watch_event.repository!
     %li
-      - repo = watch_event.repository!
       = image_link_to_github_url(repo['owner'])
       = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
+      = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
       = time_ago_in_words watch_event.created_at
+      %div
+        %span.description
+          = repo.description
+
 - if @watch_events.empty?
   Not watched.
