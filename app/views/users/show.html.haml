@@ -7,8 +7,8 @@
   - @watch_events.each do |watch_event|
     - repo = watch_event.repository!
     %li
-      = link_to(watch_event['repo']['name'], github_url(watch_event['repo']['name']))
-      = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
+      = link_to_repo repo.full_name
+      = link_to_watchers(repo)
       = time_ago_in_words watch_event.created_at
       %div
         %span.description

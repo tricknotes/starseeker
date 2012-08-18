@@ -10,7 +10,7 @@
         - events.each do |event|
           = image_link_to_github_url_from_event(event)
         %span.watchers
-          = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
+          = link_to_watchers(repo)
       %div
         %span.description
           = repo.description
