@@ -13,7 +13,6 @@ task :fetch_repositories do
   watch_events.each do |watch_event|
     reponame = watch_event.repo['name']
     puts "Fetching repository '%s'." % reponame
-    repo = Repository.fetch(reponame)
-    repo.save!
+    Repository.fetch!(reponame)
   end
 end
