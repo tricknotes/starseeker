@@ -3,16 +3,19 @@
 
 %ul
   - @watch_events.watched_ranking.each do |repo_name, events|
+    - repo = events.first.repository!
     %li.repo{'data-repo_name' => repo_name}
       %div
         = link_to repo_name, github_url(repo_name)
         - events.each do |event|
           = image_link_to_github_url_from_event(event)
         %span.watchers
+          = link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
       %div
         %span.description
+          = repo.description
 
 :javascript
   jQuery(function($) {
-    $('.repo').each(showRepoDetails);
+    console.log('noop');
   });

@@ -18,6 +18,14 @@ class WatchEvent
     grouped_events.sort_by {|repo_name, events| -events.count }
   end
 
+  def repository
+    @repository ||= Repository.find(self.repo['id'])
+  end
+
+  def repository!
+    repository ||= Repository.fetch!(self.repo['name'])
+  end
+
   def created_at
     self['created_at'].to_datetime
   end

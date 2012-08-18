@@ -7,6 +7,12 @@ class Repository
       new(repo.to_hash)
     end
 
+    def fetch!(reponame)
+      repo = fetch(reponame)
+      repo.save!
+      repo
+    end
+
     def by_name(name)
       where(full_name: name).first
     end
