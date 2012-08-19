@@ -5,7 +5,7 @@ The ranking for watched repositories by your followings.
 
 <% @watch_events.watched_ranking.each do |repo_name, events| %>
   <%- repo = events.first.repository! -%>
-* <%= repo_name %>: (<%= events.map {|event| event['actor']['login'] }.uniq.join(', ') %>) [<%= repo.watches_count %>]
+* <%= repo_name %>: (<%= events.map {|event| event['actor']['login'] }.uniq.join(', ') %>) [<%= repo.watchers_count %>]
   <%= repo.description %>
   <%= github_url(repo_name) %>
 
