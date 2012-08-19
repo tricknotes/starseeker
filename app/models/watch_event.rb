@@ -23,7 +23,7 @@ class WatchEvent
   end
 
   def repository!
-    repository ||= Repository.fetch!(self.repo['name'])
+    repository || Repository.fetch!(self.repo['name'])
   end
 
   def created_at
