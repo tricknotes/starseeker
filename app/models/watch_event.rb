@@ -19,7 +19,7 @@ class WatchEvent
   end
 
   def repository
-    @repository ||= Repository.find(self.repo['id'])
+    @repository ||= Repository.where(id: self.repo['id']).first
   end
 
   def repository!
