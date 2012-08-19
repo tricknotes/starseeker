@@ -15,7 +15,20 @@ class WatchEvent
 
   def self.watched_ranking
     grouped_events = self.all.group_by {|event| event['repo']['name'] }
-    grouped_events.sort_by {|repo_name, events| -events.count }
+    grouped_events = grouped_events.sort_by {|repo_name, events| -events.count }
+    grouped_events = grouped_events.map do |repo_name, events|
+      repo = events.first.repository!
+      [repo_name, events, repo]
+    end
+    grouped_events = grouped_events.select {|repo_name, events, repo| repo }
+    grouped_events
+  end
+
+  def self.each_with_repo
+    self.all.each do |watch_event|
+      repo = watch_event.repository!
+      yield watch_event, repo if repo
+    end
   end
 
   def repository

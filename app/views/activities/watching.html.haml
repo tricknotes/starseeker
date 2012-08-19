@@ -3,8 +3,7 @@
 Watched repositories by #{@user.username}'s followings
 
 %ul
-  - @watch_events.watched_ranking.each do |repo_name, events|
-    - repo = events.first.repository!
+  - @watch_events.watched_ranking.each do |repo_name, events, repo|
     %li.repo
       %div
         = link_to_repo repo_name

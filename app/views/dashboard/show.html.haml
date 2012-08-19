@@ -14,10 +14,9 @@
 %h2 Repositories you watched recently:
 (Within 7 days from now)
 %ul
-- @watch_events.each do |watch_event|
-  - repo = watch_event.repository!
+- @watch_events.each_with_repo do |watch_event, repo|
   %li
-    = link_to_repo watch_event['repo']['name']
+    = link_to_repo repo.full_name
     = link_to_watchers(repo)
     = time_ago_in_words watch_event.created_at
 - if @watch_events.empty?
@@ -26,8 +25,7 @@
 %h2 Your repositories recently watched by someone:
 (Within 7 days from now)
 %ul
-- @watched_events.watched_ranking.each do |repo_name, events|
-  - repo = events.first.repository!
+- @watched_events.watched_ranking.each do |repo_name, events, repo|
   %li
     = link_to_repo repo_name
     = link_to_watchers(repo)
