@@ -8,6 +8,7 @@ task :fetch_repositories do
     user.followings
   end
   logins = followings.map(&:login).uniq
+  puts "%d users found." % logins.count
 
   watch_events = WatchEvent.all_by(logins).latest(1.day.ago)
   reponames = watch_events.map {|watch_event| watch_event.repo['name'] }.uniq
