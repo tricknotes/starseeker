@@ -10,8 +10,8 @@ task :fetch_repositories do
   logins = followings.map(&:login).uniq
 
   watch_events = WatchEvent.all_by(logins).latest(1.day.ago)
-  watch_events.each do |watch_event|
-    reponame = watch_event.repo['name']
+  reponames = watch_events.map {|watch_event| watch_event.repo['name'] }.uniq
+  reponames.each do |reponame|
     puts "Fetching repository '%s'." % reponame
     repo = Repository.fetch!(reponame)
     puts "Ignore repository '%s' because of not found." if repo.nil?
