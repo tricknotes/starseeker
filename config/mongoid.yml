@@ -1,10 +1,10 @@
 development:
   host: localhost
-  database: watch_men_development
+  database: watchmen_development
 
 test:
   host: localhost
-  database: watch_men_test
+  database: watchmen_test
 
 # set these environment variables on your prod server
 production:
