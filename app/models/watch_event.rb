@@ -10,7 +10,7 @@ class WatchEvent
   scope :owner, ->(login) { where('repo.name' => /^#{login}\//) }
 
   def self.by(login)
-    self.all.also_in('actor.login' => [login])
+    self.where('actor.login' => {'$in' => [login]})
   end
 
   def self.watched_ranking
