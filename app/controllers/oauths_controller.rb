@@ -13,7 +13,7 @@ class OauthsController < ApplicationController
       begin
         User.transaction do
           @user = create_from(provider)
-          auth = @user.authentication(provider)
+          auth = @user.authentications.find_by_provider(provider)
           auth.token = token_from_credential(provider)
           auth.save!
         end

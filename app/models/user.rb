@@ -17,12 +17,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def authentication(provider)
-    authentications.find_by_provider(provider)
-  end
-
   def access_token
-    @access_token ||= authentication(:github).try(:token)
+    @access_token ||= authentications.find_by_provider(:github).try(:token)
   end
 
   def email_sendable?
