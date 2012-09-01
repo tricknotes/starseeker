@@ -2,15 +2,15 @@ class Repository
   include Mongoid::Document
 
   class << self
-    def fetch(reponame)
-      repo = Octokit.repo(reponame)
+    def fetch(repo_name)
+      repo = Octokit.repo(repo_name)
       new(repo.to_hash)
     rescue Octokit::NotFound
       nil
     end
 
-    def fetch!(reponame)
-      repo = fetch(reponame)
+    def fetch!(repo_name)
+      repo = fetch(repo_name)
       return nil if repo.nil?
       repo.save!
       repo
