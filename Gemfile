@@ -28,7 +28,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 
 gem 'sorcery'
-gem 'mongoid', '~> 2.0'
+gem 'mongoid'
 gem 'bson_ext'
 gem 'octokit'
 
