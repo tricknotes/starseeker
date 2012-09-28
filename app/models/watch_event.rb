@@ -32,7 +32,7 @@ class WatchEvent
   end
 
   def repository
-    @repository ||= Repository.where(id: self.repo['id']).first
+    @repository ||= Repository.where(full_name: self.repo['name']).first
   end
 
   def repository!
