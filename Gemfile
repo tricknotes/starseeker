@@ -34,7 +34,10 @@ gem 'mongoid'
 gem 'bson_ext'
 gem 'octokit'
 
-gem 'quiet_assets', group: :development
+group :development do
+  gem 'quiet_assets'
+  gem 'thin', require: false
+end
 
 group :test do
   gem 'rspec-rails', groups: %w(development)
