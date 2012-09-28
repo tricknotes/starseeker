@@ -1,6 +1,8 @@
 class Repository
   include Mongoid::Document
 
+  index full_name: 1
+
   class << self
     def fetch(repo_name)
       repo = Octokit.repo(repo_name)
