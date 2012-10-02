@@ -7,9 +7,9 @@ Watched repositories by #{@user.username}'s followings
     %li.repo
       %div
         = link_to_repo repo_name
-        - events.each do |event|
-          = image_link_to_github_url_from_event(event)
         %span.watchers
+          - events.each do |event|
+            = image_link_to_github_url_from_event(event)
           = link_to_watchers(repo)
       %div
         %span.description
