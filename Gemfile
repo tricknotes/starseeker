@@ -37,8 +37,8 @@ gem 'octokit'
 
 group :development do
   gem 'quiet_assets'
-  gem 'thin', require: false
 end
+gem 'thin', require: false
 
 group :test do
   gem 'rspec-rails', groups: %w(development)
