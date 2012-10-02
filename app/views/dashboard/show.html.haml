@@ -28,8 +28,8 @@
 - @watched_events.watched_ranking.each do |repo_name, events, repo|
   %li
     = link_to_repo repo_name
+    = link_to_watchers(repo)
     %span.watchers
-      = link_to_watchers(repo)
       - events.each do |event|
         = image_link_to_github_url_from_event(event)
         = time_ago_in_words event.created_at
