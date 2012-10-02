@@ -6,7 +6,7 @@ WatchEvent.destroy_all
 
 GITHUB_LOGIN = ENV['GITHUB_LOGIN']
 unless GITHUB_LOGIN
-  raise "The environment variable `GITHUB_LOGIN` is required."
+  raise "The environment variable `\033[31mGITHUB_LOGIN\033[39m` is required."
 end
 
 def path_to_watch_event(path)

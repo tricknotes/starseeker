@@ -1,0 +1,124 @@
+html {
+  overflow-x: hidden;
+  min-width: 550px;
+}
+
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+#content {
+  margin: auto;
+  max-width: 650px;
+  padding: 20px 60px 30px 60px;
+
+  img {
+    margin: 0px 2px 0px 2px;
+    padding: 1px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-box-shadow: 0 7px 15px #dedede, 0 3px 7px #888;
+    -moz-box-shadow: 0 7px 15px #dedede, 0 3px 7px #888;
+    max-width: 100%;
+  }
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+
+  &:visited {
+    color: #888;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  display: block;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0 6px 0;
+}
+
+.watched_at, .watchers {
+  display: inline-block;
+  text-align: right;
+  float: right;
+}
+
+.members {
+  display: block;
+  min-height: 420px;
+  padding: 40px 17px 0px 17px;
+
+  li {
+    display: inline-block;
+    width: 19%;
+    text-align: center;
+    border: 0;
+  }
+}
+
+.catch-phrase {
+  font-size: 15px;
+}
+
+#notice {
+  color: green;
+  text-decoration: underline;
+}
+
+#alert {
+  color: red;
+  text-decoration: underline;
+}
+
+footer {
+  background: #eee;
+  width: 100%;
+  padding: 57px 0px;
+  text-align: right;
+  border-top: 1px solid #ddd;
+
+  span {
+    display: block;
+    margin-right: 30px;
+    color: #888;
+    font-size: 13px;
+  }
+}
+
+/* from scaffolds.css */
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table; }
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff; }
+  ul li {
+    font-size: 12px;
+    list-style: square; } }

@@ -7,15 +7,21 @@
     = csrf_meta_tags
 
   %body
-    %h1
-      = link_to 'Watchmen', Settings.base_url
-    - if logged_in?
-      = link_to 'ranking', activities_watching_path
-      = link_to 'dashboard', dashboard_path
-      = link_to 'Logout', logout_path, method: :delete if logged_in?
-    - else
-      = link_to 'Sign in with GitHub', auth_at_provider_path(provider: :github)
-    %p#notice= notice
-    %p#alert= alert
+    %section#content
+      %h1
+        = link_to 'Watchmen', Settings.base_url
+      - if logged_in?
+        = link_to 'ranking', activities_watching_path
+        |
+        = link_to 'dashboard', dashboard_path
+        |
+        = link_to 'Logout', logout_path, method: :delete if logged_in?
+      - else
+        = link_to 'Sign in with GitHub', auth_at_provider_path(provider: :github)
+      %p#notice= notice
+      %p#alert= alert
+      = yield
 
-    = yield
+    %footer
+      %span
+        © 2012 Ryunosuke SATO(#{ link_to '@tricknotes', github_url('tricknotes') }). All rights reserved.
