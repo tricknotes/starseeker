@@ -49,6 +49,12 @@ li {
   padding: 15px 0 6px 0;
 }
 
+.watched_at, .watchers {
+  display: inline-block;
+  text-align: right;
+  float: right;
+}
+
 .members {
   display: block;
   min-height: 300px;
