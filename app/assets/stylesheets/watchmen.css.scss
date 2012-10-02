@@ -57,11 +57,13 @@ li {
 
 .members {
   display: block;
-  min-height: 300px;
+  min-height: 420px;
   padding: 40px 17px 0px 17px;
 
   li {
     display: inline-block;
+    width: 19%;
+    text-align: center;
     border: 0;
   }
 }
