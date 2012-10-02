@@ -39,6 +39,16 @@ a {
   }
 }
 
+ul {
+  padding: 0;
+}
+
+li {
+  display: block;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0 6px 0;
+}
+
 .members {
   display: block;
   min-height: 300px;
@@ -46,6 +56,7 @@ a {
 
   li {
     display: inline-block;
+    border: 0;
   }
 }
 
