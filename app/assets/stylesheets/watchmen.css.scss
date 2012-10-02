@@ -40,6 +40,9 @@ a {
 }
 
 .members {
+  display: block;
+  min-height: 300px;
+
   li {
     display: inline-block;
   }
