@@ -9,7 +9,7 @@ Watchmen::Application.routes.draw do
     end
   end
 
-  get 'activities/watching'
+  get 'activities/watching', as: :ranking
 
   get 'oauth/callback' => 'oauths#callback'
   match 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
