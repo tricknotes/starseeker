@@ -2,7 +2,7 @@
 
 raise "'production' should not be sutubed." if Rails.env.production?
 
-WatchEvent.destroy_all
+WatchEvent.delete_all
 
 GITHUB_LOGIN = ENV['GITHUB_LOGIN']
 unless GITHUB_LOGIN
