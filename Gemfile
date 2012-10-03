@@ -29,6 +29,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
+gem 'roadie'
 
 gem 'sorcery'
 gem 'mongoid'
