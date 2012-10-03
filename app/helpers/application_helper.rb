@@ -11,8 +11,8 @@ module ApplicationHelper
     link_to repo_name, github_url(repo_name)
   end
 
-  def link_to_watchers(repo)
-    link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
+  def link_to_stargazers(repo)
+    link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'stargazers'))
   end
 
   def image_link_to_github_url(user, size = '30x30')

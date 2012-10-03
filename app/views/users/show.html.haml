@@ -7,7 +7,7 @@
   - @watch_events.each_with_repo do |watch_event, repo|
     %li
       = link_to_repo repo.full_name
-      = link_to_watchers(repo)
+      = link_to_stargazers(repo)
       %span.watched_at
         = time_ago_in_words watch_event.created_at
       %div
