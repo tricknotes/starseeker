@@ -76,17 +76,17 @@ li {
   padding: 15px 0 6px 0;
 }
 
-.stared_at, .stargazers {
+.starred_at, .stargazers {
   display: inline-block;
   text-align: right;
   float: right;
 
-  & > .stared_at {
+  & > .starred_at {
     float: none;
   }
 }
 
-.stared_at {
+.starred_at {
   font-size: $font-size / 1.3;
   font-style: italic;
 }
