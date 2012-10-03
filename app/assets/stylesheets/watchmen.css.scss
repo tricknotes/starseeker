@@ -1,5 +1,13 @@
 $font-size: 13px;
 
+@mixin shadow($scale, $shading) {
+  -webkit-box-shadow: 0 $scale $scale * 2 #eee * $shading, 0 $scale / 2 $scale * 2 #999 * $shading;
+  -webkit-transition-property: -webkit-box-shadow;
+  -webkit-transition-duration: 0.5s;
+  -webkit-transition-timing-function: default;
+  box-shadow: 0 $scale $scale * 2 #fff * $shading, 0 $scale / 2 $scale * 2 #999 * $shading;
+}
+
 html {
   overflow-x: hidden;
   min-width: 550px;
@@ -22,19 +30,11 @@ body {
     padding: 1px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    -webkit-box-shadow: 0 7px 15px #dedede, 0 3px 7px #888;
-    -webkit-transition-property: -webkit-box-shadow;
-    -webkit-transition-duration: 0.5s;
-    -webkit-transition-timing-function: default;
-    box-shadow: 0 7px 15px #dedede, 0 3px 7px #888;
     max-width: 100%;
+    @include shadow(7px, 0.9);
 
     &:hover {
-      -webkit-box-shadow: 0 9px 15px #dedede, 0 7px 9px #333;
-      -webkit-transition-property: -webkit-box-shadow;
-      -webkit-transition-duration: 0.5s;
-      -webkit-transition-timing-function: default;
-      box-shadow: 0 9px 15px #dedede, 0 7px 9px #333;
+      @include shadow(9px, 0.7);
     }
   }
 }
