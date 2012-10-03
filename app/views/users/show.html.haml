@@ -1,4 +1,4 @@
-= link_to(image_tag(@user.avatar_url, size: '40x40'), github_url(@user.username))
+= image_link_to_github_url(@user, '40x40')
 = @user.username
 
 %h2 Repositories #{link_to @user.username, github_url(@user.username)} watched recently:
