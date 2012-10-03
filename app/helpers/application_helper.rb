@@ -15,7 +15,7 @@ module ApplicationHelper
     link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'watchers'))
   end
 
-  def image_link_to_github_url(user, size = '20x20')
+  def image_link_to_github_url(user, size = '30x30')
     username = user.is_a?(User) ? user.username : user['login']
 
     link_to gravatar_image_tag(user, size), github_url(username)
