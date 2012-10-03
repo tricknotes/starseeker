@@ -28,11 +28,11 @@ body {
     max-width: 100%;
 
     &:hover {
-      -webkit-box-shadow: 0 7px 15px #dedede, 0 5px 9px #333;
+      -webkit-box-shadow: 0 9px 15px #dedede, 0 7px 9px #333;
       -webkit-transition-property: -webkit-box-shadow;
       -webkit-transition-duration: 0.5s;
       -webkit-transition-timing-function: default;
-      box-shadow: 0 7px 15px #dedede, 0 5px 9px #333;
+      box-shadow: 0 9px 15px #dedede, 0 7px 9px #333;
     }
   }
 }
