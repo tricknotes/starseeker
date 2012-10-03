@@ -3,7 +3,7 @@
 %p Hello, #{link_to "@#{@user.username}", github_url(@user.username)}
 
 %p
-  = link_to image_tag(@user.avatar_url, size: '20x20'), github_url(@user.username)
+  = image_link_to_github_url(@user)
   = @user.email
   - if @user.active?
     (Verified)
