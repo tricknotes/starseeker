@@ -18,7 +18,7 @@
   %li
     = link_to_repo repo.full_name
     = link_to_stargazers(repo)
-    %span.watched_at
+    %span.stared_at
       = time_ago_in_words watch_event.created_at
     %div
       %span.description
@@ -33,10 +33,10 @@
   %li
     = link_to_repo repo_name
     = link_to_stargazers(repo)
-    %span.watchers
+    %span.stargazers
       - events.each do |event|
         = image_link_to_github_url_from_event(event)
-        %span.watched_at
+        %span.stared_at
           = time_ago_in_words event.created_at
     %div
       %span.description

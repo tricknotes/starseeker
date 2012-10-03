@@ -27,4 +27,9 @@ class Repository
       where(full_name: name).first
     end
   end
+
+  # This method is exist for compatibility because github API doesn't support 'stars'.
+  def stargazers_count
+    self.watchers_count
+  end
 end

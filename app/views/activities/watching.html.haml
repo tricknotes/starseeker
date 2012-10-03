@@ -8,7 +8,7 @@ Watched repositories by #{@user.username}'s followings
       %div
         = link_to_repo repo_name
         = link_to_stargazers(repo)
-        %span.watchers
+        %span.stargazers
           - events.each do |event|
             = image_link_to_github_url_from_event(event)
       %div

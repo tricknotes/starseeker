@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def link_to_stargazers(repo)
-    link_to('[%d]' % repo.watchers_count, github_url(repo.full_name, 'stargazers'))
+    link_to('[%d]' % repo.stargazers_count, github_url(repo.full_name, 'stargazers'))
   end
 
   def image_link_to_github_url(user, size = '30x30')
