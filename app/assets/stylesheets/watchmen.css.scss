@@ -8,6 +8,12 @@ $font-size: 13px;
   box-shadow: 0 $scale $scale * 2 #fff * $shading, 0 $scale / 2 $scale * 2 #999 * $shading;
 }
 
+@mixin radius($scale) {
+  -webkit-border-radius: $scale;
+  -moz-border-radius: $scale;
+  border-radius: $scale;
+}
+
 html {
   overflow-x: hidden;
   min-width: 550px;
@@ -28,9 +34,8 @@ body {
   img {
     margin: 0px 2px 0px 2px;
     padding: 1px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     max-width: 100%;
+    @include radius(5px);
     @include shadow(7px, 0.9);
 
     &:hover {
