@@ -1,5 +1,9 @@
 $font-size: 13px;
 
+@function divide-equally($count) {
+  @return floor((100% - 1) / $count);
+}
+
 @mixin shadow($scale, $shading) {
   -webkit-box-shadow: 0 $scale $scale * 2 #eee * $shading, 0 $scale / 2 $scale * 2 #999 * $shading;
   -webkit-transition-property: -webkit-box-shadow;
@@ -94,7 +98,7 @@ li {
 
   li {
     display: inline-block;
-    width: 19%;
+    width: divide-equally(5);
     text-align: center;
     border: 0;
   }
