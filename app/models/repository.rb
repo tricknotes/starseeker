@@ -14,7 +14,11 @@ class Repository
     def fetch!(repo_name)
       repo = fetch(repo_name)
       return nil if repo.nil?
-      repo = self.where(full_name: repo.full_name).first || repo
+      existing_repo = self.where(full_name: repo.full_name).first
+      if existing_repo
+        existing_repo.attributes = repo.attributes
+        repo = existing_repo
+      end
       repo.save!
       repo
     end
