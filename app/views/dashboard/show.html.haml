@@ -36,7 +36,8 @@
     %span.watchers
       - events.each do |event|
         = image_link_to_github_url_from_event(event)
-        = time_ago_in_words event.created_at
+        %span.watched_at
+          = time_ago_in_words event.created_at
     %div
       %span.description
         = repo.description

@@ -64,6 +64,10 @@ li {
   display: inline-block;
   text-align: right;
   float: right;
+
+  & > .watched_at {
+    float: none;
+  }
 }
 
 .description {
