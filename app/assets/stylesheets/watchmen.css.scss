@@ -12,6 +12,9 @@ $font-size: 13px;
   -webkit-transition-property: -webkit-box-shadow;
   -webkit-transition-duration: 0.5s;
   -webkit-transition-timing-function: default;
+  -moz-transition-property: box-shadow;
+  -moz-transition-duration: 0.5s;
+  -moz-transition-timing-function: default;
 }
 
 @mixin radius($scale) {
