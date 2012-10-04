@@ -7,8 +7,10 @@ $font-size: 13px;
 @mixin shadow($scale, $shading) {
   $bright: #eee;
   $dark:   #999;
-  -webkit-box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
-  box-shadow:         0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
+  $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
+
+  -webkit-box-shadow: $box-shadow;
+  box-shadow:         $box-shadow;
   -webkit-transition-property: -webkit-box-shadow;
   -webkit-transition-duration: 0.5s;
   -webkit-transition-timing-function: default;
