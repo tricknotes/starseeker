@@ -29,6 +29,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
+gem 'turbo-sprockets-rails3'
 gem 'roadie'
 
 gem 'sorcery'
