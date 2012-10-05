@@ -2,12 +2,12 @@
 
 raise "'\033[31mproduction\033[39m' should not be sutubed." if Rails.env.production?
 
-WatchEvent.delete_all
-
 GITHUB_LOGIN = ENV['GITHUB_LOGIN']
 unless GITHUB_LOGIN
   raise "The environment variable `\033[31mGITHUB_LOGIN\033[39m` is required."
 end
+
+WatchEvent.delete_all
 
 def path_to_watch_event(path)
   data = JSON.parse(File.read(path))
