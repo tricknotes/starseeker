@@ -1,6 +1,6 @@
 # Setup stub data for watch events.
 
-raise "'production' should not be sutubed." if Rails.env.production?
+raise "'\033[31mproduction\033[39m' should not be sutubed." if Rails.env.production?
 
 WatchEvent.delete_all
 
@@ -27,6 +27,7 @@ Dir[data_path].each.with_index do |path, n|
 
   watch_event.created_at = n.days.ago.strftime(WatchEvent::DATETIME_FORMAT)
   watch_event.save!
+  puts "Stub event: '\033[36m%s\033[39m' watched by \033[36m%s\033[39m" % [watch_event['repo']['name'], watch_event['actor']['login']]
 end
 
 # Setup watch event to `GITHUB_LOGIN`
@@ -43,4 +44,5 @@ Dir[data_path].each.with_index do |path, n|
 
   watch_event.created_at = n.hours.ago.strftime(WatchEvent::DATETIME_FORMAT)
   watch_event.save!
+  puts "Stub event: '\033[36m%s\033[39m' watched by \033[36m%s\033[39m" % [watch_event['repo']['name'], watch_event['actor']['login']]
 end
