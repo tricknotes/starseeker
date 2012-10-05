@@ -1,4 +1,4 @@
-$font-size: 13px;
+$font-size: 15px;
 
 @font-face {
   font-family: ABeeZee;
@@ -84,7 +84,7 @@ li {
 }
 
 .repo_name {
-  font-size: $font-size * 1.3;
+  font-size: $font-size * 1.2;
 }
 
 .starred_at, .stargazers {
@@ -104,7 +104,8 @@ li {
 
 .description {
   display: block;
-  min-height: $font-size;
+  font-size: $font-size * 0.9;
+  min-height: $font-size * 0.9;
 }
 
 .members {
