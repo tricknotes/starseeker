@@ -1,5 +1,10 @@
 $font-size: 13px;
 
+@font-face {
+  font-family: ABeeZee;
+  src: local("ABeeZee"), url("ABeeZee-Regular.ttf") format("truetype");
+}
+
 @function divide-equally($count) {
   @return floor((100% - 1) / $count);
 }
@@ -33,7 +38,7 @@ html {
 body {
   background-color: #fff;
   color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: ABeeZee, verdana, arial, helvetica, sans-serif;
   font-size: $font-size;
 }
 
