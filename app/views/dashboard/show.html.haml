@@ -16,7 +16,8 @@
 %ul
 - @watch_events.each_with_repo do |watch_event, repo|
   %li
-    = link_to_repo repo.full_name
+    %span.repo_name
+      = link_to_repo repo.full_name
     = link_to_stargazers(repo)
     %span.starred_at
       = time_ago_in_words watch_event.created_at
@@ -31,7 +32,8 @@
 %ul
 - @watched_events.watched_ranking.each do |repo_name, events, repo|
   %li
-    = link_to_repo repo_name
+    %span.repo_name
+      = link_to_repo repo_name
     = link_to_stargazers(repo)
     %span.stargazers
       - events.each do |event|
