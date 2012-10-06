@@ -6,8 +6,14 @@ describe MyHotRepository do
   describe '#notify' do
     subject { MyHotRepository.notify(user) }
 
+    it 'should have multipart contents' do
+      subject.body.parts.length.should eq(2)
+    end
+
     it 'should contains username' do
-      subject.body.should match('USER')
+      subject.body.parts.each do |part|
+        part.body.should match('USER')
+      end
     end
 
     it 'should contains watch count' do
