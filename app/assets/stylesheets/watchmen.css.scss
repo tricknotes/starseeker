@@ -43,10 +43,21 @@ body {
   font-size: $font-size;
 }
 
-#content {
+nav {
+  display: inline-block;
+  float: right;
+
+  li {
+    text-align: center;
+    border: none;
+    width: 80px;
+    display: inline-block;
+  }
+}
+
+#content, header {
   margin: auto;
   max-width: 650px;
-  padding: 20px 60px 30px 60px;
 
   img {
     margin: 0px 2px 0px 2px;
@@ -59,6 +70,17 @@ body {
       @include shadow(9px, 0.7);
     }
   }
+}
+
+header {
+  padding-top: 60px;
+
+  h1 {
+    display: inline-block;
+  }
+}
+#content {
+  padding: 0px 60px 30px 60px;
 }
 
 a {
