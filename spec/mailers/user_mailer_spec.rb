@@ -12,7 +12,7 @@ describe UserMailer do
 
     it 'should contains activation url' do
       user.activation_token.should_not be_blank
-      subject.body.should match(Settings.base_url + '/sessions/activate/' + user.activation_token)
+      subject.body.should match(URI.join(Settings.base_url, '/sessions/activate/', user.activation_token).to_s)
     end
   end
 
@@ -24,7 +24,7 @@ describe UserMailer do
     end
 
     it 'should contains login url' do
-      subject.body.should match(Settings.base_url + '/oauth/github')
+      subject.body.should match(URI.join(Settings.base_url, '/oauth/github').to_s)
     end
   end
 end
