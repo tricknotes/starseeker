@@ -1,7 +1,7 @@
 = image_link_to_github_url(@user, '40x40')
 = @user.username
 
-%h2 Repositories #{link_to @user.username, github_url(@user.username)} watched recently:
+%h2 Repositories #{link_to @user.username, github_url(@user.username)} starred recently:
 (Within 7 days from now)
 %ul
   - @watch_events.each_with_repo do |watch_event, repo|
@@ -16,4 +16,4 @@
           = repo.description
 
 - if @watch_events.empty?
-  Not watched.
+  Not starred.

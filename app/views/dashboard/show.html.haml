@@ -11,7 +11,7 @@
     (Not verified yet.)
     = link_to 'Send confirmation mail', send_confirmation_settings_email_path
 
-%h2 Repositories you watched recently:
+%h2 Repositories you starred recently:
 (Within 7 days from now)
 %ul
 - @watch_events.each_with_repo do |watch_event, repo|
@@ -25,9 +25,9 @@
       %span.description
         = repo.description
 - if @watch_events.empty?
-  Not watched.
+  Not starred.
 
-%h2 Your repositories recently watched by someone:
+%h2 Your repositories recently starred by someone:
 (Within 7 days from now)
 %ul
 - @watched_events.watched_ranking.each do |repo_name, events, repo|
@@ -44,9 +44,9 @@
       %span.description
         = repo.description
 - if @watched_events.empty?
-  Not watched.
+  Not starred.
 
 %h2 Menu
-(You can receive daily mail about watched repository ranking.)
+(You can receive daily mail about starred repository ranking.)
 %div
   = link_to 'Edit email', settings_email_path
