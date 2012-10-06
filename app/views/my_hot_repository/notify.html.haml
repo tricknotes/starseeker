@@ -1,4 +1,4 @@
 = render template: 'activities/watching'
 
 %br
-= link_to 'Manage your email settings', Settings.base_url + settings_email_path
+= link_to 'Manage your email settings', settings_email_url(host: Settings.host)

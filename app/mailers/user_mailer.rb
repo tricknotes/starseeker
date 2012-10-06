@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_needed_email(user)
     @user = user
-    @url  = Settings.base_url + activate_path(user.activation_token)
+    @url  = activate_url(user.activation_token, host: Settings.host)
     mail to: user.email
   end
 
@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_success_email(user)
     @user = user
-    @url  = Settings.base_url + auth_at_provider_path(provider: :github)
+    @url  = auth_at_provider_url(provider: :github, host: Settings.host)
     mail to: user.email
   end
 end
