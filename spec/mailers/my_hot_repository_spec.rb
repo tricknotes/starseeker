@@ -14,7 +14,7 @@ describe MyHotRepository do
       pending 'Factories required.'
     end
 
-    it 'should contains watched reposotories' do
+    it 'should contains starred reposotories' do
       pending 'Factories required.'
     end
 
