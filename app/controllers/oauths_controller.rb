@@ -8,7 +8,7 @@ class OauthsController < ApplicationController
   def callback
     provider = params[:provider]
     if @user = login_from(provider)
-      redirect_to dashboard_path, notice: "Logged in from #{provider.titleize}!"
+      redirect_to dashboard_path
     else
       begin
         User.transaction do
@@ -28,7 +28,7 @@ class OauthsController < ApplicationController
         return
       end
       if @user.email.present?
-        redirect_to dashboard_path, notice: "Logged in from #{provider.titleize}!"
+        redirect_to dashboard_path
       else
         redirect_to settings_email_path, notice: "Please setup your email."
       end
