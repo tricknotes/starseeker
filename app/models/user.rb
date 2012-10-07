@@ -17,6 +17,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  class << self
+    def find_or_fetch_by_username(username)
+      self.find_by_username(username) || User.new {|user|
+        github_user = Octokit.user(username)
+        user.username = github_user.login
+        user.avatar_url = github_user.avatar_url
+      }
+    end
+  end
+
   def access_token
     @access_token ||= authentications.find_by_provider(:github).try(:token)
   end
