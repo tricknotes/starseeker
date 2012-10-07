@@ -8,3 +8,12 @@
     - @users.each do |user|
       %li
         = link_to gravatar_image_tag(user, '52x52'), stars_path(user.username)
+
+%section#usage
+  %ol
+    %li Resister with your github account.
+    %li Setup your email settings.
+    %li You can receive daily starred repository ranking!
+
+  %span.join-us
+    = link_to 'Sign in with Github', auth_at_provider_path(provider: :github)

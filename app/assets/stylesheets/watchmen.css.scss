@@ -149,6 +149,20 @@ li {
   }
 }
 
+#usage {
+  ol li {
+    display: list-item;
+    border: none;
+    margin: 10px 0px;
+  }
+
+  .join-us {
+    margin: 10px 0px;
+    display: block;
+    text-align: center;
+  }
+}
+
 #notice {
   font-size: $font-size * 1.38;
   color: green;
