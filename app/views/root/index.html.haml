@@ -7,4 +7,4 @@
   %ul
     - @users.each do |user|
       %li
-        = link_to gravatar_image_tag(user, '52x52'), user_path(user.username)
+        = link_to gravatar_image_tag(user, '52x52'), star_path(user.username)
