@@ -132,6 +132,10 @@ li {
   min-height: $font-size * 0.9;
 }
 
+#catch-phrase {
+  font-size: $font-size * 1.15;
+}
+
 #members {
   display: block;
   min-height: 420px;
@@ -143,10 +147,6 @@ li {
     text-align: center;
     border: 0;
   }
-}
-
-#catch-phrase {
-  font-size: $font-size * 1.15;
 }
 
 #notice {
