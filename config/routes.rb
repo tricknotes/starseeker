@@ -16,7 +16,7 @@ Watchmen::Application.routes.draw do
 
   root to: 'root#index'
 
-  resources :stars, only: %w(show)
+  get 'starts/:username' => 'stars#index', as: 'stars'
 
   get 'sessions/activate/:activation_token' => 'sessions#activate', as: 'activate'
   delete 'logout' => 'sessions#destroy'
