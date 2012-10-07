@@ -17,7 +17,7 @@
             %li= link_to 'dashboard', dashboard_path
             %li= link_to 'Logout', logout_path, method: :delete
           - else
-            %li= link_to 'Sign in with GitHub', auth_at_provider_path(provider: :github)
+            %li= link_to 'Sign in with Github', auth_at_provider_path(provider: :github)
       %p#notice= notice
       %p#alert= alert
     %section#content
