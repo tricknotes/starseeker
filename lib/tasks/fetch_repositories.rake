@@ -2,6 +2,8 @@ require "#{Rails.root}/config/environment"
 
 desc 'Fetch referenced repositories'
 task :fetch_repositories do
+  Repository.delete_all
+
   followings = []
   mutex = Mutex.new
   User.all.map do |user|
