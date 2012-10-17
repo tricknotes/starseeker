@@ -1,12 +1,12 @@
-# Watchmen
+# starseeker
 
-http://watchmen.herokuapp.com/
+http://starseeker.herokuapp.com/
 
 ## Setup
 
 ``` sh
-$ git clone git://github.com:tricknotes/watchmen.git
-$ cd watchmen
+$ git clone git://github.com:tricknotes/starseeker.git
+$ cd starseeker
 $ bundle install
 $ bundle exec rake db:create db:migrate
 ```

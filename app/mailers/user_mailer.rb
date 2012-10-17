@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "Watchmen <#{Settings.mail.user_name}>"
+  default from: "starseeker <#{Settings.mail.user_name}>"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
