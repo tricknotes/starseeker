@@ -50,7 +50,7 @@ nav {
   li {
     text-align: center;
     border: none;
-    min-width: 80px;
+    min-width: $font-size * 7;
     display: inline-block;
   }
 }
