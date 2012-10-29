@@ -30,9 +30,9 @@ $ rails server
 
 ## Tasks
 
-Send daily ranking mail:
+Send daily hot repositories mail:
 ``` sh
-$ bundle exec rake send_ranking
+$ bundle exec rake send_hot_repositories
 ```
 
 Refresh repository data for chache:

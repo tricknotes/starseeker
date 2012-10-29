@@ -1,7 +1,7 @@
 Dear <%= @user.username %>,
 ===============================
 
-The ranking for starred repositories by your followings.
+The starred repositories by your followings.
 
 <% @watch_events.watched_ranking.each do |repo_name, events, repo| %>
 * <%= repo_name %>: (<%= events.map {|event| event['actor']['login'] }.uniq.join(', ') %>) [<%= repo.stargazers_count %>]

@@ -13,7 +13,7 @@
       %nav
         %ul
           - if logged_in?
-            %li= link_to 'ranking', ranking_path
+            %li= link_to 'Hot repositories', hot_repositories_path
             %li= link_to 'dashboard', dashboard_path
             %li= link_to 'Logout', logout_path, method: :delete
           - else
