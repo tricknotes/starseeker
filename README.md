@@ -16,7 +16,7 @@ Initialize stub data for **local development**.
 $ GITHUB_LOGIN="your github account" bundle exec rake db:seeds_stub_event
 ```
 
-Edit counfig:
+Edit config:
 ``` sh
 $ cp config/settings.yml.example config/settings.yml
 ```
