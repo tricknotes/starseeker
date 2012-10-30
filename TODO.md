@@ -1,4 +1,3 @@
 # TODO
 
 * Add spec
-* Design
