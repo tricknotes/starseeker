@@ -1,6 +1,6 @@
 # starseeker
 
-http://starseeker.herokuapp.com/
+http://starseeker.so
 
 ## Setup
 
