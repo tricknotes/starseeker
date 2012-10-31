@@ -20,7 +20,7 @@
             %li= link_to 'Sign in with GitHub', auth_at_provider_path(provider: :github)
       %p#notice= notice
       %p#alert= alert
-    %section#content
+    #content
       = yield
 
     %footer
