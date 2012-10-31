@@ -9,7 +9,7 @@ Starseeker::Application.routes.draw do
     end
   end
 
-  get 'hot_repositories' => 'activities#watching', as: :hot_repositories
+  get 'hot_repositories' => 'activities#starring', as: :hot_repositories
 
   get 'oauth/callback' => 'oauths#callback'
   match 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
