@@ -31,7 +31,7 @@
 %h2 Your repositories recently starred by someone:
 (Within 7 days from now)
 %ul
-- @starred_events.watched_ranking.each do |repo_name, events, repo|
+- @starred_events.starred_ranking.each do |repo_name, events, repo|
   %li
     %span.repo_name
       = link_to_repo repo_name
