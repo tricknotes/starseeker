@@ -1,5 +1,6 @@
-class WatchEvent
+class StarEvent
   include Mongoid::Document
+  self.default_collection_name = 'watch_events'
   default_scope where(type: 'WatchEvent')
 
   DATETIME_FORMAT = '%Y-%m-%dT%TZ'

@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     following_names = followings.map do |following|
       following['login']
     end
-    WatchEvent.all_by(following_names + [username])
+    StarEvent.all_by(following_names + [username])
   end
 
   def followings

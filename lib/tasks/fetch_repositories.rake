@@ -14,7 +14,7 @@ task :fetch_repositories do
   logins = followings.map(&:login).uniq
   puts "\033[33m%d\033[39m users found." % logins.count
 
-  watch_events = WatchEvent.all_by(logins).latest(1.day.ago)
+  watch_events = StarEvent.all_by(logins).latest(1.day.ago)
   repo_names = watch_events.map {|watch_event| watch_event.repo['name'] }.uniq
   puts "\033[33m%d\033[39m repositories found." % repo_names.count
 
