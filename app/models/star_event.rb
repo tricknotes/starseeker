@@ -26,9 +26,9 @@ class StarEvent
   end
 
   def self.each_with_repo
-    self.all.each do |watch_event|
-      repo = watch_event.repository!
-      yield watch_event, repo if repo
+    self.all.each do |star_event|
+      repo = star_event.repository!
+      yield star_event, repo if repo
     end
   end
 

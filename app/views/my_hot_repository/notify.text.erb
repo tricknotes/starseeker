@@ -3,7 +3,7 @@ Dear <%= @user.username %>,
 
 The starred repositories by your followings.
 
-<% @watch_events.watched_ranking.each do |repo_name, events, repo| %>
+<% @star_events.watched_ranking.each do |repo_name, events, repo| %>
 * <%= repo_name %>: (<%= events.map {|event| event['actor']['login'] }.uniq.join(', ') %>) [<%= repo.stargazers_count %>]
   <%= repo.description %>
   <%= github_url(repo_name) %>
