@@ -1,4 +1,4 @@
-# Setup stub data for watch events.
+# Setup stub data for star events.
 
 raise "'\033[31mproduction\033[39m' should not be sutubed." if Rails.env.production?
 
@@ -9,14 +9,14 @@ end
 
 StarEvent.delete_all
 
-def path_to_watch_event(path)
+def path_to_star_event(path)
   data = JSON.parse(File.read(path))
   StarEvent.new(data.except('id'))
 end
 
 fixture_path = Rails.root.join('spec', 'fixtures', 'watch_events')
 
-# Setup watch event from `GITHUB_LOGIN`
+# Setup star event from `GITHUB_LOGIN`
 data_path = fixture_path.join('*.json').to_s
 Dir[data_path].each.with_index do |path, n|
   star_event = path_to_watch_event(path)
@@ -27,10 +27,10 @@ Dir[data_path].each.with_index do |path, n|
 
   star_event.created_at = n.days.ago.strftime(StarEvent::DATETIME_FORMAT)
   star_event.save!
-  puts "Stub event: '\033[36m%s\033[39m' watched by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
+  puts "Stub event: '\033[36m%s\033[39m' stared by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
 end
 
-# Setup watch event to `GITHUB_LOGIN`
+# Setup star event to `GITHUB_LOGIN`
 Dir[data_path].each.with_index do |path, n|
   star_event = path_to_watch_event(path)
 
@@ -44,5 +44,5 @@ Dir[data_path].each.with_index do |path, n|
 
   star_event.created_at = n.hours.ago.strftime(StarEvent::DATETIME_FORMAT)
   star_event.save!
-  puts "Stub event: '\033[36m%s\033[39m' watched by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
+  puts "Stub event: '\033[36m%s\033[39m' stared by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
 end
