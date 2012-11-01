@@ -5,6 +5,6 @@ class MyHotRepository < ActionMailer::Base
   def notify(user)
     @user = user
     @star_events = @user.star_events_by_followings_with_me.latest(1.day.ago)
-    mail(to: user.email, subject: "Watched repositories by #{@user.username}'s followings", css: :starseeker)
+    mail(to: user.email, subject: "Starred repositories by #{@user.username}'s followings", css: :starseeker)
   end
 end
