@@ -1,6 +1,6 @@
 class StarsController < ApplicationController
   rescue_from Octokit::NotFound do
-    render status: 404, file: 'public/404.html', layout: false
+    render status: :not_found, file: 'public/404.html', layout: false
   end
 
   def index
