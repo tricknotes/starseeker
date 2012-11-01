@@ -3,7 +3,7 @@
 Starred repositories by #{@user.username}'s followings
 
 %ul
-  - @watch_events.watched_ranking.each do |repo_name, events, repo|
+  - @star_events.starred_ranking.each do |repo_name, events, repo|
     %li.repo
       %div
         = image_link_to_github_url repo.owner
