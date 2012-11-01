@@ -39,11 +39,11 @@ class User < ActiveRecord::Base
     'active' == activation_state
   end
 
-  def watch_events_by_followings_with_me
+  def star_events_by_followings_with_me
     following_names = followings.map do |following|
       following['login']
     end
-    WatchEvent.all_by(following_names + [username])
+    StarEvent.all_by(following_names + [username])
   end
 
   def followings

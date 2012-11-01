@@ -14,24 +14,24 @@
 %h2 Repositories you starred recently:
 (Within 7 days from now)
 %ul
-- @watch_events.each_with_repo do |watch_event, repo|
+- @star_events.each_with_repo do |star_event, repo|
   %li
     = image_link_to_github_url repo.owner
     %span.repo_name
       = link_to_repo repo.full_name
     = link_to_stargazers(repo)
     %span.starred_at
-      = time_ago_in_words watch_event.created_at
+      = time_ago_in_words star_event.created_at
     %div
       %span.description
         = repo.description
-- if @watch_events.empty?
+- if @star_events.empty?
   Not starred.
 
 %h2 Your repositories recently starred by someone:
 (Within 7 days from now)
 %ul
-- @watched_events.watched_ranking.each do |repo_name, events, repo|
+- @starred_events.starred_ranking.each do |repo_name, events, repo|
   %li
     %span.repo_name
       = link_to_repo repo_name
@@ -44,7 +44,7 @@
     %div
       %span.description
         = repo.description
-- if @watched_events.empty?
+- if @starred_events.empty?
   Not starred.
 
 %h2 Menu

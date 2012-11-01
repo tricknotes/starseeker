@@ -1,5 +1,6 @@
-class WatchEvent
+class StarEvent
   include Mongoid::Document
+  self.default_collection_name = 'watch_events'
   default_scope where(type: 'WatchEvent')
 
   DATETIME_FORMAT = '%Y-%m-%dT%TZ'
@@ -13,7 +14,7 @@ class WatchEvent
     self.where('actor.login' => {'$in' => [login]})
   end
 
-  def self.watched_ranking
+  def self.starred_ranking
     grouped_events = self.all.newly.group_by {|event| event['repo']['name'] }
     grouped_events = grouped_events.sort_by {|repo_name, events| [-events.count, -events.first.created_at.to_i] }
     grouped_events = grouped_events.map do |repo_name, events|
@@ -25,9 +26,9 @@ class WatchEvent
   end
 
   def self.each_with_repo
-    self.all.each do |watch_event|
-      repo = watch_event.repository!
-      yield watch_event, repo if repo
+    self.all.each do |star_event|
+      repo = star_event.repository!
+      yield star_event, repo if repo
     end
   end
 

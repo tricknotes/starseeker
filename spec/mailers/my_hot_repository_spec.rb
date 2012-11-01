@@ -16,7 +16,7 @@ describe MyHotRepository do
       end
     end
 
-    it 'should contains watch count' do
+    it 'should contains star count' do
       pending 'Factories required.'
     end
 
