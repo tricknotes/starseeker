@@ -9,7 +9,7 @@ end
 
 StarEvent.delete_all
 
-def path_to_star_event(path)
+def path_to_watch_event(path)
   data = JSON.parse(File.read(path))
   StarEvent.new(data.except('id'))
 end
