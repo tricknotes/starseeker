@@ -9,7 +9,7 @@ class UserMailer < ActionMailer::Base
   def activation_needed_email(user)
     @user = user
     @url  = activate_url(user.activation_token, host: Settings.host)
-    mail to: user.email
+    mail to: user.email, subject: 'Verify your email'
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
