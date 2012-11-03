@@ -1,5 +1,5 @@
 class RootController < ApplicationController
   def index
-    @users = User.newly
+    @users = User.order('RANDOM()').limit(15)
   end
 end
