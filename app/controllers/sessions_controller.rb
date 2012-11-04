@@ -6,7 +6,8 @@ class SessionsController < ApplicationController
     if @user
       @user.activate!
       UserMailer.activation_success_email(@user).deliver
-      redirect_to dashboard_path, notice: 'You were successfully activated.'
+
+      redirect_to root_path, notice: 'You were successfully activated.'
     else
       not_authenticated
     end
