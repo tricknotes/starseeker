@@ -33,7 +33,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'roadie'
 
-gem 'sorcery'
+gem 'sorcery', github: 'NoamB/sorcery'
 gem 'mongoid'
 gem 'bson_ext'
 gem 'octokit'

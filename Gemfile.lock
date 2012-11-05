@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/NoamB/sorcery.git
+  revision: d538b892f259756bfba015f82bd9fd528e32db2e
+  specs:
+    sorcery (0.7.13)
+      bcrypt-ruby (~> 3.0.0)
+      oauth (~> 0.4.4)
+      oauth2 (~> 0.7.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -90,10 +99,11 @@ GEM
     multipart-post (1.1.5)
     nokogiri (1.5.5)
     oauth (0.4.7)
-    oauth2 (0.6.1)
-      faraday (~> 0.7)
+    oauth2 (0.7.1)
+      faraday (~> 0.8)
       httpauth (~> 0.1)
-      multi_json (~> 1.3)
+      multi_json (~> 1.0)
+      rack (~> 1.4)
     octokit (1.18.0)
       addressable (~> 2.2)
       faraday (~> 0.8)
@@ -154,10 +164,6 @@ GEM
       sass (>= 3.1.10)
       tilt (~> 1.3)
     settingslogic (2.0.8)
-    sorcery (0.7.13)
-      bcrypt-ruby (~> 3.0.0)
-      oauth (~> 0.4.4)
-      oauth2 (~> 0.6.0)
     sprockets (2.8.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -199,7 +205,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 3.2.3)
   settingslogic
-  sorcery
+  sorcery!
   sqlite3
   thin
   turbo-sprockets-rails3
