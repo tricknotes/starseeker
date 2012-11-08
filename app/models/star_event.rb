@@ -15,7 +15,9 @@ class StarEvent
   end
 
   def self.starred_ranking
-    grouped_events = self.all.newly.group_by {|event| event['repo']['name'] }
+    star_events = self.all.newly
+    star_events = star_events.uniq {|event| [event['repo']['name'], event['actor']['login']].hash }
+    grouped_events = star_events.group_by {|event| event['repo']['name'] }
     grouped_events = grouped_events.sort_by {|repo_name, events| [-events.count, -events.first.created_at.to_i] }
     grouped_events = grouped_events.map do |repo_name, events|
       repo = events.first.repository!
