@@ -27,7 +27,7 @@ class OauthsController < ApplicationController
         redirect_to root_path, alert: "Failed to login from #{provider.titleize}. Wait a minutes and try again."
         return
       end
-      if @user.email.present?
+      if @user.email?
         redirect_to dashboard_path
       else
         redirect_to settings_email_path, notice: "Please setup your email."

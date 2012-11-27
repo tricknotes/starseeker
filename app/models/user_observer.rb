@@ -1,6 +1,6 @@
 class UserObserver < ActiveRecord::Observer
   def after_save(user)
-    if user.email.present? && user.email_changed?
+    if user.email? && user.email_changed?
       send_confirmation_mail(user)
     end
   end
