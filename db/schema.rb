@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120408084314) do
+ActiveRecord::Schema.define(:version => 20121218110908) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id",    :null => false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20120408084314) do
     t.datetime "activation_token_expires_at"
     t.string   "crypted_password"
     t.string   "salt"
+    t.string   "feed_token"
   end
 
   add_index "users", ["activation_token"], :name => "index_users_on_activation_token"
