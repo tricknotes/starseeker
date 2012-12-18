@@ -18,7 +18,7 @@ Starseeker::Application.routes.draw do
 
   get 'starts/:username' => 'stars#index', as: 'stars'
 
-  get ':username.private.:format' => 'activities#feed'
+  get 'stars/:username.private.:format' => 'activities#feed'
 
   get 'sessions/activate/:activation_token' => 'sessions#activate', as: 'activate'
   delete 'logout' => 'sessions#destroy'
