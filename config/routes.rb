@@ -16,7 +16,7 @@ Starseeker::Application.routes.draw do
 
   root to: 'root#index'
 
-  get 'starts/:username' => 'stars#index', as: 'stars'
+  get 'stars/:username' => 'stars#index', as: 'stars'
 
   get 'sessions/activate/:activation_token' => 'sessions#activate', as: 'activate'
   delete 'logout' => 'sessions#destroy'
