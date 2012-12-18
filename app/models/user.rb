@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
     unless self.active?
       self.activation_token ||= OpenSSL::Random.random_bytes(16).unpack("H*").first
     end
+    self.feed_token ||= generate_feed_token
   end
 
   class << self
@@ -62,5 +63,9 @@ class User < ActiveRecord::Base
 
   def github_client
     @github_client ||= Octokit::Client.new(login: username, oauth_token: access_token)
+  end
+
+  def generate_feed_token
+    OpenSSL::Random.random_bytes(16).unpack("H*").first
   end
 end
