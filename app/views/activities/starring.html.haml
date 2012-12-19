@@ -2,6 +2,9 @@
   Daily hot repositories
 Starred repositories by #{@user.username}'s followings
 
+%span#feed
+  = link_to '[News Feed]', feed_path(username: @user.username, format: 'atom', token: @user.feed_token), target: '_blank'
+
 %ul
   - @star_events.starred_ranking.each do |repo_name, events, repo|
     %li.repo

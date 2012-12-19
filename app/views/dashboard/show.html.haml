@@ -10,8 +10,6 @@
   - else
     (Not verified yet.)
     = link_to 'Send confirmation mail', send_confirmation_settings_email_path
-  %span#feed
-    = link_to '[News Feed]', feed_path(username: @user.username, format: 'atom', token: @user.feed_token), target: '_blank'
 
 %h2 Repositories you starred recently:
 (Within 7 days from now)
