@@ -20,6 +20,15 @@ describe User do
     end
   end
 
+  describe '#feed_token' do
+    subject do
+      create(:user)
+    end
+
+    # its(:feed_token) { should have(32).length } # TODO `have` matcher doesn't support String?
+    it { subject.feed_token.should_not be_blank }
+  end
+
   describe '#email_sendable?' do
     subject { build(:user) }
 

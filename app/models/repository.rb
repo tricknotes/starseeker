@@ -32,4 +32,8 @@ class Repository
   def stargazers_count
     self.watchers_count
   end
+
+  def created_at
+    self['created_at'].to_datetime
+  end
 end
