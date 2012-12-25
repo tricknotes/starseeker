@@ -16,12 +16,14 @@ end
 
 fixture_path = Rails.root.join('spec', 'fixtures', 'watch_events')
 
+github_client = Settings.github_client
+
 # Setup star event from `GITHUB_LOGIN`
 data_path = fixture_path.join('*.json').to_s
 Dir[data_path].each.with_index do |path, n|
   star_event = path_to_watch_event(path)
 
-  @user ||= Octokit.user(GITHUB_LOGIN)
+  @user ||= github_client.user(GITHUB_LOGIN)
   keys = star_event.actor.keys
   star_event.actor = @user.to_hash.extract!(*keys)
 
@@ -34,9 +36,9 @@ end
 Dir[data_path].each.with_index do |path, n|
   star_event = path_to_watch_event(path)
 
-  @following ||= Octokit.following(GITHUB_LOGIN)
+  @following ||= github_client.following(GITHUB_LOGIN)
   star_event.actor = @following.sample.extract!(*star_event.actor.keys)
-  @repos ||= Octokit.repos(GITHUB_LOGIN)
+  @repos ||= github_client.repos(GITHUB_LOGIN)
   repo = @repos.sample
   star_event.repo['id']   = repo['id']
   star_event.repo['name'] = repo['full_name']
