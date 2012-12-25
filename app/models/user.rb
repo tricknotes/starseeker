@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
   attr_accessible :name, :email, :subscribe, :authentications_attributes
+  attr_accessor :github_client
 
   scope :email_sendables, where(subscribe: true, activation_state: 'active')
   scope :newly, order('created_at DESC')
@@ -21,7 +22,8 @@ class User < ActiveRecord::Base
   class << self
     def find_or_fetch_by_username(username)
       self.find_by_username(username) || User.new {|user|
-        github_user = Settings.github_client.user(username)
+        user.github_client = Settings.github_client
+        github_user = user.github_client.user(username)
         user.username = github_user.login
         user.avatar_url = github_user.avatar_url
       }
@@ -59,11 +61,11 @@ class User < ActiveRecord::Base
     @followings
   end
 
-  private
-
   def github_client
     @github_client ||= Octokit::Client.new(login: username, oauth_token: access_token)
   end
+
+  private
 
   def generate_token
     OpenSSL::Random.random_bytes(16).unpack("H*").first
