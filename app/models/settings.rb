@@ -11,6 +11,17 @@ class Settings < Settingslogic
     end
   end
 
+  def github_client
+    @github_client ||= if self.github['login'] && self.github['token']
+      Octokit::Client.new(
+        login: self.github.login,
+        oauth_token: self.github.token
+      )
+    else
+      Octokit::Client.new
+    end
+  end
+
   private
   def uri
     @uri ||= URI.parse(self.base_url)
