@@ -3,6 +3,8 @@ defaults: &defaults
   github:
     client_id: <%= ENV['GITHUB_CLIENT_ID'] %>
     secret: <%= ENV['GITHUB_SECRET'] %>
+    login: <%= ENV['GITHUB_LOGIN'] %>
+    token: <%= ENV['GITHUB_TOKEN'] %>
   mail:
     address: 'smtp.sendgrid.net'
     port: 587

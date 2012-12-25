@@ -3,6 +3,8 @@ defaults: &defaults
   github:
     client_id: 'YOUR GITHUB CLINT ID'
     secret: 'YOUR GITHUB SECRET'
+    login: 'YOUR GITHUB LOGIN' # optional
+    token: 'YOUR GITHUB OAUTH TOKEN' # optional
   mail:
     address: 'smtp.example.com'
     port: 587
