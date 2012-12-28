@@ -43,7 +43,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller' # for better_errors' advanced features
 end
-gem 'thin', require: false
+gem 'puma', require: false
 
 group :test do
   gem 'rspec-rails', groups: %w(development)
