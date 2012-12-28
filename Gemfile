@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
+ruby '2.0.0'
 
 gem 'rails', '3.2.9'
 
@@ -41,9 +41,8 @@ gem 'octokit'
 group :development do
   gem 'quiet_assets'
   gem 'better_errors'
-  gem 'binding_of_caller' # for better_errors' advanced features
 end
-gem 'thin', require: false
+gem 'puma', require: false
 
 group :test do
   gem 'rspec-rails', groups: %w(development)
