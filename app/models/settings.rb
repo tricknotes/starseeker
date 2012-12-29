@@ -4,7 +4,7 @@ class Settings < Settingslogic
   namespace Rails.env
 
   def host
-    if uri.default_port == uri.port
+    @host ||= if uri.default_port == uri.port
       uri.host
     else
       '%s:%d' % [uri.host, uri.port]
