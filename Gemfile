@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '3.2.10'
+gem 'rails', github: 'rails/rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -16,8 +16,8 @@ gem 'pg', groups: %w(production), require: false
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails',   github: 'rails/sass-rails'
+  gem 'coffee-rails', github: 'rails/coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
@@ -29,10 +29,10 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'roadie'
+# gem 'roadie' # TODO To be enabled when it supported rails4
 
 gem 'sorcery', github: 'NoamB/sorcery'
-gem 'mongoid'
+gem 'mongoid', github: 'mongoid/mongoid', branch: '4.0.0-dev'
 gem 'bson_ext'
 gem 'octokit'
 
