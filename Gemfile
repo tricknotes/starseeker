@@ -23,8 +23,6 @@ group :assets do
   # gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
-
-  gem 'turbo-sprockets-rails3'
 end
 
 gem 'settingslogic'
@@ -39,7 +37,6 @@ gem 'bson_ext'
 gem 'octokit'
 
 group :development do
-  gem 'quiet_assets'
   gem 'better_errors'
 end
 gem 'puma', require: false
