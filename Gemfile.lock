@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: cb2bd4aa619d9329c42aaf6d9f8eacc616ce53f4
+  revision: 39374aa925a7d670b039c0c0c9aa9f4aef19466b
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -58,7 +58,7 @@ GIT
       actionpack (= 4.0.0.beta)
       activerecord (= 4.0.0.beta)
       activesupport (= 4.0.0.beta)
-      bundler (>= 1.2.2, < 2.0)
+      bundler (>= 1.3.0.pre.4, < 2.0)
       railties (= 4.0.0.beta)
       sprockets-rails (~> 2.0.0.rc1)
     railties (4.0.0.beta)
