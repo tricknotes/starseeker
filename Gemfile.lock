@@ -43,10 +43,9 @@ GEM
     better_errors (0.3.2)
       coderay (>= 1.0.0)
       erubis (>= 2.7.0)
-    bson (1.8.0)
-      activesupport
-    bson_ext (1.8.0)
-      bson (~> 1.8.0)
+    bson (1.8.1)
+    bson_ext (1.8.1)
+      bson (~> 1.8.1)
     builder (3.0.4)
     coderay (1.0.8)
     coffee-rails (3.2.2)
