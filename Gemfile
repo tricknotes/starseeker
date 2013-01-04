@@ -35,6 +35,7 @@ gem 'sorcery', github: 'NoamB/sorcery'
 gem 'mongoid', github: 'mongoid/mongoid', branch: '4.0.0-dev'
 gem 'bson_ext'
 gem 'octokit'
+gem 'rails-observers'
 
 group :development do
   gem 'better_errors'
