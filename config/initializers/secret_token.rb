@@ -2,6 +2,11 @@
 
 # Your secret key for verifying the integrity of signed cookies.
 # If you change this key, all old signed cookies will become invalid!
+
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Starseeker::Application.config.secret_token = 'e86de9e142d99b7dc1cc4a0398146d90db9444d56625ac85a98ebf08422e9cd91eee36ffdd98fe3732fa1365447c4416727c89ea6f2b1f9708fe3503f3cc84f7'
+# You can use `rake secret` to generate a secure secret key.
+
+# Make sure your secret_key_base is kept private
+# if you're sharing your code publicly.
+Starseeker::Application.config.secret_key_base = '9655c5fd9112b357c534c062a8998992e3c63b186f12062a383d19a95ad9d7c104eee48971642772c98b0353bcb3e4edb8279ee60ddc005b39765c567c7a6676'
