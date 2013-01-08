@@ -15,7 +15,8 @@ gem 'pg', groups: %w(production), require: false
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
+# FIXME Disable for heroku
+# group :assets do
   gem 'sass-rails',   github: 'rails/sass-rails'
   gem 'coffee-rails', github: 'rails/coffee-rails'
 
@@ -23,7 +24,7 @@ group :assets do
   # gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
-end
+# end
 
 gem 'settingslogic'
 
