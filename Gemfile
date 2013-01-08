@@ -39,6 +39,7 @@ gem 'octokit'
 gem 'rails-observers'
 
 group :development do
+  gem 'quiet_assets', github: 'evrone/quiet_assets'
   gem 'better_errors'
 end
 gem 'puma', require: false

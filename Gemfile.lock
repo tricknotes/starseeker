@@ -8,6 +8,13 @@ GIT
       oauth2 (~> 0.8.0)
 
 GIT
+  remote: git://github.com/evrone/quiet_assets.git
+  revision: 8451f17b1119487fe45e7286f42afd576a6fd070
+  specs:
+    quiet_assets (1.0.1)
+      railties (>= 3.1, < 5.0)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: b85e0a1220b9b8e01c3874814845efaaf9bdf54f
   branch: 4.0.0-dev
@@ -221,6 +228,7 @@ DEPENDENCIES
   pg
   protected_attributes!
   puma
+  quiet_assets!
   rails!
   rails-observers
   rspec-rails
