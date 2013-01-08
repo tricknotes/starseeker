@@ -29,7 +29,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
-# gem 'roadie' # TODO To be enabled when it supported rails4
+gem 'roadie', github: 'tricknotes/roadie', branch: 'rails4'
 
 gem 'sorcery', github: 'NoamB/sorcery'
 gem 'protected_attributes', github: 'rails/protected_attributes'
