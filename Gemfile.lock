@@ -27,6 +27,13 @@ GIT
       railties (>= 4.0.0.beta, < 5.0)
 
 GIT
+  remote: git://github.com/rails/protected_attributes.git
+  revision: 369818eedeaaafc5c1609ec6a274d35979ba977b
+  specs:
+    protected_attributes (0.0.1)
+      activemodel (>= 4.0.0.beta, < 5.0)
+
+GIT
   remote: git://github.com/rails/rails.git
   revision: 4f002a1df3ee37349e278ba64ef29602ee637ac5
   specs:
@@ -212,6 +219,7 @@ DEPENDENCIES
   mongoid!
   octokit
   pg
+  protected_attributes!
   puma
   rails!
   rails-observers

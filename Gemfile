@@ -32,6 +32,7 @@ gem 'haml-rails'
 # gem 'roadie' # TODO To be enabled when it supported rails4
 
 gem 'sorcery', github: 'NoamB/sorcery'
+gem 'protected_attributes', github: 'rails/protected_attributes'
 gem 'mongoid', github: 'mongoid/mongoid', branch: '4.0.0-dev'
 gem 'bson_ext'
 gem 'octokit'
