@@ -42,7 +42,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: ae3286b74346023a868d63c53cde562b1529ef2c
+  revision: ac86cbec82acee18a5066e00b98d1c20fc677a15
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -94,8 +94,8 @@ GIT
 
 GIT
   remote: git://github.com/tricknotes/roadie.git
-  revision: a149bc5674e1b901359ecf6cea14a2f4e0f3c519
-  branch: rails4
+  revision: e1b3a60a7853584d14d3dd03554d9f8f612c9c6f
+  branch: rails-4
   specs:
     roadie (2.3.4)
       actionmailer (> 3.0.0, < 5.0.0)
