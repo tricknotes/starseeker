@@ -42,7 +42,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 64e3660ff0c0fd708fd4fc5455c54bf3d511032b
+  revision: 5d0d82957ae2658a576f5785506a52cfe03d0758
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
