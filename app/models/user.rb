@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   end
 
   def access_token
-    @access_token ||= authentications.find_by_provider(:github).try(:token)
+    @access_token ||= authentications.find_by(provider: :github).try(:token)
   end
 
   def email_sendable?
