@@ -9,27 +9,27 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121218161129) do
+ActiveRecord::Schema.define(version: 20121218161129) do
 
-  create_table "authentications", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.string   "provider",   :null => false
-    t.string   "uid",        :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "authentications", force: true do |t|
+    t.integer  "user_id",    null: false
+    t.string   "provider",   null: false
+    t.string   "uid",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "token"
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "username",                                      :null => false
+  create_table "users", force: true do |t|
+    t.string   "username",                                   null: false
     t.string   "email"
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
     t.string   "avatar_url"
-    t.boolean  "subscribe",                   :default => true
+    t.boolean  "subscribe",                   default: true
     t.string   "activation_state"
     t.string   "activation_token"
     t.datetime "activation_token_expires_at"
@@ -38,6 +38,6 @@ ActiveRecord::Schema.define(:version => 20121218161129) do
     t.string   "feed_token"
   end
 
-  add_index "users", ["activation_token"], :name => "index_users_on_activation_token"
+  add_index "users", ["activation_token"], name: "index_users_on_activation_token"
 
 end
