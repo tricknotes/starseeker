@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
-  attr_accessible :name, :email, :subscribe, :authentications_attributes
   attr_accessor :github_client
 
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
