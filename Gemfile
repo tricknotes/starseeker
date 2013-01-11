@@ -2,10 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', github: 'rails/rails'
-
 # Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# # gem 'rails', github: 'rails/rails'-
+gem 'rails', github: 'rails/rails'
 
 # for local
 gem 'sqlite3', groups: %w(test development), require: false
@@ -53,14 +52,14 @@ end
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-# To use Jbuilder templates for JSON
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'
 
 # Deploy with Capistrano
-# gem 'capistrano'
+# gem 'capistrano', group: :development
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+# gem 'debugger'
