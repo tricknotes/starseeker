@@ -8,12 +8,12 @@ http://starseeker.so
 $ git clone git://github.com:tricknotes/starseeker.git
 $ cd starseeker
 $ bundle install
-$ bundle exec rake db:create db:migrate
+$ rake db:create db:migrate
 ```
 
 Initialize stub data for **local development**.
 ``` sh
-$ GITHUB_LOGIN="your github account" bundle exec rake db:seeds_stub_event
+$ GITHUB_LOGIN="your github account" rake db:seeds_stub_event
 ```
 
 Edit config:
@@ -32,12 +32,12 @@ $ rails server
 
 Send daily hot repositories mail:
 ``` sh
-$ bundle exec rake send_hot_repositories
+$ rake send_hot_repositories
 ```
 
 Refresh repository data for chache:
 ``` sh
-$ bundle exec rake fetch_repositories
+$ rake fetch_repositories
 ```
 
 ## Test
