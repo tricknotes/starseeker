@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 8348f9ea72c9b50fc4d4462fd9ebe3bba932c783
+  revision: 555cb0afb5a8a8e98fc982edb9e09dfaafd46380
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -163,7 +163,7 @@ GEM
       jwt (~> 0.1.4)
       multi_json (~> 1.0)
       rack (~> 1.2)
-    octokit (1.21.0)
+    octokit (1.22.0)
       addressable (~> 2.2)
       faraday (~> 0.8)
       faraday_middleware (~> 0.9)
