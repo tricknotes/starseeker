@@ -1,9 +1,13 @@
+- private_feed = feed_url(username: @user.username, format: 'atom', token: @user.feed_token, host: Settings.host)
+= content_for :head do
+  %link{href: private_feed, rel: 'alternate', title: 'ATOM', type: 'application/atom+xml'}
+
 %h1
   Daily hot repositories
 Starred repositories by #{@user.username}'s followings
 
 %span#feed
-  = link_to '[News Feed]', feed_url(username: @user.username, format: 'atom', token: @user.feed_token, host: Settings.host), target: '_blank'
+  = link_to '[News Feed]', private_feed, target: '_blank'
 
 %ul
   - @star_events.starred_ranking.each do |repo_name, events, repo|
