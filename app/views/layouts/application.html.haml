@@ -15,7 +15,6 @@
     - if @og_image # TODO Set default image
       %meta{property: 'og:image',     content: @og_image}
     %meta{property: 'og:site_name',   content: 'starseeker'}
-    %meta{property: 'og:site_url',    content: Settings.base_url}
 
     = yield :head
 
