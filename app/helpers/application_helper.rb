@@ -34,4 +34,8 @@ module ApplicationHelper
   def image_link_to_github_url_from_event(event)
     image_link_to_github_url(event['actor'])
   end
+
+  def html_title_about_user(user)
+    user.username + (user.name ? ' (%s)' % user.name : '')
+  end
 end
