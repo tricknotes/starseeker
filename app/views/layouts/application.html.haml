@@ -12,7 +12,8 @@
     %meta{property: 'og:description', content: 'Seek your following\'s stars!'}
     %meta{property: 'og:type',        content: 'website'}
     %meta{property: 'og:url',         content: request.url}
-    - # %meta{property: 'og:image',   content: ''} # TODO
+    - if @og_image # TODO Set default image
+      %meta{property: 'og:image',     content: @og_image}
     %meta{property: 'og:site_name',   content: 'starseeker'}
     %meta{property: 'og:site_url',    content: Settings.base_url}
 
