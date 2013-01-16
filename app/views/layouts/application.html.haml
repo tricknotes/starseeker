@@ -1,10 +1,21 @@
 !!! html
 %html
   %head
-    %title= [@title, 'starseeker'].compact.join(' | ')
+    - page_title = [@title, 'starseeker'].compact.join(' | ')
+    %title= page_title
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
+
+    - # OGP
+    %meta{property: 'og:title',       content: page_title}
+    %meta{property: 'og:description', content: 'Seek your following\'s stars!'}
+    %meta{property: 'og:type',        content: 'website'}
+    %meta{property: 'og:url',         content: request.url}
+    - # %meta{property: 'og:image',   content: ''} # TODO
+    %meta{property: 'og:site_name',   content: 'starseeker'}
+    %meta{property: 'og:site_url',    content: Settings.base_url}
+
     = yield :head
 
   %body
