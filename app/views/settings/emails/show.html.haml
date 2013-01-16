@@ -1,4 +1,6 @@
-%h1 Editing email
+- @title = 'Editing your email'
+
+%h1 Editing your email
 
 = form_for @user, url: settings_email_path do |f|
   -if @user.errors.any?
