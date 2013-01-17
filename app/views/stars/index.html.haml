@@ -1,8 +1,9 @@
 - @title = html_title_about_user(@user)
 - @og_image = @user.avatar_url
 
-= image_link_to_github_url(@user, '40x40')
-= @user.username
+%h1
+  = image_link_to_github_url(@user, '40x40')
+  = @user.username
 
 %h2 Repositories #{link_to @user.username, github_url(@user.username)} starred recently:
 (Within 7 days from now)
