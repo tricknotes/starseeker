@@ -6,6 +6,11 @@ describe MyHotRepository do
   describe '#notify' do
     subject { MyHotRepository.notify(user) }
 
+    before do
+      # TODO Return following user names
+      user.stub!(:followings).and_return([])
+    end
+
     it 'should have multipart contents' do
       subject.body.parts.length.should eq(2)
     end
