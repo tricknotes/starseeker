@@ -36,14 +36,14 @@ GIT
 
 GIT
   remote: git://github.com/rails/protected_attributes.git
-  revision: 369818eedeaaafc5c1609ec6a274d35979ba977b
+  revision: c8aa047098e1e8e3eb7bf9eb78ec77187cbc00fe
   specs:
     protected_attributes (0.0.1)
       activemodel (>= 4.0.0.beta, < 5.0)
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 555cb0afb5a8a8e98fc982edb9e09dfaafd46380
+  revision: 13c0d8c5b31a308b45d8f053df48163cf1d308b5
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
