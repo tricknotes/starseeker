@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Stars page' do
-  given!(:user) { create(:user, authentications: [build(:github)]) }
+  given!(:user) { create(:user) }
 
   background do
     stub_star_event!(actor: {login: user.username}, repo: {name: 'github/octocat'})
