@@ -13,3 +13,11 @@ RSpec::Matchers.define :have_sub_title do |text|
     end
   end
 end
+
+RSpec::Matchers.define :have_list do |text|
+  match do |page|
+    within('#content') do
+      page.has_css?('li', text: text, count: 1)
+    end
+  end
+end

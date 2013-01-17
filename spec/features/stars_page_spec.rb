@@ -16,7 +16,7 @@ feature 'Stars page' do
 
     page.should have_title('USER')
     page.should have_sub_title('Repositories USER starred recently:')
-    page.should have_css('#content li', text: 'github/octocat', count: 1)
-    page.should have_css('#content li', text: '[25]', count: 1)
+    page.should have_list('github/octocat')
+    page.should have_list('[25]')
   end
 end
