@@ -29,7 +29,7 @@ Dir[data_path].each.with_index do |path, n|
 
   star_event.created_at = n.days.ago.strftime(StarEvent::DATETIME_FORMAT)
   star_event.save!
-  puts "Stub event: '\033[36m%s\033[39m' stared by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
+  puts "Stub event: '\033[36m%s\033[39m' starred by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
 end
 
 # Setup star event to `GITHUB_LOGIN`
@@ -46,5 +46,5 @@ Dir[data_path].each.with_index do |path, n|
 
   star_event.created_at = n.hours.ago.strftime(StarEvent::DATETIME_FORMAT)
   star_event.save!
-  puts "Stub event: '\033[36m%s\033[39m' stared by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
+  puts "Stub event: '\033[36m%s\033[39m' starred by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
 end
