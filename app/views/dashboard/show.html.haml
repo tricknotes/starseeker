@@ -15,7 +15,7 @@
 
 %h2 Repositories you starred recently:
 (Within 7 days from now)
-%ul
+%ul.starred_repos_by_user
   - @star_events.each_with_repo do |star_event, repo|
     %li
       = image_link_to_github_url repo.owner
@@ -32,7 +32,7 @@
 
 %h2 Your repositories recently starred by someone:
 (Within 7 days from now)
-%ul
+%ul.starred_repos_by_someone
   - @starred_events.starred_ranking.each do |repo_name, events, repo|
     %li
       %span.repo_name

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :user do
     username 'USER'
-    name 'starseeker'
+    name 'starseeker user'
     email 'user@starseeker.so'
     activation_state 'active'
   end
