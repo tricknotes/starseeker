@@ -29,4 +29,4 @@ module StubHelper
   end
 end
 
-RSpec.configuration.include StubHelper, capybara_feature: true
+RSpec.configuration.include StubHelper
