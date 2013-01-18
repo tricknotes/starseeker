@@ -26,6 +26,15 @@ module LoginHelper
       user
     end
   end
+
+  def login_as(user)
+    stub_login!(user)
+
+    visit root_path
+    within('nav') do
+      click_link('Sign in with GitHub')
+    end
+  end
 end
 
 RSpec.configuration.include LoginHelper, capybara_feature: true

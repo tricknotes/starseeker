@@ -14,12 +14,7 @@ feature 'Root page' do
     given!(:user) { create(:user, authentications: [build(:github)]) }
 
     background do
-      stub_login!(user)
-
-      visit root_path
-      within('nav') do
-        click_link('Sign in with GitHub')
-      end
+      login_as(user)
     end
 
     scenario 'Visit root page' do
