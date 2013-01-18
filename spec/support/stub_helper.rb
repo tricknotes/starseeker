@@ -17,6 +17,30 @@ module StubHelper
       .to_return(body: repo)
     Repository.fetch!(name)
   end
+
+  def stub_login!(user)
+    original_login_at = OauthsController.instance_method(:login_at)
+    OauthsController.send(:define_method, :login_at) do |provider|
+
+      redirect_to action: :callback, provider: provider
+
+      OauthsController.send(:define_method, :login_at) do |provider|
+        original_login_at.bind(self).call(provider)
+      end
+    end
+
+    original_login_from = OauthsController.instance_method(:login_from)
+    OauthsController.send(:define_method, :login_from) do |provider|
+      auto_login(user)
+      after_login!(user)
+
+      OauthsController.send(:define_method, :login_from) do |provider|
+        original_login_from.bind(self).call(provider)
+      end
+
+      user
+    end
+  end
 end
 
 RSpec.configuration.include StubHelper, capybara_feature: true
