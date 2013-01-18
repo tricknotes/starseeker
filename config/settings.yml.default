@@ -18,6 +18,7 @@ development:
 
 test:
   <<: *defaults
+  base_url: http://example.com/
 
 production:
   <<: *defaults
