@@ -58,4 +58,15 @@ feature 'Dashboard' do
     page.should have_content('jyotaro@jo.jo (Verified)')
     page.should have_no_link('Send confirmation mail')
   end
+
+  scenario 'Send confirmation mail' do
+    click_link 'dashboard'
+
+    click_link('Send confirmation mail')
+
+    page.should have_flash('Confirmation mail has been sent to your mailbox.')
+    mail = ActionMailer::Base.deliveries.first
+    mail.to.should eq(['user@starseeker.so'])
+    mail.body.should match('Welcome to starseeker, USER')
+  end
 end
