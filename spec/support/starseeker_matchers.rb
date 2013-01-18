@@ -14,6 +14,14 @@ RSpec::Matchers.define :have_sub_title do |text|
   end
 end
 
+RSpec::Matchers.define :have_flash do |message|
+  match do |page|
+    within('header') do
+      page.has_css?('#notice', text: message)
+    end
+  end
+end
+
 RSpec::Matchers.define :have_list do |text|
   match do |page|
     within('#content') do

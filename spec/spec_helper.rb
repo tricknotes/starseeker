@@ -31,6 +31,10 @@ RSpec.configure do |config|
     Repository.destroy_all
   end
 
+  config.before :each do
+    clear_mail_box
+  end
+
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
