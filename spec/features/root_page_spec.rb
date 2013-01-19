@@ -24,4 +24,23 @@ feature 'Root page' do
       page.should have_link('Let\'s go on a journey to seek for your stars!')
     end
   end
+
+  context 'Without account' do
+    given!(:user) { build(:user, authentications: [build(:github)], email: nil) }
+
+    background do
+      stub_signup!(user)
+    end
+
+    scenario 'Signup' do
+      visit root_path
+      save_page('test.html')
+      within('nav') do
+        click_link 'Sign in with GitHub'
+      end
+
+      page.should have_flash('Please setup your email.')
+      page.should have_title('Editing your email')
+    end
+  end
 end
