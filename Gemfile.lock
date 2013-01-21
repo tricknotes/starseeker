@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 40e797827935756aacf0463e4b44e1c1c92b0aeb
+  revision: ee3458217b4332c832be4fc47c091be8f2029064
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -150,7 +150,7 @@ GEM
     hike (1.2.1)
     httpauth (0.2.0)
     i18n (0.6.1)
-    jquery-rails (2.1.4)
+    jquery-rails (2.2.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.6)
