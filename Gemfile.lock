@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: ee3458217b4332c832be4fc47c091be8f2029064
+  revision: bf112e551bf770d16877b2ecaa93bbebf980408a
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -156,9 +156,6 @@ GEM
     json (1.7.6)
     jwt (0.1.5)
       multi_json (>= 1.0)
-    libwebsocket (0.1.7.1)
-      addressable
-      websocket
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -210,11 +207,11 @@ GEM
       rspec-mocks (~> 2.12.0)
     rubyzip (0.9.9)
     sass (3.2.5)
-    selenium-webdriver (2.27.2)
+    selenium-webdriver (2.29.0)
       childprocess (>= 0.2.5)
-      libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+      websocket (~> 1.0.4)
     settingslogic (2.0.9)
     sorcery (0.8.0)
       bcrypt-ruby (~> 3.0.0)
