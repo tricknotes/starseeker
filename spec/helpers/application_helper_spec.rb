@@ -29,8 +29,8 @@ describe ApplicationHelper do
     context 'when user has no name' do
       let(:user) { create(:user, name: nil) }
 
-      it 'should contain username' do
-        html_title_about_user(user).should match('USER')
+      it 'should not render placeholder' do
+        html_title_about_user(user).should eq('USER')
       end
     end
   end
