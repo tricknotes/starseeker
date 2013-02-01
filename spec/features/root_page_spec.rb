@@ -34,7 +34,6 @@ feature 'Root page' do
 
     scenario 'Signup' do
       visit root_path
-      save_page('test.html')
       within('nav') do
         click_link 'Sign in with GitHub'
       end

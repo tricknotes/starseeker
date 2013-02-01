@@ -40,7 +40,6 @@ feature 'Dashboard' do
 
     page.should have_title('starseeker user')
     page.should have_flash('Send email to your address.')
-    save_page('test.html')
     page.should have_content('(Not verified yet.)')
 
     mail = ActionMailer::Base.deliveries.first
