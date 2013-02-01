@@ -10,6 +10,7 @@ class ActivitiesController < ApplicationController
   def feed
     @star_events = @user.star_events_by_followings_with_me.latest(1.day.ago)
     @latest_event = @star_events.first
+
     respond_to do |format|
       format.atom
     end
@@ -19,7 +20,9 @@ class ActivitiesController < ApplicationController
 
   def login_from_feed_token
     head :unauthorized if params[:token].blank?
+
     @user = User.where(username: params[:username], feed_token: params[:token]).first
+
     head :unauthorized unless @user
   end
 end

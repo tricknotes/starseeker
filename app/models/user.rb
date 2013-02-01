@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
     unless self.active?
       self.activation_token ||= generate_token
     end
+
     self.feed_token ||= generate_token
   end
 
@@ -45,18 +46,22 @@ class User < ActiveRecord::Base
     following_names = followings.map do |following|
       following['login']
     end
+
     StarEvent.all_by(following_names + [username])
   end
 
   def followings
     return @followings if @followings
+
     max_page = 10
+
     @followings = []
     (1..max_page).each do |page|
       followings_in_one_page = github_client.following(username, page: page)
       break if followings_in_one_page.empty?
       @followings += followings_in_one_page
     end
+
     @followings
   end
 

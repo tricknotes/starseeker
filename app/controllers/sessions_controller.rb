@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   def activate
     @user = User.load_from_activation_token(params[:activation_token])
+
     if @user
       @user.activate!
       UserMailer.activation_success_email(@user).deliver
@@ -15,6 +16,7 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
+
     redirect_to root_path, notice: 'Logged out.'
   end
 end
