@@ -11,7 +11,8 @@ require "sprockets/railtie"
 require 'mongoid/railtie'
 
 # Assets should be precompiled for production (so we don't need the gems loaded then)
-Bundler.require(*Rails.groups(assets: %w(development test)))
+# TODO Remove production when heroku supports rail4 with asset
+Bundler.require(*Rails.groups(assets: %w(development test production)))
 
 module Starseeker
   class Application < Rails::Application
