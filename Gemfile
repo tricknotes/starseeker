@@ -35,7 +35,6 @@ gem 'protected_attributes', github: 'rails/protected_attributes'
 gem 'mongoid', github: 'mongoid/mongoid', branch: '4.0.0-dev'
 gem 'bson_ext'
 gem 'octokit'
-gem 'rails-observers'
 
 group :development do
   gem 'quiet_assets', github: 'evrone/quiet_assets'

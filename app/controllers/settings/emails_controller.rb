@@ -5,8 +5,17 @@ class Settings::EmailsController < ApplicationController
   end
 
   def update
+    before_email = @user.email
+
     if @user.update(setting_email_params)
-      message = @user.email_sendable? ? 'Send email to your address.' : 'Email info was updated'
+      if @user.email_sendable? && before_email != @user.email
+        send_actiavtion_mail(@user)
+
+        message = 'Send email to your address.'
+      else
+        message = 'Email info was updated'
+      end
+
       redirect_to dashboard_path, notice: message
     else
       render action: 'show'
@@ -14,7 +23,7 @@ class Settings::EmailsController < ApplicationController
   end
 
   def send_confirmation
-    UserMailer.activation_needed_email(current_user).deliver
+    send_actiavtion_mail(@user)
     redirect_to dashboard_path, notice: 'Confirmation mail has been sent to your mailbox.'
   end
 
@@ -22,5 +31,9 @@ class Settings::EmailsController < ApplicationController
 
   def setting_email_params
     params.require(:user).permit(:email, :subscribe)
+  end
+
+  def send_actiavtion_mail(user)
+    UserMailer.activation_needed_email(user).deliver
   end
 end

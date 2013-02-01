@@ -18,6 +18,10 @@ class OauthsController < ApplicationController
           auth.save!
         end
 
+        if @user.email?
+          UserMailer.activation_needed_email(@user).deliver
+        end
+
         # NOTE: this is the place to add '@user.activate!' if you are using user_activation submodule
 
         reset_session # protect from session fixation attack
