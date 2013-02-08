@@ -10,14 +10,14 @@ GIT
 
 GIT
   remote: git://github.com/evrone/quiet_assets.git
-  revision: 8451f17b1119487fe45e7286f42afd576a6fd070
+  revision: f5c54c255f0cab1ed12172dd44b6492f648a5f81
   specs:
     quiet_assets (1.0.1)
       railties (>= 3.1, < 5.0)
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: 85e7f0f3bdaa5abde299ec46972a8a2fd714b79e
+  revision: b890f60e0e1d6b57900eaafff5c5d77433e03504
   branch: 4.0.0-dev
   specs:
     mongoid (4.0.0)
@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 9d2187efb7da3c531997eb0261bc39cf48a69821
+  revision: f1637492f12fcf8a45835d9b9009b107c69dc3eb
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -85,7 +85,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/sass-rails.git
-  revision: ae8138a89cac397c0df903dd533e2862902ce8f5
+  revision: f6431cf032e1beaff243b95151fdb13cae60562e
   specs:
     sass-rails (4.0.0.beta)
       railties (>= 4.0.0.beta, < 5.0)
@@ -101,9 +101,9 @@ GEM
     arel (3.0.2)
     atomic (1.0.1)
     bcrypt-ruby (3.0.1)
-    better_errors (0.3.2)
+    better_errors (0.5.0)
       coderay (>= 1.0.0)
-      erubis (>= 2.7.0)
+      erubis (>= 2.6.6)
     bson (1.8.2)
     bson_ext (1.8.2)
       bson (~> 1.8.2)
@@ -135,7 +135,7 @@ GEM
     factory_girl_rails (4.2.0)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
-    faraday (0.8.4)
+    faraday (0.8.5)
       multipart-post (~> 1.1)
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
@@ -160,9 +160,9 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.19)
-    minitest (4.5.0)
-    moped (1.3.2)
+    mime-types (1.20.1)
+    minitest (4.6.0)
+    moped (1.4.0)
     multi_json (1.5.0)
     multipart-post (1.1.5)
     netrc (0.7.7)
@@ -186,11 +186,11 @@ GEM
     polyglot (0.3.3)
     puma (1.6.3)
       rack (~> 1.2)
-    rack (1.5.1)
+    rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
     rake (10.0.3)
-    rdoc (3.12)
+    rdoc (3.12.1)
       json (~> 1.4)
     rspec-core (2.12.2)
     rspec-expectations (2.12.1)
