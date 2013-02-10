@@ -28,7 +28,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/coffee-rails.git
-  revision: 052634e6d02d4800d7b021201cc8d5829775b3cd
+  revision: a30c954554022caca62f7b362ee6f43eba7dc166
   specs:
     coffee-rails (4.0.0.beta)
       coffee-script (>= 2.2.0)
@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: f1637492f12fcf8a45835d9b9009b107c69dc3eb
+  revision: a0380e808d3dbd2462df17f5d3b7fcd8bd812496
   specs:
     actionmailer (4.0.0.beta)
       actionpack (= 4.0.0.beta)
@@ -52,7 +52,7 @@ GIT
       activesupport (= 4.0.0.beta)
       builder (~> 3.1.0)
       erubis (~> 2.7.0)
-      rack (~> 1.5.0)
+      rack (~> 1.5.2)
       rack-test (~> 0.6.1)
     activemodel (4.0.0.beta)
       activesupport (= 4.0.0.beta)
@@ -132,7 +132,7 @@ GEM
       multi_json (~> 1.0)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.2.0)
+    factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     faraday (0.8.5)
@@ -150,7 +150,7 @@ GEM
     hike (1.2.1)
     httpauth (0.2.0)
     i18n (0.6.1)
-    jquery-rails (2.2.0)
+    jquery-rails (2.2.1)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.7.6)
@@ -160,9 +160,9 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.20.1)
+    mime-types (1.21)
     minitest (4.6.0)
-    moped (1.4.0)
+    moped (1.4.2)
     multi_json (1.5.0)
     multipart-post (1.1.5)
     netrc (0.7.7)
@@ -174,7 +174,7 @@ GEM
       jwt (~> 0.1.4)
       multi_json (~> 1.0)
       rack (~> 1.2)
-    octokit (1.22.0)
+    octokit (1.23.0)
       addressable (~> 2.2)
       faraday (~> 0.8)
       faraday_middleware (~> 0.9)
