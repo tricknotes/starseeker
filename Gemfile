@@ -39,6 +39,7 @@ gem 'octokit'
 group :development do
   gem 'quiet_assets', github: 'evrone/quiet_assets'
   gem 'better_errors'
+  gem 'binding_of_caller'
 end
 gem 'puma', require: false
 
