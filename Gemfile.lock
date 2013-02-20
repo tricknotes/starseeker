@@ -17,12 +17,11 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: b890f60e0e1d6b57900eaafff5c5d77433e03504
-  branch: 4.0.0-dev
+  revision: 8124bb3d0200152453763ec9763c3d759651c4fc
   specs:
     mongoid (4.0.0)
       activemodel (= 4.0.0.beta)
-      moped (~> 1.2)
+      moped (~> 1.4.2)
       origin (~> 1.0)
       tzinfo (~> 0.3.22)
 

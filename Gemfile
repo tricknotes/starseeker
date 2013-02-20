@@ -33,7 +33,7 @@ gem 'roadie', github: 'Mange/roadie'
 
 gem 'sorcery'
 gem 'protected_attributes', github: 'rails/protected_attributes'
-gem 'mongoid', github: 'mongoid/mongoid', branch: '4.0.0-dev'
+gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
 gem 'octokit'
 
