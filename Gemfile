@@ -4,7 +4,7 @@ ruby '2.0.0'
 
 # Bundle edge Rails instead:
 # # gem 'rails', github: 'rails/rails'-
-gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 4.0.0.beta1'
 
 # for local
 gem 'sqlite3', groups: %w(test development), require: false
@@ -15,8 +15,8 @@ gem 'pg', groups: %w(production), require: false
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   github: 'rails/sass-rails'
-  gem 'coffee-rails', github: 'rails/coffee-rails'
+  gem 'sass-rails',   '~> 4.0.0.beta1'
+  gem 'coffee-rails', '~> 4.0.0.beta1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer'
@@ -32,13 +32,13 @@ gem 'haml', '~> 3.0' # haml 4.0.0 doesn't work with sass-rails 4.0.0.beta (It wi
 gem 'roadie', github: 'Mange/roadie'
 
 gem 'sorcery'
-gem 'protected_attributes', github: 'rails/protected_attributes'
+gem 'protected_attributes'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
 gem 'octokit'
 
 group :development do
-  gem 'quiet_assets', github: 'evrone/quiet_assets'
+  gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
 end
