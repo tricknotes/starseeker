@@ -5,7 +5,7 @@ services:
   - mongodb
 bundler_args: --without development:production --path vendor/bundle
 before_install:
-  - gem update bundler --pre --no-rdoc --no-ri
+  - gem update bundler --no-rdoc --no-ri
 before_script:
   - bundle exec rake db:create db:migrate
 script: bundle exec rake
