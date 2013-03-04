@@ -1,5 +1,7 @@
 # starseeker
 
+**Seek your following's stars!**
+
 http://starseeker.so
 
 ## Requirements
