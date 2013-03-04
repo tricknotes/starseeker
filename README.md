@@ -5,6 +5,7 @@ http://starseeker.so
 ## Setup
 
 ``` sh
+$ brew install mongodb
 $ git clone git://github.com:tricknotes/starseeker.git
 $ cd starseeker
 $ bundle install
