@@ -21,10 +21,10 @@ atom_feed do |feed|
         #{content_tag('ul') do
           events.map do |event|
             content_tag('li') do
-              link_to(
-                image_tag(event['actor']['avatar_url'], size: '20x20'),
-                github_url(event['actor']['login'])
-              )
+              link_to(github_url(event['actor']['login'])) do
+                image_tag(event['actor']['avatar_url'], size: '20x20') +
+                  event['actor']['login']
+              end
             end
           end.join.html_safe
         end}
