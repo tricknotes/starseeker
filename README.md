@@ -2,10 +2,15 @@
 
 http://starseeker.so
 
+## Requirements
+
+* Ruby    (~> 2.0.0)
+* MongoDB (>= 2.2.0)
+* Bundler (>= 1.3.0)
+
 ## Setup
 
 ``` sh
-$ brew install mongodb
 $ git clone git://github.com:tricknotes/starseeker.git
 $ cd starseeker
 $ bundle install
