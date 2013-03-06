@@ -31,8 +31,7 @@ gem 'haml-rails'
 gem 'haml', '~> 3.0' # haml 4.0.0 doesn't work with sass-rails 4.0.0.beta (It will be fixed on haml 4.0.1)
 gem 'roadie', github: 'Mange/roadie'
 
-gem 'sorcery'
-gem 'protected_attributes'
+gem 'sorcery', github: 'NoamB/sorcery'
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
 gem 'octokit'
