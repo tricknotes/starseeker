@@ -7,7 +7,7 @@ class Repository
     def fetch(repo_name)
       repo = Settings.github_client.repo(repo_name)
       new(repo.to_hash)
-    rescue Octokit::NotFound
+    rescue Octokit::NotFound, Octokit::Forbidden
       nil
     end
 
