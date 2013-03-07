@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
   attr_accessor :github_client
 
+  MAX_FOLLOWER_PAGE_COUNT = 50
+
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
   scope :newly, -> { order('created_at DESC') }
 
@@ -53,10 +55,8 @@ class User < ActiveRecord::Base
   def followings
     return @followings if @followings
 
-    max_page = 50
-
     @followings = []
-    (1..max_page).each do |page|
+    (1..MAX_FOLLOWER_PAGE_COUNT).each do |page|
       followings_in_one_page = github_client.following(username, page: page)
       break if followings_in_one_page.empty?
       @followings += followings_in_one_page
