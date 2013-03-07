@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   def followings
     return @followings if @followings
 
-    max_page = 10
+    max_page = 50
 
     @followings = []
     (1..max_page).each do |page|
