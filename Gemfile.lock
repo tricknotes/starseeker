@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: c2170560124b95c11f03f0753b0b9cc89ff80719
+  revision: 0185f9bae41ede6974d0689328f8fd47627bde56
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0.0.beta)
@@ -58,7 +58,7 @@ GEM
     arel (4.0.0.beta1)
     atomic (1.0.1)
     bcrypt-ruby (3.0.1)
-    better_errors (0.7.0)
+    better_errors (0.7.2)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
@@ -183,7 +183,7 @@ GEM
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
     rubyzip (0.9.9)
-    sass (3.2.6)
+    sass (3.2.7)
     sass-rails (4.0.0.beta1)
       railties (>= 4.0.0.beta, < 5.0)
       sass (>= 3.1.10)
@@ -208,7 +208,7 @@ GEM
     thor (0.17.0)
     thread_safe (0.1.0)
       atomic
-    tilt (1.3.4)
+    tilt (1.3.5)
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
