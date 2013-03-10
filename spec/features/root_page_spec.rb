@@ -43,3 +43,29 @@ feature 'Root page' do
     end
   end
 end
+
+feature 'Members list in root page' do
+  given!(:user) { create(:user) }
+
+  context 'With email sendable user' do
+    background do
+      user.activate!
+    end
+
+    scenario 'Page has link to member' do
+      visit root_path
+      within('#members') do
+        page.should have_css('img[title=USER]')
+      end
+    end
+  end
+
+  context 'Without email sendable user' do
+    scenario 'Page has no link to no-member' do
+      visit root_path
+      within('#members') do
+        page.should have_no_css('img[title=USER]')
+      end
+    end
+  end
+end

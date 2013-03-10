@@ -3,6 +3,7 @@ FactoryGirl.define do
     username 'USER'
     name 'starseeker user'
     email 'user@starseeker.so'
+    subscribe true
     activation_state 'active'
   end
 

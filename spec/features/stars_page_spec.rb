@@ -4,8 +4,10 @@ feature 'Stars page' do
   given!(:user) { create(:user) }
 
   background do
+    user.activate!
     stub_star_event!(actor: {login: user.username}, repo: {name: 'github/octocat'})
     stub_repository!('github/octocat', watchers_count: 25)
+
     visit root_path
   end
 
