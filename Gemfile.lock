@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: 0185f9bae41ede6974d0689328f8fd47627bde56
+  revision: 1b58027bdf57b80abb6c07cbb2de5e661215e663
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0.0.beta)
@@ -103,7 +103,8 @@ GEM
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
     ffi (1.4.0)
-    haml (3.1.8)
+    haml (4.0.1.rc.1)
+      tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
       activesupport (>= 3.1, < 4.1)
@@ -233,7 +234,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.0.0.beta1)
   factory_girl_rails
-  haml (~> 3.0)
+  haml (~> 4.0.1.rc1)
   haml-rails
   jquery-rails
   mongoid!
