@@ -3,7 +3,7 @@ require "#{Rails.root}/config/environment"
 desc 'Update account info with github.com'
 task :update_account_info do
   User.all.each do |user|
-    puts "Fetch user info about \033[36m%s\033[39m..." % user.username
+    puts "Fetch user info about \033[36m%s\033[39m..." % [user.username]
     begin
       user_info = user.github_client.user
     rescue => e
