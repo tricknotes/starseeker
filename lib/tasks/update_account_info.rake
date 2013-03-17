@@ -6,6 +6,9 @@ task :update_account_info do
     puts "Fetch user info about \033[36m%s\033[39m..." % [user.username]
     begin
       user_info = user.github_client.user
+    rescue Octokit::Unauthorized
+      puts "User \033[33m%s\033[39m is unauthorized." % [user.username]
+      next
     rescue => e
       # TODO Notify error to admin
       $stderr.puts ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
