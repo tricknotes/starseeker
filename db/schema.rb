@@ -17,16 +17,16 @@ ActiveRecord::Schema.define(version: 20121218161129) do
     t.integer  "user_id",    null: false
     t.string   "provider",   null: false
     t.string   "uid",        null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "token"
   end
 
   create_table "users", force: true do |t|
     t.string   "username",                                   null: false
     t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "name"
     t.string   "avatar_url"
     t.boolean  "subscribe",                   default: true
