@@ -8,6 +8,7 @@ http://starseeker.so
 
 * Ruby    (~> 2.0.0)
 * MongoDB (>= 2.2.0)
+* Redis   (>= 2.6.0)
 * Bundler (>= 1.3.0)
 
 ## Setup
