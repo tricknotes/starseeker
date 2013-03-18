@@ -12,6 +12,8 @@ defaults: &defaults
     authentication: :plain
     user_name: <%= ENV['SENDGRID_USERNAME'] %>
     password: <%= ENV['SENDGRID_PASSWORD'] %>
+  redis:
+    url: <%= ENV['REDIS_URL'] %>
 
 development:
   <<: *defaults
