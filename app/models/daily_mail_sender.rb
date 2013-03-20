@@ -10,13 +10,6 @@ module DailyMailSender
   class << self
     attr_accessor :logger
 
-    def redis
-      @redis ||= begin
-        uri = URI.parse(Settings.redis.url)
-        Redis.new(host: uri.host, port: uri.port, password: uri.password)
-      end
-    end
-
     def schedule(users)
       statuses = users.flat_map {|user| [user.id, Status::SCHEDULED] }
 
@@ -58,6 +51,13 @@ module DailyMailSender
     end
 
     private
+
+    def redis
+      @redis ||= begin
+        uri = URI.parse(Settings.redis.url)
+        Redis.new(host: uri.host, port: uri.port, password: uri.password)
+      end
+    end
 
     def scheduled_users
       user_ids = redis.hkeys(TABLE_NAME)
