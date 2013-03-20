@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :user do
     username 'USER'
     name 'starseeker user'
-    email 'user@starseeker.so'
+    sequence(:email) {|i| "user-#{i}@starseeker.so" }
     subscribe true
     activation_state 'active'
   end
