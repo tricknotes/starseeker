@@ -16,6 +16,7 @@ module DailyMailSender
       redis.hmset TABLE_NAME, *statuses
     end
 
+    # XXX Extract sub function...
     def send_mail_to_scheduled_users
       scheduled_users.each do |user|
         # TODO Enable transaction
@@ -50,6 +51,15 @@ module DailyMailSender
       end
     end
 
+    def clear!
+      redis.del TABLE_NAME
+    end
+
+    def scheduled_users
+      user_ids = redis.hkeys(TABLE_NAME)
+      User.find(user_ids)
+    end
+
     private
 
     def redis
@@ -57,11 +67,6 @@ module DailyMailSender
         uri = URI.parse(Settings.redis.url)
         Redis.new(host: uri.host, port: uri.port, password: uri.password)
       end
-    end
-
-    def scheduled_users
-      user_ids = redis.hkeys(TABLE_NAME)
-      User.find(user_ids)
     end
 
     def status_for_user(user)
