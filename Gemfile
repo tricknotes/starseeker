@@ -28,7 +28,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'haml', '~> 4.0.1.rc1'
+gem 'haml'
 gem 'roadie', github: 'Mange/roadie'
 
 gem 'sorcery', github: 'NoamB/sorcery'
