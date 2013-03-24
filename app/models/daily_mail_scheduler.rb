@@ -16,13 +16,13 @@ module DailyMailScheduler
       redis.hmset TABLE_NAME, *statuses
     end
 
-    # XXX Extract sub function...
     def send_mail_to_scheduled_users
+      # TODO Use thread
       scheduled_users.each do |user|
-        # TODO Enable transaction
+        # TODO Use transaction
         case status_for_user(user)
         when Status::SCHEDULED, Status::FAILED
-          start_processing(user)
+          start_processing user
 
           label = '%s(%s)' % [user.username, user.email]
 
@@ -57,6 +57,7 @@ module DailyMailScheduler
 
     def scheduled_users
       user_ids = redis.hkeys(TABLE_NAME)
+
       User.find(user_ids)
     end
 
