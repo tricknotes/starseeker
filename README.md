@@ -39,7 +39,12 @@ $ rails server
 
 ## Tasks
 
-Send daily hot repositories mail:
+Schedule users as to be sent mail:
+``` sh
+$ rake schedule_sending_hot_repositories
+```
+
+Send daily hot repositories mail to scheduled users:
 ``` sh
 $ rake send_hot_repositories
 ```
@@ -49,10 +54,15 @@ Refresh repository data for chache:
 $ rake fetch_repositories
 ```
 
+Update user account info:
+``` sh
+$ rake update_account_info
+```
+
 ## Test
 
 ``` sh
-$ rake spec
+$ rake
 ```
 
 ## License
