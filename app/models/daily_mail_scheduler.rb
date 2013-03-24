@@ -1,4 +1,4 @@
-module DailyMailSender
+module DailyMailScheduler
   TABLE_NAME = 'users_to_be_sent_email'
 
   module Status

@@ -4,5 +4,5 @@ desc 'Schedule sending hot repositories mail'
 task :schedule_sending_hot_repositories do
   users = User.email_sendables
 
-  DailyMailSender.schedule(users)
+  DailyMailScheduler.schedule(users)
 end

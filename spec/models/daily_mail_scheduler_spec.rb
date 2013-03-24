@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DailyMailSender do
+describe DailyMailScheduler do
   let!(:user) { create(:user, authentications: [build(:github)]) }
 
   # TODO I want to use `around`. But it doesn't warks... Hmm :<
@@ -21,7 +21,7 @@ describe DailyMailSender do
     let(:logger) { Logger.new(io) }
 
     before do
-      subject.logger, @original = logger, DailyMailSender.logger
+      subject.logger, @original = logger, DailyMailScheduler.logger
     end
 
     after do
