@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: e10f5ca2ceba7d9ea4697563ddbea3d380d65f6e
+  revision: ca203de752146cc4609f87b372c23e87ddfa6295
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0.0.beta)
@@ -125,11 +125,11 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.21)
     minitest (4.7.0)
-    moped (1.4.3)
-    multi_json (1.7.1)
+    moped (1.4.4)
+    multi_json (1.7.2)
     multipart-post (1.2.0)
     netrc (0.7.7)
-    nokogiri (1.5.8)
+    nokogiri (1.5.9)
     oauth (0.4.7)
     oauth2 (0.8.1)
       faraday (~> 0.8)
