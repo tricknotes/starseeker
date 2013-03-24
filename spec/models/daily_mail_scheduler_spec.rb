@@ -3,8 +3,11 @@ require 'spec_helper'
 describe DailyMailScheduler do
   let!(:user) { create(:user, authentications: [build(:github)]) }
 
-  # TODO I want to use `around`. But it doesn't warks... Hmm :<
   before do
+    subject.clear!
+  end
+
+  after do
     subject.clear!
   end
 
