@@ -36,6 +36,8 @@ gem 'mongoid', github: 'mongoid/mongoid'
 gem 'bson_ext'
 gem 'octokit'
 
+gem 'redis'
+
 group :development do
   gem 'quiet_assets'
   gem 'better_errors'
