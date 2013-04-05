@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Mange/roadie.git
-  revision: d4be3ccdde50397b662bc933ee602ca29a5149a0
+  revision: 2949447b0109034a1e99353b23a6b9f210aa0926
   specs:
     roadie (2.3.4)
       actionmailer (> 3.0.0, < 5.0.0)
@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: b3e7a8b6c526e1cdf14dbbbbca6ca7b05f7580f9
+  revision: 93284ce6e1f658c3f57076af9a8e5dce96082dbb
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0.0.beta)
@@ -56,9 +56,9 @@ GEM
       tzinfo (~> 0.3.33)
     addressable (2.3.3)
     arel (4.0.0.beta2)
-    atomic (1.0.2)
+    atomic (1.1.0)
     bcrypt-ruby (3.0.1)
-    better_errors (0.7.2)
+    better_errors (0.8.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
