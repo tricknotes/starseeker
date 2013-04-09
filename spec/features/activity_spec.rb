@@ -14,7 +14,7 @@ feature 'Activity' do
   scenario 'Daily Hot Repositories' do
     click_link 'Hot repositories'
 
-    page.should have_title('Daily hot repositories')
+    page.should have_caption('Daily hot repositories')
     page.should have_link('[News Feed]')
     page.should have_list('DIO/the-world [21]')
   end

@@ -16,7 +16,7 @@ feature 'Stars page' do
       click_link('') # click avatar image
     end
 
-    page.should have_title('USER')
+    page.should have_caption('USER')
     page.should have_sub_title('Repositories USER starred recently:')
     page.should have_list('github/octocat')
     page.should have_list('[25]')

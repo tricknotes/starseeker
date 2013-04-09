@@ -1,4 +1,4 @@
-RSpec::Matchers.define :have_title do |text|
+RSpec::Matchers.define :have_caption do |text|
   match do |page|
     within('#content') do
       page.has_css?('h1', text: text)

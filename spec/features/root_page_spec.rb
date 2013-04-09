@@ -39,7 +39,7 @@ feature 'Root page' do
       end
 
       page.should have_flash('Please setup your email.')
-      page.should have_title('Editing your email')
+      page.should have_caption('Editing your email')
     end
   end
 end

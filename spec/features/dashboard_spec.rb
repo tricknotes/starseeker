@@ -18,7 +18,7 @@ feature 'Dashboard' do
   scenario 'Visit Dashboard' do
     click_link 'dashboard'
 
-    page.should have_title('starseeker user')
+    page.should have_caption('starseeker user')
     page.should have_content('user@starseeker.so')
     page.should have_sub_title('Repositories you starred recently:')
     page.should have_css('.starred_repos_by_user li', text: 'github/octocat')
@@ -33,12 +33,12 @@ feature 'Dashboard' do
     page.should have_content('(Not verified yet.)')
     click_link 'Edit email'
 
-    page.should have_title('Editing your email')
+    page.should have_caption('Editing your email')
     fill_in('Email', with: 'jyotaro@jo.jo')
     check('Subscribe')
     click_button 'Save'
 
-    page.should have_title('starseeker user')
+    page.should have_caption('starseeker user')
     page.should have_flash('Send email to your address.')
     page.should have_content('(Not verified yet.)')
 
