@@ -36,6 +36,6 @@ module ApplicationHelper
   end
 
   def html_title_about_user(user)
-    user.username + (user.name ? (' (%s)' % user.name) : '')
+    user.username + (user.name.present? ? (' (%s)' % user.name) : '')
   end
 end
