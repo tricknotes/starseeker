@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: git://github.com/NoamB/sorcery.git
-  revision: bacf0c16b82f85604ee019a45ef7728408f190d1
+  revision: 38ada032ed6a0ca4e4b53516c14b3e3cb4f80c0c
   specs:
     sorcery (0.8.1)
       bcrypt-ruby (~> 3.0.0)
@@ -121,7 +121,7 @@ GEM
     mime-types (1.23)
     minitest (4.7.4)
     moped (1.5.0)
-    multi_json (1.7.6)
+    multi_json (1.7.7)
     multipart-post (1.2.0)
     netrc (0.7.7)
     nokogiri (1.5.10)
