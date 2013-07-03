@@ -32,7 +32,7 @@ gem 'haml'
 gem 'roadie', github: 'Mange/roadie'
 
 gem 'sorcery', github: 'NoamB/sorcery'
-gem 'mongoid', github: 'mongoid/mongoid'
+gem 'mongoid', github: 'mongoid/mongoid', ref: 'fe7f43430580860db6d1d89cea27eda24ab60ab1'
 gem 'bson_ext'
 gem 'octokit'
 
