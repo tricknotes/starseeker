@@ -9,7 +9,7 @@ class UserMailer < ActionMailer::Base
   def activation_needed_email(user)
     @user = user
     @url  = activate_url(user.activation_token, host: Settings.host)
-    mail to: user.email, subject: 'Verify your email'
+    mail to: user.email, subject: '[starseeker] Verify your email'
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -20,6 +20,6 @@ class UserMailer < ActionMailer::Base
   def activation_success_email(user)
     @user = user
     @url  = auth_at_provider_url(provider: :github, host: Settings.host)
-    mail to: user.email, subject: 'Succeeded your email verification'
+    mail to: user.email, subject: '[starseeker] Succeeded your email verification'
   end
 end
