@@ -7,7 +7,7 @@ describe MyHotRepository do
     subject { MyHotRepository.notify(user) }
 
     before do
-      user.stub!(:followings).and_return([{'login' => 'Buccellati'}])
+      user.stub(:followings).and_return([{'login' => 'Buccellati'}])
 
       stub_star_event!(actor: {login: 'Buccellati'}, repo: {name: 'Giorno/gold-experience'})
       stub_repository!(
