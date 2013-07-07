@@ -44,7 +44,7 @@ feature 'Dashboard' do
 
     mail = ActionMailer::Base.deliveries.first
     mail.to.should eq(['jyotaro@jo.jo'])
-    mail.subject.should eq('Verify your email')
+    mail.subject.should eq('[starseeker] Verify your email')
     mail.body.should match('Welcome to starseeker, USER')
 
     stub_login!(user)

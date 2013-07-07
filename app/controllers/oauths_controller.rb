@@ -15,8 +15,7 @@ class OauthsController < ApplicationController
         User.transaction do
           @user = create_from(provider)
           auth = @user.authentications.find_by(provider: provider)
-          auth.token = @access_token.token
-          auth.save!
+          auth.update_column :token, token_from_credential
         end
 
         if @user.email?
@@ -39,5 +38,12 @@ class OauthsController < ApplicationController
         redirect_to settings_email_path, notice: "Please setup your email."
       end
     end
+  end
+
+  private
+
+  # XXX This method is used in test for stub access_token. I want to remove this approach.
+  def token_from_credential
+    @access_token.token
   end
 end
