@@ -42,6 +42,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'tapp', groups: %w(test)
+  gem 'letter_opener'
 end
 gem 'puma', require: false
 

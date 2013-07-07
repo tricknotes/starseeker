@@ -95,6 +95,10 @@ GEM
       thor (>= 0.14, < 2.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
+    launchy (2.3.0)
+      addressable (~> 2.3)
+    letter_opener (1.1.2)
+      launchy (~> 2.2)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -210,6 +214,7 @@ DEPENDENCIES
   factory_girl_rails
   haml-rails
   jquery-rails
+  letter_opener
   mongoid!
   octokit
   pg
