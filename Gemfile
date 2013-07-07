@@ -41,6 +41,7 @@ group :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'tapp', groups: %w(test)
 end
 gem 'puma', require: false
 

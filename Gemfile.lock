@@ -182,6 +182,8 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.7)
+    tapp (1.4.0)
+      thor
     thor (0.18.1)
     thread_safe (0.1.0)
       atomic
@@ -221,4 +223,5 @@ DEPENDENCIES
   settingslogic
   sorcery
   sqlite3
+  tapp
   uglifier (>= 1.3.0)
