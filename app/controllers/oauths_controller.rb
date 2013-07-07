@@ -15,7 +15,7 @@ class OauthsController < ApplicationController
         User.transaction do
           @user = create_from(provider)
           auth = @user.authentications.find_by(provider: provider)
-          auth.token = token_from_credential(provider)
+          auth.token = @access_token.token
           auth.save!
         end
 
@@ -39,11 +39,5 @@ class OauthsController < ApplicationController
         redirect_to settings_email_path, notice: "Please setup your email."
       end
     end
-  end
-
-  private
-
-  def token_from_credential(provider)
-    Sorcery::Controller::Config.send(provider).access_token.token
   end
 end
