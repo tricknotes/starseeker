@@ -1,5 +1,5 @@
 - @title = 'Daily hot repositories'
-- private_feed = feed_url(username: @user.username, format: 'atom', token: @user.feed_token, host: Settings.host)
+- private_feed = feed_url(username: @user.username, format: 'atom', token: @user.feed_token)
 
 = content_for :head do
   %link{href: private_feed, rel: 'alternate', title: 'ATOM', type: 'application/atom+xml'}

@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_needed_email(user)
     @user = user
-    @url  = activate_url(user.activation_token, host: Settings.host)
+    @url  = activate_url(user.activation_token)
     mail to: user.email, subject: '[starseeker] Verify your email'
   end
 
@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_success_email(user)
     @user = user
-    @url  = auth_at_provider_url(provider: :github, host: Settings.host)
+    @url  = auth_at_provider_url(provider: :github)
     mail to: user.email, subject: '[starseeker] Succeeded your email verification'
   end
 end

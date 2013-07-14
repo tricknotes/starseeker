@@ -28,7 +28,7 @@ module ApplicationHelper
       [user['login'], gravatar_url(user['gravatar_id'])]
     end
 
-    image_tag(avatar_url, size: size, title: username, alt: username)
+    tag('img', src: avatar_url, title: username, alt: username, width: size, height: size)
   end
 
   def image_link_to_github_url_from_event(event)
