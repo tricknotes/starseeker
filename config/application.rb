@@ -26,9 +26,6 @@ module Starseeker
     # like if you have constraints or database-specific column types.
     # config.active_record.schema_format = :sql
 
-    # Enable the asset pipeline.
-    config.assets.enabled = true
-
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
