@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
   #
   def activation_success_email(user)
     @user = user
-    @url  = auth_at_provider_url(provider: :github)
+    @url  = "#{Settings.base_url}/auth/github"
     mail to: user.email, subject: '[starseeker] Succeeded your email verification'
   end
 end

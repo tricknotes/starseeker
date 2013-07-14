@@ -1,17 +1,20 @@
 module LoginHelper
   def stub_login!(user)
-    # Stub '#login_at' in '/oauth/:provider'
-    override_once(OauthsController, :login_at) do |provider|
-      redirect_to action: :callback, provider: provider
-    end
+    authentication = user.authentications.first
 
-    # Stub `#login_from` in '/oauth/callback'
-    override_once(OauthsController, :login_from) do |provider|
-      auto_login(user)
-      after_login!(user)
-
-      user
-    end
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
+      provider: 'github',
+      uid:      authentication.uid,
+      info: {
+        nickname: user.username,
+        email:    user.email,
+        name:     user.name,
+        image:    user.avatar_url
+      },
+      credentials: {
+        token: authentication.token
+      }
+    )
   end
 
   def login_as(user)
@@ -24,6 +27,8 @@ module LoginHelper
   end
 
   def stub_signup!(user)
+    pending ':innocent:'
+
     # Stub '#login_at' in '/oauth/:provider'
     override_once(OauthsController, :login_at) do |provider|
       redirect_to action: :callback, provider: provider

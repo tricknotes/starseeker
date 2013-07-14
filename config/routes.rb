@@ -13,8 +13,7 @@ Starseeker::Application.routes.draw do
 
   get 'hot_repositories' => 'activities#starring', as: :hot_repositories
 
-  get 'oauth/callback' => 'oauths#callback'
-  get 'oauth/:provider' => 'oauths#oauth', as: :auth_at_provider
+  get 'auth/:provider/callback', to: 'oauths#callback' # TODO Rename action
 
   root to: 'root#index'
 

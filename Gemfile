@@ -30,7 +30,8 @@ gem 'jquery-rails'
 gem 'haml-rails'
 # gem 'roadie' # XXX Temporary disabled
 
-gem 'sorcery'
+gem 'omniauth'
+gem 'omniauth-github'
 gem 'mongoid', github: 'mongoid/mongoid', ref: 'fe7f43430580860db6d1d89cea27eda24ab60ab1'
 gem 'bson_ext'
 gem 'octokit'

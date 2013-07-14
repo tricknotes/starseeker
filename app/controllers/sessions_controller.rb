@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_filter :require_login, only: %w(activate)
 
   def activate
-    @user = User.load_from_activation_token(params[:activation_token])
+    @user = User.find_by_activation_token(params[:activation_token])
 
     if @user
       @user.activate!

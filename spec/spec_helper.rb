@@ -42,3 +42,5 @@ RSpec.configure do |config|
   # Enable to use shortcut for using factory girl.
   config.include FactoryGirl::Syntax::Methods
 end
+
+OmniAuth.config.test_mode = true

@@ -1,31 +1,36 @@
 class OauthsController < ApplicationController
   skip_before_filter :require_login
 
-  def oauth
-    login_at(params[:provider])
-  end
-
   def callback
-    provider = params[:provider]
+    provider = auth_hash[:provider]
+    uid      = auth_hash['uid']
 
-    if @user = login_from(provider)
+    if @user = User.find_by_uid(uid)
+      store_user @user
+
       redirect_to dashboard_path
     else
       begin
-        User.transaction do
-          @user = create_from(provider)
-          auth = @user.authentications.find_by(provider: provider)
-          auth.update_column :token, token_from_credential
-        end
+        @user = User.new(
+          username:   auth_hash['info']['nickname'],
+          email:      auth_hash['info']['email'],
+          name:       auth_hash['info']['name'],
+          avatar_url: auth_hash['info']['image']
+        )
+        @user.authentications.build(
+          provider: provider,
+          uid:      uid,
+          token:    auth_hash['credentials']['token']
+        )
+        @user.save!
 
         if @user.email?
           UserMailer.activation_needed_email(@user).deliver
         end
 
-        # NOTE: this is the place to add '@user.activate!' if you are using user_activation submodule
-
         reset_session # protect from session fixation attack
-        auto_login(@user)
+
+        store_user @user
       rescue => e
         logger.error ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
         redirect_to root_path, alert: "Failed to login from #{provider.titleize}. Wait a minutes and try again."
@@ -42,8 +47,7 @@ class OauthsController < ApplicationController
 
   private
 
-  # XXX This method is used in test for stub access_token. I want to remove this approach.
-  def token_from_credential
-    @access_token.token
+  def auth_hash
+    request.env['omniauth.auth']
   end
 end
