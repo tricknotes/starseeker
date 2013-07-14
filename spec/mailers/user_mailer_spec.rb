@@ -24,7 +24,7 @@ describe UserMailer do
     end
 
     it 'should contains login url' do
-      subject.body.should match(URI.join(Settings.base_url, '/oauth/github').to_s)
+      subject.body.should match(URI.join(Settings.base_url, '/auth/github').to_s)
     end
   end
 end
