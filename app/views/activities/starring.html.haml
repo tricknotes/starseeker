@@ -2,7 +2,7 @@
 - private_feed = feed_url(username: @user.username, format: 'atom', token: @user.feed_token)
 
 = content_for :head do
-  %link{href: private_feed, rel: 'alternate', title: 'ATOM', type: 'application/atom+xml'}
+  = auto_discovery_link_tag :atom, private_feed
 
 %h1
   Daily hot repositories
