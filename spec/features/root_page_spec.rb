@@ -23,13 +23,19 @@ feature 'Root page' do
       page.should have_link('Logout')
       page.should have_link('Let\'s go on a journey to seek for your stars!')
     end
+
+    scenario 'Logout' do
+      click_link 'Logout'
+
+      page.should have_flash('Logged out.')
+    end
   end
 
   context 'Without account' do
     given!(:user) { build(:user, authentications: [build(:github)], email: nil) }
 
     background do
-      stub_signup!(user)
+      stub_login!(user)
     end
 
     scenario 'Signup' do

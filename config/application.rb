@@ -38,9 +38,7 @@ module Starseeker
     # config.i18n.default_locale = :de
 
     config.before_initialize do
-      config.action_mailer.default_url_options = {
-        host: Settings.host
-      }
+      config.action_mailer.default_url_options = Settings.url_options
     end
   end
 end

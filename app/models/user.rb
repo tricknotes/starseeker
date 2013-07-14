@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  authenticates_with_sorcery!
   attr_accessor :github_client
 
   MAX_FOLLOWER_PAGE_COUNT = 50
@@ -30,6 +29,14 @@ class User < ActiveRecord::Base
         user.avatar_url = github_user.avatar_url
       }
     end
+
+    def find_by_uid(uid)
+      auth = Authentication.find_by(uid: uid, provider: :github)
+
+      return unless auth
+
+      auth.user
+    end
   end
 
   def access_token
@@ -42,6 +49,13 @@ class User < ActiveRecord::Base
 
   def active?
     'active' == activation_state
+  end
+
+  def activate!
+    update!(
+      activation_token: nil,
+      activation_state: 'active'
+    )
   end
 
   def star_events_by_followings_with_me

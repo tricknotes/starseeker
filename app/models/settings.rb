@@ -3,12 +3,11 @@ class Settings < Settingslogic
   source "#{Rails.root}/config/settings.yml.default"
   namespace Rails.env
 
-  def host
-    @host ||= if uri.default_port == uri.port
-      uri.host
-    else
-      '%s:%d' % [uri.host, uri.port]
-    end
+  def url_options
+    {
+      host: uri.host,
+      port: uri.default_port == uri.port ? nil : uri.port
+    }
   end
 
   def github_client
