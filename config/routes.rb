@@ -13,14 +13,13 @@ Starseeker::Application.routes.draw do
 
   get 'hot_repositories' => 'activities#starring', as: :hot_repositories
 
-  get 'auth/:provider/callback', to: 'oauths#callback' # TODO Rename action
-
   root to: 'root#index'
 
   get 'stars/:username' => 'stars#index', as: 'stars'
 
   get 'stars/:username.private.:format' => 'activities#feed', as: 'feed'
 
+  get 'auth/:provider/callback', to: 'sessions#create'
   get 'sessions/activate/:activation_token' => 'sessions#activate', as: 'activate'
   delete 'logout' => 'sessions#destroy'
 
