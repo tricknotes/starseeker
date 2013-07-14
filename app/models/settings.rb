@@ -23,6 +23,6 @@ class Settings < Settingslogic
 
   private
   def uri
-    @uri ||= URI.parse(self.base_url)
+    @uri ||= URI.parse(self.base_url.to_s)
   end
 end
