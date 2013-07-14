@@ -34,6 +34,10 @@ RSpec.configure do |config|
     clear_mail_box
   end
 
+  config.after :each do
+    OmniAuth.config.mock_auth.delete :github
+  end
+
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
