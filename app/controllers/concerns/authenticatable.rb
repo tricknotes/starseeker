@@ -23,4 +23,8 @@ module Authenticatable
   def logged_in?
     !!current_user
   end
+
+  def logout
+    reset_session
+  end
 end

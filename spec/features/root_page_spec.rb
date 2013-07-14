@@ -23,6 +23,12 @@ feature 'Root page' do
       page.should have_link('Logout')
       page.should have_link('Let\'s go on a journey to seek for your stars!')
     end
+
+    scenario 'Logout' do
+      click_link 'Logout'
+
+      page.should have_flash('Logged out.')
+    end
   end
 
   context 'Without account' do
