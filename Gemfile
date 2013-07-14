@@ -28,7 +28,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
-# gem 'roadie' # XXX Temporary disabled
+gem 'roadie'
 
 gem 'omniauth'
 gem 'omniauth-github'
