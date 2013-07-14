@@ -28,7 +28,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'roadie'
+# gem 'roadie' # XXX Temporary disabled
 
 gem 'sorcery'
 gem 'mongoid', github: 'mongoid/mongoid', ref: 'fe7f43430580860db6d1d89cea27eda24ab60ab1'

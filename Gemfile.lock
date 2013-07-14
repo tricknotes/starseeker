@@ -63,8 +63,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    css_parser (1.3.4)
-      addressable
     debug_inspector (0.0.2)
     diff-lcs (1.2.4)
     erubis (2.7.0)
@@ -150,11 +148,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.1.0)
     redis (3.0.4)
-    roadie (2.4.1)
-      actionmailer (> 3.0.0, < 5.0.0)
-      css_parser (~> 1.3.4)
-      nokogiri (> 1.5.0, < 1.7.0)
-      sprockets
     rspec-core (2.14.0)
     rspec-expectations (2.14.0)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -222,7 +215,6 @@ DEPENDENCIES
   quiet_assets
   rails (~> 4.0.0)
   redis
-  roadie
   rspec-rails
   sass-rails (~> 4.0.0)
   settingslogic
