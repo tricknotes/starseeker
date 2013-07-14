@@ -29,7 +29,7 @@ feature 'Root page' do
     given!(:user) { build(:user, authentications: [build(:github)], email: nil) }
 
     background do
-      stub_signup!(user)
+      stub_login!(user)
     end
 
     scenario 'Signup' do
