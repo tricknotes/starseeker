@@ -70,10 +70,11 @@ class User < ActiveRecord::Base
     return @followings if @followings
 
     @followings = []
+
     (1..MAX_FOLLOWER_PAGE_COUNT).each do |page|
       followings_in_one_page = github_client.following(username, page: page)
-      break if followings_in_one_page.empty?
       @followings += followings_in_one_page
+      break if Octokit.per_page > followings_in_one_page.count
     end
 
     @followings
