@@ -6,7 +6,7 @@ feature 'Activity' do
   background do
     User.any_instance.stub(:followings).and_return([{'login' => 'Jeseph'}])
     stub_star_event!(actor: {login: 'Jeseph'}, repo: {name: 'DIO/the-world'})
-    stub_repository!('DIO/the-world', watchers_count: 21)
+    stub_repository!('DIO/the-world', watchers_count: 21, language: 'Stand')
 
     login_as(user)
   end
@@ -17,6 +17,7 @@ feature 'Activity' do
     page.should have_caption('Daily hot repositories')
     page.should have_link('[News Feed]')
     page.should have_list('DIO/the-world [21]')
+    page.should have_link('#Stand')
   end
 
   scenario 'News Feed' do

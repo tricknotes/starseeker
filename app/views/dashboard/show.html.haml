@@ -22,6 +22,8 @@
       %span.repo_name
         = link_to_repo repo.full_name
       = link_to_stargazers(repo)
+      %span.language
+        = link_to_language repo
       %span.starred_at
         = time_ago_in_words star_event.created_at
       %div
@@ -38,6 +40,8 @@
       %span.repo_name
         = link_to_repo repo_name
       = link_to_stargazers(repo)
+      %span.language
+        = link_to_language repo
       %span.stargazers
         - events.each do |event|
           = image_link_to_github_url_from_event(event)

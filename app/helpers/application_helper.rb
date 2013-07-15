@@ -11,6 +11,10 @@ module ApplicationHelper
     link_to repo_name, github_url(repo_name)
   end
 
+  def link_to_language(repo)
+    link_to "##{repo.language}", github_url('languages', repo.language)
+  end
+
   def link_to_stargazers(repo)
     link_to('[%d]' % repo.stargazers_count, github_url(repo.full_name, 'stargazers'))
   end
