@@ -12,6 +12,8 @@ module ApplicationHelper
   end
 
   def link_to_language(repo)
+    return '' unless repo.language
+
     link_to "##{repo.language}", github_url('languages', repo.language)
   end
 
