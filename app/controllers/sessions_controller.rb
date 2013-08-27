@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
         store_user @user
       rescue => e
         logger.error ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
-        redirect_to root_path, alert: "Failed to login from #{provider.titleize}. Wait a minutes and try again."
+        redirect_to root_path, alert: "Failed to login from #{provider.titleize}. Wait a minute and try again."
         return
       end
 
