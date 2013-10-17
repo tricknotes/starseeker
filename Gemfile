@@ -34,7 +34,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'mongoid', github: 'mongoid/mongoid', ref: 'fe7f43430580860db6d1d89cea27eda24ab60ab1'
 gem 'bson_ext'
-gem 'octokit'
+gem 'octokit', '~> 1.25' # Octokit 2.x couldn't treat response as JSON.
 
 gem 'redis'
 
