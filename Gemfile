@@ -4,7 +4,7 @@ ruby '2.0.0'
 
 # Bundle edge Rails instead:
 # # gem 'rails', github: 'rails/rails'-
-gem 'rails', '~> 4.0.0'
+gem 'rails', '~> 4.0.1.rc1'
 
 # for local
 gem 'sqlite3', groups: %w(test development), require: false
