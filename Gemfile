@@ -24,7 +24,7 @@ gem 'settingslogic'
 
 gem 'jquery-rails'
 gem 'haml-rails'
-gem 'roadie'
+gem 'roadie', '3.0.0.pre1'
 
 gem 'omniauth'
 gem 'omniauth-github'
