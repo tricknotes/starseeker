@@ -157,9 +157,11 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.1.0)
     redis (3.0.6)
-    roadie (3.0.0.pre1)
+    roadie (2.4.3)
+      actionmailer (> 3.0.0, < 5.0.0)
       css_parser (~> 1.3.4)
-      nokogiri (~> 1.6.0)
+      nokogiri (> 1.5.0)
+      sprockets
     rspec-core (2.14.7)
     rspec-expectations (2.14.4)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -225,7 +227,7 @@ DEPENDENCIES
   quiet_assets
   rails (~> 4.0.1.rc1)
   redis
-  roadie (= 3.0.0.pre1)
+  roadie
   rspec-rails
   sass-rails (~> 4.0.0)
   settingslogic
