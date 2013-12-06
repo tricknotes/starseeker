@@ -44,9 +44,6 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bson (1.9.2)
-    bson_ext (1.9.2)
-      bson (~> 1.9.2)
     builder (3.1.4)
     capybara (2.2.0)
       mime-types (>= 1.16)
@@ -135,7 +132,7 @@ GEM
     origin (1.1.0)
     pg (0.17.0)
     polyglot (0.3.3)
-    puma (2.7.0)
+    puma (2.7.1)
       rack (>= 1.1, < 2.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
@@ -211,7 +208,6 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  bson_ext
   capybara
   coffee-rails (~> 4.0.0)
   factory_girl_rails

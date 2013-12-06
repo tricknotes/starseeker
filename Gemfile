@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.0'
 
 # Bundle edge Rails instead:
 # # gem 'rails', github: 'rails/rails'-
@@ -29,7 +29,6 @@ gem 'roadie'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'mongoid', github: 'mongoid/mongoid', ref: 'fe7f43430580860db6d1d89cea27eda24ab60ab1'
-gem 'bson_ext'
 gem 'octokit', '~> 1.25' # Octokit 2.x couldn't treat response as JSON.
 
 gem 'redis'
