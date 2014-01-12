@@ -31,7 +31,7 @@ module ApplicationHelper
     username, avatar_url = if user.is_a?(User)
       [user.username, user.avatar_url]
     else
-      [user['login'], gravatar_url(user['gravatar_id'])]
+      user.values_at('login', 'avatar_url')
     end
 
     image_tag(avatar_url, title: username, alt: username, size: size)
