@@ -1,8 +1,4 @@
 module ApplicationHelper
-  def gravatar_url(gravatar_id)
-    "https://secure.gravatar.com/avatar/#{gravatar_id}?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png"
-  end
-
   def github_url(*name)
     "https://github.com/#{name.join('/')}"
   end
@@ -31,7 +27,7 @@ module ApplicationHelper
     username, avatar_url = if user.is_a?(User)
       [user.username, user.avatar_url]
     else
-      [user['login'], gravatar_url(user['gravatar_id'])]
+      user.values_at('login', 'avatar_url')
     end
 
     image_tag(avatar_url, title: username, alt: username, size: size)
