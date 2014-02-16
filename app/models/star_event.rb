@@ -1,14 +1,19 @@
 class StarEvent
   include Mongoid::Document
-  self.default_collection_name = 'watch_events'
-  default_scope where(type: 'WatchEvent')
+  include Mongoid::Attributes::Dynamic
+
+  def self.collection_name
+    'watch_events'
+  end
 
   DATETIME_FORMAT = '%Y-%m-%dT%TZ'
 
+  default_scope -> { where(type: 'WatchEvent') }
+
   scope :latest, ->(from) { where(created_at: {'$gte' => from.strftime(DATETIME_FORMAT)}) }
-  scope :newly, order_by([:created_at, :desc])
+  scope :newly,  -> { order_by([:created_at, :desc]) }
   scope :all_by, ->(logins) { self.all.any_in('actor.login' => logins ) }
-  scope :owner, ->(login) { where('repo.name' => /^#{login}\//) }
+  scope :owner,  ->(login) { where('repo.name' => /^#{login}\//) }
 
   def self.by(login)
     self.where('actor.login' => {'$in' => [login]})

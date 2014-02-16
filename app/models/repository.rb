@@ -1,5 +1,6 @@
 class Repository
   include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
 
   index full_name: 1
 
