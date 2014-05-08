@@ -25,10 +25,10 @@ module ApplicationHelper
   def image_link_to_github_url(user, size = '30x30')
     username = user.is_a?(User) ? user.username : user['login']
 
-    link_to gravatar_image_tag(user, size), github_url(username)
+    link_to avatar_image_tag(user, size), github_url(username)
   end
 
-  def gravatar_image_tag(user, size)
+  def avatar_image_tag(user, size)
     username, avatar_url = if user.is_a?(User)
       [user.username, user.avatar_url]
     else
