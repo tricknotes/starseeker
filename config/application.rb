@@ -9,8 +9,9 @@ require "sprockets/railtie"
 
 require 'mongoid/railtie'
 
-# Assets should be precompiled for production (so we don't need the gems loaded then)
-Bundler.require(*Rails.groups(assets: %w(development test)))
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require *Rails.groups
 
 module Starseeker
   class Application < Rails::Application
