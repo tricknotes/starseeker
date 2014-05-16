@@ -3,7 +3,7 @@ $link-color: #edb020;
 
 @font-face {
   font-family: ABeeZee;
-  src: local("ABeeZee"), image-url("ABeeZee-Regular.ttf") format("truetype");
+  src: local("ABeeZee"), asset-url("ABeeZee-Regular.ttf") format("truetype");
 }
 
 @function divide-equally($count) {
