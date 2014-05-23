@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: 9be37a9266d8b703e8f549af7bb6977e7a3a8352
+  revision: bb8b503a9daa2129af4e64baca4aa6dcbfb96dac
   specs:
     mongoid (4.0.0.beta1)
       activemodel (>= 4.0.0)
@@ -44,7 +44,7 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bson (2.2.3)
+    bson (2.2.4)
     builder (3.2.2)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -106,7 +106,7 @@ GEM
       bson (~> 2.2)
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
-    multi_json (1.10.0)
+    multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     netrc (0.7.7)
