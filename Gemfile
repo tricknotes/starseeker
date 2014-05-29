@@ -28,6 +28,7 @@ gem 'roadie'
 
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'faraday', '0.8.9' # XXX 0.9.0 has _broken API change. Update as soon as possible...
 gem 'mongoid', github: 'mongoid/mongoid'
 gem 'octokit', '~> 1.25' # Octokit 2.x couldn't treat response as JSON.
 
