@@ -14,6 +14,7 @@ defaults: &defaults
     password: <%= ENV['SENDGRID_PASSWORD'] %>
   redis:
     url: <%= ENV['REDIS_URL'] %>
+  idobata_hook_url: <%= ENV['IDOBATA_HOOK_URL'] %>
 
 development:
   <<: *defaults
