@@ -1,7 +1,5 @@
-require "#{Rails.root}/config/environment"
-
 desc 'Fetch referenced repositories'
-task :fetch_repositories do
+task :fetch_repositories => :environment do
   Repository.delete_all
 
   followings = []
