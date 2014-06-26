@@ -3,7 +3,7 @@ require 'spec_helper'
 describe User do
   describe 'default attributes' do
     its(:activation_state) { should be_nil }
-    its(:subscribe) { should be_true }
+    its(:subscribe) { should be_truthy }
   end
 
   describe '#access_token' do
@@ -34,16 +34,16 @@ describe User do
 
     context 'when email is not exist' do
       before { subject.email = nil}
-      its(:email_sendable?) { should be_false }
+      its(:email_sendable?) { should be_falsey }
     end
 
     context 'when subscribe is false' do
       before { subject.subscribe = false }
-      its(:email_sendable?) { should be_false }
+      its(:email_sendable?) { should be_falsey }
     end
 
     context 'when email is exist and subscribe is true' do
-      its(:email_sendable?) { should be_true }
+      its(:email_sendable?) { should be_truthy }
     end
   end
 
@@ -51,12 +51,12 @@ describe User do
     subject { build(:user) }
 
     context 'when activation_state is "active"' do
-      its(:active?) { should be_true }
+      its(:active?) { should be_truthy }
     end
 
     context 'when activation_state is `nil`' do
       before { subject.activation_state = nil }
-      its(:active?) { should be_false }
+      its(:active?) { should be_falsey }
     end
   end
 end
