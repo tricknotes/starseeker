@@ -25,6 +25,8 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  config.infer_spec_type_from_file_location!
+
   config.before :each do
     StarEvent.destroy_all
     Repository.destroy_all
