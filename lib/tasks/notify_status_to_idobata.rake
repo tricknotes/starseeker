@@ -7,9 +7,9 @@ task :notify_status_to_idobata => :environment do
   mail_not_sent_count = DailyMailScheduler.scheduled_users.count
 
   message = if mail_not_sent_count.zero?
-    'All users can receive daily mail :smile:'
+    'All daily mails are sent to users :smile:'
   else
-    ":scream: :scream: :scream: #{mail_not_sent_count} users couldn't receive daily mail. :scream: :scream: :scream:"
+    ":scream: :scream: :scream: #{mail_not_sent_count} mails are not sent yet. :scream: :scream: :scream:"
   end
 
   Net::HTTP.post_form URI(hook_url), source: message
