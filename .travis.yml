@@ -10,3 +10,6 @@ before_install:
 before_script:
   - bundle exec rake db:create db:migrate
 script: bundle exec rake
+notifications:
+  webhooks:
+    - https://idobata.io/hook/7f233190-cc78-41e5-a002-507e01d762a8
