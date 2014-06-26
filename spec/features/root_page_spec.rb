@@ -5,8 +5,8 @@ feature 'Root page' do
     scenario 'Visit root page' do
       visit root_path
 
-      page.should have_css('#catch-phrase', text: 'Seek your following\'s stars!')
-      page.should have_link('Sign in with GitHub')
+      expect(page).to have_css('#catch-phrase', text: 'Seek your following\'s stars!')
+      expect(page).to have_link('Sign in with GitHub')
     end
   end
 
@@ -20,14 +20,14 @@ feature 'Root page' do
     scenario 'Visit root page' do
       visit root_path
 
-      page.should have_link('Logout')
-      page.should have_link('Let\'s go on a journey to seek for your stars!')
+      expect(page).to have_link('Logout')
+      expect(page).to have_link('Let\'s go on a journey to seek for your stars!')
     end
 
     scenario 'Logout' do
       click_link 'Logout'
 
-      page.should have_flash('Logged out.')
+      expect(page).to have_flash('Logged out.')
     end
   end
 
@@ -44,8 +44,8 @@ feature 'Root page' do
         click_link 'Sign in with GitHub'
       end
 
-      page.should have_flash('Please setup your email.')
-      page.should have_caption('Editing your email')
+      expect(page).to have_flash('Please setup your email.')
+      expect(page).to have_caption('Editing your email')
     end
   end
 end
@@ -61,7 +61,7 @@ feature 'Members list in root page' do
     scenario 'Page has link to member' do
       visit root_path
       within('#members') do
-        page.should have_css('img[title=USER]')
+        expect(page).to have_css('img[title=USER]')
       end
     end
   end
@@ -70,7 +70,7 @@ feature 'Members list in root page' do
     scenario 'Page has no link to no-member' do
       visit root_path
       within('#members') do
-        page.should have_no_css('img[title=USER]')
+        expect(page).to have_no_css('img[title=USER]')
       end
     end
   end
