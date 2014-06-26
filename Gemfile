@@ -44,7 +44,7 @@ end
 gem 'puma', require: false
 
 group :test do
-  gem 'rspec-rails', '~> 2.14.0', groups: %w(development)
+  gem 'rspec-rails', '~> 2.99', groups: %w(development)
   gem 'capybara'
   gem 'factory_girl_rails'
 end
