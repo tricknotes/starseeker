@@ -7,9 +7,9 @@ describe MyHotRepository do
     subject { MyHotRepository.notify(user) }
 
     before do
-      user.stub(:followings).and_return([{'login' => 'Buccellati'}])
+      allow(user).to receive(:followings).and_return([{'login' => 'Buccellati'}])
 
-      stub_star_event!(actor: {login: 'Buccellati'}, repo: {name: 'Giorno/gold-experience'})
+      stub_star_event! actor: {login: 'Buccellati'}, repo: {name: 'Giorno/gold-experience'}
       stub_repository!(
         'Giorno/gold-experience',
         watchers_count: 8,
@@ -18,30 +18,30 @@ describe MyHotRepository do
     end
 
     it 'should have multipart contents' do
-      subject.body.parts.length.should eq(2)
+      expect(subject.body.parts.length).to eq(2)
     end
 
     it 'should contains username' do
       subject.body.parts.each do |part|
-        part.body.should match('USER')
+        expect(part.body).to match('USER')
       end
     end
 
     it 'should contains star count' do
       subject.body.parts.each do |part|
-        part.body.should match('[8]')
+        expect(part.body).to match('[8]')
       end
     end
 
     it 'should contains starred reposotories' do
       subject.body.parts.each do |part|
-        part.body.should match('Giorno/gold-experience')
+        expect(part.body).to match('Giorno/gold-experience')
       end
     end
 
     it 'should contains repository description' do
       subject.body.parts.each do |part|
-        part.body.should match('The endless is end. It is the Gold Experience Requiem.')
+        expect(part.body).to match('The endless is end. It is the Gold Experience Requiem.')
       end
     end
   end

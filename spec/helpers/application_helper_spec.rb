@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ApplicationHelper do
   describe '#github_url' do
     it 'should contains name' do
-      github_url('ACTOR').should eq('https://github.com/ACTOR')
+      expect(github_url('ACTOR')).to eq('https://github.com/ACTOR')
     end
   end
 
@@ -12,11 +12,11 @@ describe ApplicationHelper do
       let(:user) { create(:user) }
 
       it 'should contain username' do
-        html_title_about_user(user).should match('USER')
+        expect(html_title_about_user(user)).to match('USER')
       end
 
       it 'should contain name' do
-        html_title_about_user(user).should match('starseeker')
+        expect(html_title_about_user(user)).to match('starseeker')
       end
     end
 
@@ -24,7 +24,7 @@ describe ApplicationHelper do
       let(:user) { create(:user, name: nil) }
 
       it 'should not render placeholder' do
-        html_title_about_user(user).should eq('USER')
+        expect(html_title_about_user(user)).to eq('USER')
       end
     end
   end
