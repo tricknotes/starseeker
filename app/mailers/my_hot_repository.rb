@@ -1,4 +1,6 @@
 class MyHotRepository < ActionMailer::Base
+  include Roadie::Rails::Automatic
+
   helper :application
   default from: "starseeker <#{Settings.mail.user_name}>"
 
