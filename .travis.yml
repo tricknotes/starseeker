@@ -12,4 +12,4 @@ before_script:
 script: bundle exec rake
 notifications:
   webhooks:
-    - https://idobata.io/hook/7f233190-cc78-41e5-a002-507e01d762a8
+    - https://idobata.io/hook/travis_ci/7f233190-cc78-41e5-a002-507e01d762a8
