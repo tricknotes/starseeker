@@ -1,7 +1,7 @@
 class UserMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
 
-  default from: "starseeker <#{Settings.mail.user_name}>"
+  default from: "starseeker <noreply@#{Settings.url_options[:host]}>"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
