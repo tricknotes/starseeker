@@ -28,7 +28,7 @@ module DailyMailScheduler
 
           begin
             if user_has_starred?(user, 1.day.ago)
-              MyHotRepository.notify(user).deliver
+              MyHotRepository.notify(user).deliver_now
 
               self.logger.info "Send hot repositories mail to \033[36m%s\033[39m." % [label]
             else
