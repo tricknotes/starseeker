@@ -4,12 +4,9 @@ rvm:
 services:
   - mongodb
   - redis-server
-bundler_args: --without development:production --path vendor/bundle
-before_install:
-  - gem update bundler --no-rdoc --no-ri --pre
+bundler_args: --without development:production
 before_script:
   - bundle exec rake db:create db:migrate
-script: bundle exec rake
 notifications:
   webhooks:
     - https://idobata.io/hook/travis_ci/7f233190-cc78-41e5-a002-507e01d762a8
