@@ -4,7 +4,7 @@ ruby '2.2.0'
 
 # Bundle edge Rails instead:
 # # gem 'rails', github: 'rails/rails'-
-gem 'rails', '~> 4.1.1'
+gem 'rails', '~> 4.2.0'
 
 # for local
 gem 'sqlite3', groups: %w(test development), require: false
@@ -12,13 +12,13 @@ gem 'sqlite3', groups: %w(test development), require: false
 # for heroku
 gem 'pg', groups: %w(production), require: false
 
-gem 'sass-rails',   '~> 4.0.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'sass-rails'
+gem 'coffee-rails'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer'
 
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 
 gem 'settingslogic'
 
@@ -36,8 +36,7 @@ gem 'redis'
 
 group :development do
   gem 'quiet_assets'
-  gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'web-console'
   gem 'tapp', groups: %w(test)
   gem 'letter_opener'
 end

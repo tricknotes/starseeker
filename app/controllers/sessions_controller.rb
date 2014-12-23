@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
         @user.save!
 
         if @user.email?
-          UserMailer.activation_needed_email(@user).deliver
+          UserMailer.activation_needed_email(@user).deliver_now
         end
 
         reset_session # protect from session fixation attack
@@ -50,7 +50,7 @@ class SessionsController < ApplicationController
 
     if @user
       @user.activate!
-      UserMailer.activation_success_email(@user).deliver
+      UserMailer.activation_success_email(@user).deliver_now
 
       redirect_to root_path, notice: 'You were successfully activated.'
     else

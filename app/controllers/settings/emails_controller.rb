@@ -34,6 +34,6 @@ class Settings::EmailsController < ApplicationController
   end
 
   def send_actiavtion_mail(user)
-    UserMailer.activation_needed_email(user).deliver
+    UserMailer.activation_needed_email(user).deliver_now
   end
 end
