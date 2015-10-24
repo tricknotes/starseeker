@@ -38,6 +38,7 @@ group :development do
   gem 'quiet_assets'
   gem 'web-console'
   gem 'tapp', groups: %w(test)
+  gem 'pry', groups: %w(test)
   gem 'letter_opener'
 end
 gem 'puma', require: false
