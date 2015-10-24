@@ -137,3 +137,5 @@ production:
   clients:
     default:
       uri: <%= ENV['MONGOID_URI'] %>
+      options:
+        max_pool_size: 16
