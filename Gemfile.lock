@@ -1,3 +1,14 @@
+GIT
+  remote: git://github.com/DiannaHohensee/mongoid.git
+  revision: cd6dd7d4f62220bdc4d8c56aeb48d8f99d05f75b
+  branch: MONGOID-4159
+  specs:
+    mongoid (5.0.0)
+      activemodel (~> 4.0)
+      mongo (~> 2.1)
+      origin (~> 2.1)
+      tzinfo (>= 0.3.37)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -106,11 +117,6 @@ GEM
     minitest (5.8.1)
     mongo (2.1.2)
       bson (~> 3.0)
-    mongoid (5.0.0)
-      activemodel (~> 4.0)
-      mongo (~> 2.1)
-      origin (~> 2.1)
-      tzinfo (>= 0.3.37)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
@@ -251,7 +257,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   letter_opener
-  mongoid
+  mongoid!
   octokit (~> 1.25)
   omniauth
   omniauth-github
