@@ -1,7 +1,6 @@
 GIT
-  remote: git://github.com/DiannaHohensee/mongoid.git
-  revision: cd6dd7d4f62220bdc4d8c56aeb48d8f99d05f75b
-  branch: MONGOID-4159
+  remote: git://github.com/mongodb/mongoid.git
+  revision: d90bfeff337dd0d8a328cbaa6e88986c4e75e7f8
   specs:
     mongoid (5.0.0)
       activemodel (~> 4.0)
@@ -116,7 +115,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.6.2)
     mini_portile (0.6.2)
-    minitest (5.8.1)
+    minitest (5.8.2)
     mongo (2.1.2)
       bson (~> 3.0)
     multi_json (1.11.2)
@@ -216,7 +215,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    ruby_parser (3.7.1)
+    ruby_parser (3.7.2)
       sexp_processor (~> 4.1)
     sass (3.4.19)
     sass-rails (5.0.4)
