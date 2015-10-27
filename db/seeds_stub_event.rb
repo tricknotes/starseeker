@@ -9,7 +9,7 @@ end
 
 StarEvent.delete_all
 
-def path_to_watch_event(path)
+def star_event_from_path(path)
   data = JSON.parse(File.read(path))
   StarEvent.new(data.except('id'))
 end
@@ -21,7 +21,7 @@ github_client = Settings.github_client
 # Setup star event from `GITHUB_LOGIN`
 data_path = fixture_path.join('*.json').to_s
 Dir[data_path].each.with_index do |path, n|
-  star_event = path_to_watch_event(path)
+  star_event = star_event_from_path(path)
 
   @user ||= github_client.user(GITHUB_LOGIN)
   keys = star_event.actor.keys
@@ -34,10 +34,10 @@ end
 
 # Setup star event to `GITHUB_LOGIN`
 Dir[data_path].each.with_index do |path, n|
-  star_event = path_to_watch_event(path)
+  star_event = star_event_from_path(path)
 
   @following ||= github_client.following(GITHUB_LOGIN)
-  star_event.actor = @following.sample.extract!(*star_event.actor.keys)
+  star_event.actor = @following.sample.to_hash.extract!(*star_event.actor.keys.map(&:to_i))
   @repos ||= github_client.repos(GITHUB_LOGIN)
   repo = @repos.sample
   star_event.repo['id']   = repo['id']
