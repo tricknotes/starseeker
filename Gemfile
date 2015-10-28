@@ -20,18 +20,18 @@ gem 'sqlite3', groups: %w(test development), require: false
 gem 'uglifier'
 
 group :development do
-  gem 'quiet_assets'
-  gem 'web-console'
-  gem 'tapp', groups: %w(test)
-  gem 'pry', groups: %w(test)
   gem 'letter_opener'
+  gem 'pry', groups: %w(test)
+  gem 'quiet_assets'
+  gem 'tapp', groups: %w(test)
+  gem 'web-console'
 end
 
 group :test do
-  gem 'rspec-rails', groups: %w(development)
-  gem 'rspec-its'
   gem 'capybara'
   gem 'factory_girl_rails'
+  gem 'rspec-its'
+  gem 'rspec-rails', groups: %w(development)
 end
 
 group :production do
