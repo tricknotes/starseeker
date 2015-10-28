@@ -4,7 +4,6 @@ ruby '2.2.3'
 
 gem 'rails', '~> 4.2.0'
 
-gem 'coffee-rails'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/4179
