@@ -7,7 +7,7 @@ class Repository
   class << self
     def fetch(repo_name)
       repo = Settings.github_client.repo(repo_name)
-      new(repo.to_hash)
+      new(to_hash_deeply(repo))
     rescue Octokit::NotFound, Octokit::Forbidden
       nil
     end
@@ -28,6 +28,17 @@ class Repository
 
     def by_name(name)
       where(full_name: name).first
+    end
+
+    private
+
+    def to_hash_deeply(hash_like)
+      return hash_like unless hash_like.respond_to?(:to_hash, true)
+
+      hash_like.to_hash.inject({}) {|hash, (key, value)|
+        hash[key] = to_hash_deeply(value)
+        hash
+      }
     end
   end
 
