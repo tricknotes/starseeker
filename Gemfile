@@ -21,6 +21,7 @@ gem 'uglifier'
 
 group :development do
   gem 'letter_opener'
+  gem 'pry-rails', groups: %w(test)
   gem 'pry', groups: %w(test)
   gem 'quiet_assets'
   gem 'tapp', groups: %w(test)
