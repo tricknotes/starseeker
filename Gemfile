@@ -2,36 +2,23 @@ source 'https://rubygems.org'
 
 ruby '2.2.3'
 
-# Bundle edge Rails instead:
-# # gem 'rails', github: 'rails/rails'-
 gem 'rails', '~> 4.2.0'
 
-# for local
-gem 'sqlite3', groups: %w(test development), require: false
-
-# for heroku
-gem 'pg', groups: %w(production), require: false
-
-gem 'sass-rails'
 gem 'coffee-rails'
-
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer'
-
-gem 'uglifier'
-
-gem 'settingslogic'
-
-gem 'jquery-rails'
 gem 'haml-rails'
-gem 'roadie-rails'
-
-gem 'omniauth'
-gem 'omniauth-github'
+gem 'jquery-rails'
 gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/4179
 gem 'octokit'
-
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'pg', groups: %w(production), require: false
+gem 'puma', require: false
 gem 'redis'
+gem 'roadie-rails'
+gem 'sass-rails'
+gem 'settingslogic'
+gem 'sqlite3', groups: %w(test development), require: false
+gem 'uglifier'
 
 group :development do
   gem 'quiet_assets'
@@ -40,7 +27,6 @@ group :development do
   gem 'pry', groups: %w(test)
   gem 'letter_opener'
 end
-gem 'puma', require: false
 
 group :test do
   gem 'rspec-rails', groups: %w(development)
