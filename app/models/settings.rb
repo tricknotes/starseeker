@@ -14,7 +14,7 @@ class Settings < Settingslogic
     @github_client ||= if self.github['login'] && self.github['token']
       Octokit::Client.new(
         login: self.github.login,
-        oauth_token: self.github.token
+        access_token: self.github.token
       )
     else
       Octokit::Client.new
