@@ -6,7 +6,7 @@ gem 'rails', '~> 4.2.0'
 
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/4179
+gem 'mongoid'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
