@@ -2,6 +2,8 @@ class StarEvent
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
+  index created_at: 1
+
   def self.collection_name
     'watch_events'
   end
