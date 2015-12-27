@@ -6,6 +6,8 @@ module Authenticatable
     helper_method :logged_in?
   end
 
+  private
+
   def require_login
     redirect_to root_path unless logged_in?
   end
