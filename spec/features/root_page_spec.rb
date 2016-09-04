@@ -11,7 +11,7 @@ feature 'Root page' do
   end
 
   context 'With signin' do
-    given!(:user) { create(:user, authentications: [build(:github)]) }
+    given!(:user) { create(:user, :with_authentication) }
 
     background do
       login_as(user)
@@ -32,7 +32,7 @@ feature 'Root page' do
   end
 
   context 'Without account' do
-    given!(:user) { build(:user, authentications: [build(:github)], email: nil) }
+    given!(:user) { build(:user, :with_authentication, email: nil) }
 
     background do
       stub_login!(user)

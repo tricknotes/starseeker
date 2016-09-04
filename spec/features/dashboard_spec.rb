@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Dashboard' do
-  given!(:user) { create(:user, email: 'user@starseeker.so', authentications: [build(:github)]) }
+  given!(:user) { create(:user, :with_authentication, email: 'user@starseeker.so') }
 
   background do
     clear_mail_box

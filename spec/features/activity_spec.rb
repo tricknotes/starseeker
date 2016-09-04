@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Activity' do
-  given!(:user) { create(:user, authentications: [build(:github)]) }
+  given!(:user) { create(:user, :with_authentication) }
 
   background do
     allow_any_instance_of(User).to receive(:followings).and_return([{'login' => 'Jeseph'}])
