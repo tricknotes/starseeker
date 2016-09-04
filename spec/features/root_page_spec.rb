@@ -32,7 +32,7 @@ feature 'Root page' do
   end
 
   context 'Without account' do
-    given!(:user) { build(:user, :with_authentication, email: nil) }
+    given!(:user) { create(:user, :with_authentication, email: nil) }
 
     background do
       stub_login!(user)
