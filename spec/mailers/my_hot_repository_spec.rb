@@ -1,15 +1,16 @@
 require 'spec_helper'
 
 describe MyHotRepository do
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
+  let!(:starred_user_data) { {'login' => 'Buccellati', 'avatar_url' => 'http://example.com/icon.png'} }
 
   describe '#notify' do
     subject { MyHotRepository.notify(user) }
 
     before do
-      allow(user).to receive(:followings).and_return([{'login' => 'Buccellati'}])
+      allow(user).to receive(:followings).and_return([starred_user_data])
 
-      stub_star_event! actor: {login: 'Buccellati'}, repo: {name: 'Giorno/gold-experience'}
+      stub_star_event! actor: starred_user_data, repo: {name: 'Giorno/gold-experience'}
       stub_repository!(
         'Giorno/gold-experience',
         watchers_count: 8,
