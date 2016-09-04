@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_filter :require_login, only: %w(activate)
+  skip_before_action :require_login, only: %w(activate)
 
   def create
     provider = auth_hash[:provider]

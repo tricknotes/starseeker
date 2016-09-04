@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
-  before_filter :require_login, only: %w(starring)
-  before_filter :login_from_feed_token, only: %w(feed)
+  before_action :require_login, only: %w(starring)
+  before_action :login_from_feed_token, only: %w(feed)
 
   def starring
     @user = current_user
