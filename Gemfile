@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '~> 4.2.0'
+gem 'rails', '~> 5.0.0'
 
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'mongoid'
+gem 'mongoid', '~> 6.0.0.rc0' # For Rails 5 compatibility
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
@@ -23,7 +23,6 @@ group :development do
   gem 'letter_opener'
   gem 'pry-rails', groups: %i(test)
   gem 'pry', groups: %i(test)
-  gem 'quiet_assets'
   gem 'tapp', groups: %i(test)
   gem 'web-console'
 end
@@ -33,8 +32,4 @@ group :test do
   gem 'factory_girl_rails'
   gem 'rspec-its'
   gem 'rspec-rails', groups: %i(development)
-end
-
-group :production do
-  gem 'rails_12factor' # for Heroku
 end
