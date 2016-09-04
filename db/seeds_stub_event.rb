@@ -25,7 +25,7 @@ Dir[data_path].each.with_index do |path, n|
 
   @user ||= github_client.user(GITHUB_LOGIN)
   keys = star_event.actor.keys
-  star_event.actor = @user.to_hash.extract!(*keys)
+  star_event.actor = @user.to_hash.with_indifferent_access.extract!(*keys)
 
   star_event.created_at = n.days.ago.strftime(StarEvent::DATETIME_FORMAT)
   star_event.save!
@@ -37,7 +37,7 @@ Dir[data_path].each.with_index do |path, n|
   star_event = star_event_from_path(path)
 
   @following ||= github_client.following(GITHUB_LOGIN)
-  star_event.actor = @following.sample.to_hash.extract!(*star_event.actor.keys.map(&:to_i))
+  star_event.actor = @following.sample.to_hash.with_indifferent_access.extract!(*star_event.actor.keys)
   @repos ||= github_client.repos(GITHUB_LOGIN)
   repo = @repos.sample
   star_event.repo['id']   = repo['id']
