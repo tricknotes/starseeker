@@ -1,15 +1,16 @@
 require 'spec_helper'
 
 feature 'Dashboard' do
-  given!(:user) { create(:user, email: 'user@starseeker.so', authentications: [build(:github)]) }
+  given!(:user) { create(:user, :with_authentication, email: 'user@starseeker.so') }
+  given!(:starred_user_data) { {login: 'USER', avatar_url: 'http://example.com/user.png'} }
 
   background do
     clear_mail_box
 
-    stub_star_event!(actor: {login: 'USER'}, repo: {name: 'github/octocat'})
+    stub_star_event!(actor: starred_user_data, repo: {name: 'github/octocat'})
     stub_repository!('github/octocat', watchers_count: 25)
 
-    stub_star_event!(actor: {login: 'alice'}, repo: {name: 'USER/try_git'})
+    stub_star_event!(actor: starred_user_data, repo: {name: 'USER/try_git'})
     stub_repository!('USER/try_git', watchers_count: 1)
 
     login_as(user)

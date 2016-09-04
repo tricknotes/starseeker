@@ -1,6 +1,6 @@
 module LoginHelper
   def stub_login!(user)
-    authentication = user.authentications.first
+    authentication = user.authentications.first!
 
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
       provider: 'github',

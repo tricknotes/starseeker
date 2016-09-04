@@ -4,9 +4,7 @@ class StarEvent
 
   index created_at: 1
 
-  def self.collection_name
-    'watch_events'
-  end
+  storage_options[:collection] = 'watch_events'
 
   DATETIME_FORMAT = '%Y-%m-%dT%TZ'
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe DailyMailScheduler do
-  let!(:user) { create(:user, authentications: [build(:github)]) }
+  let!(:user) { create(:user, :with_authentication) }
 
   before do
     subject.clear!
@@ -23,6 +23,8 @@ describe DailyMailScheduler do
     let(:io)     { StringIO.new }
     let(:logger) { Logger.new(io) }
 
+    let(:starred_user_data) { {'login' => 'Jeseph', 'avatar_url' => 'http://example.com/icon.png'} }
+
     around do |example|
       subject.logger, @original = logger, DailyMailScheduler.logger
 
@@ -35,8 +37,8 @@ describe DailyMailScheduler do
       before do
         user.activate!
 
-        allow_any_instance_of(User).to receive(:followings).and_return([{'login' => 'Jeseph'}])
-        stub_star_event! actor: {login: 'Jeseph'}, repo: {name: 'DIO/the-world'}
+        allow_any_instance_of(User).to receive(:followings).and_return([starred_user_data])
+        stub_star_event! actor: starred_user_data, repo: {name: 'DIO/the-world'}
         stub_repository! 'DIO/the-world', watchers_count: 21
 
         subject.schedule [user]
@@ -66,7 +68,7 @@ describe DailyMailScheduler do
       before do
         user.activate!
 
-        allow_any_instance_of(User).to receive(:followings).and_return([{'login' => 'Jeseph'}])
+        allow_any_instance_of(User).to receive(:followings).and_return([starred_user_data])
 
         subject.schedule [user]
 

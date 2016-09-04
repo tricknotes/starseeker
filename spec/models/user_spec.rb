@@ -9,7 +9,7 @@ describe User do
   describe '#access_token' do
     context 'when github authentication is exist' do
       subject do
-        create(:user, authentications: [build(:github)])
+        create(:user, :with_authentication)
       end
 
       its(:access_token) { is_expected.to eq('GITHUB_TOKEN') }

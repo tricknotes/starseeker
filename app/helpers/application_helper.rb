@@ -32,7 +32,7 @@ module ApplicationHelper
     username, avatar_url = if user.is_a?(User)
       [user.username, user.avatar_url]
     else
-      user.values_at('login', 'avatar_url')
+      user.with_indifferent_access.values_at('login', 'avatar_url')
     end
 
     image_tag(avatar_url, title: username, alt: username, size: size)
