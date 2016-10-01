@@ -6,7 +6,7 @@ gem 'rails', '~> 5.0.0'
 
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'mongoid', '~> 6.0.0.rc0' # For Rails 5 compatibility
+gem 'mongoid'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
