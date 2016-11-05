@@ -4,7 +4,7 @@ ruby '2.3.1'
 
 gem 'rails', '~> 5.0.0'
 
-gem 'haml-rails'
+gem 'hamlit'
 gem 'jquery-rails'
 gem 'mongoid'
 gem 'octokit'
@@ -14,7 +14,7 @@ gem 'pg', groups: %i(production), require: false
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'settingslogic'
 gem 'sqlite3', groups: %i(test development), require: false
 gem 'uglifier'
