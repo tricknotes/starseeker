@@ -10,13 +10,12 @@ gem 'mongoid'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'pg', groups: %i(production), require: false
+gem 'pg'
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
 gem 'sassc-rails'
 gem 'settingslogic'
-gem 'sqlite3', groups: %i(test development), require: false
 gem 'uglifier'
 
 group :development do
