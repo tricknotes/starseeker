@@ -35,7 +35,7 @@ class Repository
     def to_hash_deeply(hash_like)
       return hash_like unless hash_like.respond_to?(:to_hash, true)
 
-      hash_like.to_hash.inject({}) {|hash, (key, value)|
+      hash_like.to_hash.with_indifferent_access.inject({}) {|hash, (key, value)|
         hash[key] = to_hash_deeply(value)
         hash
       }

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.1'
 
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.1.0.rc2'
 
 gem 'hamlit'
 gem 'jquery-rails'
@@ -21,8 +21,9 @@ gem 'uglifier'
 
 group :development do
   gem 'letter_opener'
-  gem 'pry-rails', groups: %i(test)
+  gem 'listen'
   gem 'pry', groups: %i(test)
+  gem 'pry-rails', groups: %i(test)
   gem 'tapp', groups: %i(test)
   gem 'web-console'
 end
