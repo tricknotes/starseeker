@@ -14,7 +14,7 @@ gem 'pg', groups: %i(production), require: false
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
-gem 'sassc-rails'
+gem 'sass-rails'
 gem 'settingslogic'
 gem 'sqlite3', groups: %i(test development), require: false
 gem 'uglifier'
