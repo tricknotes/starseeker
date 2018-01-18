@@ -45,7 +45,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
 
   # Enable to use shortcut for using factory girl.
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 end
 
 OmniAuth.config.test_mode = true

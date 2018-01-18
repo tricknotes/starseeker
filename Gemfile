@@ -31,7 +31,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', groups: %i(development)
 end
