@@ -9,6 +9,7 @@ services:
   - redis-server
 bundler_args: --without development:production
 before_script:
+  - gem update --system # Need for Ruby 2.5.0. https://github.com/travis-ci/travis-ci/issues/8978
   - bundle exec rake db:create db:migrate
 notifications:
   webhooks:
