@@ -1,4 +1,4 @@
-class AddPasswordColumnToUsers < ActiveRecord::Migration
+class AddPasswordColumnToUsers < ActiveRecord::Migration[4.2]
   def down
     remove_column :users, :crypted_password
     remove_column :users, :salt
