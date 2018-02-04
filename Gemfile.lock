@@ -133,7 +133,7 @@ GEM
     omniauth-oauth2 (1.5.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
-    pg (0.21.0)
+    pg (1.0.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -259,7 +259,7 @@ DEPENDENCIES
   octokit
   omniauth
   omniauth-github
-  pg (< 1.0)
+  pg
   pry
   pry-rails
   puma
