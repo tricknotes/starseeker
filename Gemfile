@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.0'
 
-gem 'rails', '~> 5.1.2'
+gem 'rails', '~> 5.2.0.rc1'
 
 gem 'hamlit'
 gem 'jquery-rails'
