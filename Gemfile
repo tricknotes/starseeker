@@ -5,7 +5,6 @@ ruby '2.5.0'
 gem 'rails', '~> 5.2.0.rc1'
 
 gem 'hamlit'
-gem 'jquery-rails'
 gem 'mongoid'
 gem 'mongo', '~> 2.4.2' # XXX 2.5.0 doesn't connect MongoDB
 gem 'octokit'
