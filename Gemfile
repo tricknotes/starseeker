@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-ruby '2.5.0'
+ruby '2.5.1'
 
 gem 'rails', '~> 5.2.0.rc1'
 
 gem 'hamlit'
 gem 'mongoid'
-gem 'mongo', '~> 2.4.2' # XXX 2.5.0 doesn't connect MongoDB
+gem 'mongo', '~> 2.4.2' # XXX 2.5 doesn't connect MongoDB
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
