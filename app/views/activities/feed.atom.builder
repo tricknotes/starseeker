@@ -17,17 +17,17 @@ atom_feed do |feed|
             github_url(repo['owner']['login'])
           )
         }
-        #{h repo.description}
-        #{content_tag('ul') do
-          events.map do |event|
-            content_tag('li') do
-              link_to(github_url(event['actor']['login'])) do
-                image_tag(event['actor']['avatar_url'], size: '20x20') +
-                  event['actor']['login']
-              end
-            end
-          end.join.html_safe
-        end}
+        by
+        #{
+          safe_join(
+            events.map {|event|
+              link_to(github_url(event['actor']['login'])) {
+                "#{image_tag(event['actor']['avatar_url'], size: '20x20')} #{event['actor']['login']}"
+              }
+            },
+          ',')
+        }
+        <blockquote>#{h repo.description}</blockquote>
       HTML
     end
   end
