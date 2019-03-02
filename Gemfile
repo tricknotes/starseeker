@@ -16,7 +16,6 @@ gem 'redis'
 gem 'roadie-rails'
 gem 'sass-rails'
 gem 'settingslogic'
-gem 'sqlite3', groups: %i(test development), require: false
 gem 'uglifier'
 
 group :development do
@@ -26,6 +25,7 @@ group :development do
   gem 'pry-rails', groups: %i(test)
   gem 'tapp', groups: %i(test)
   gem 'web-console'
+  gem 'sqlite3', '~> 1.3.6', groups: %i(test) # 1.4.0 causes loading error
 end
 
 group :test do
