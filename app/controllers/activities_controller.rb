@@ -9,7 +9,7 @@ class ActivitiesController < ApplicationController
 
   def feed
     @star_events = @user.star_events_by_followings_with_me.latest(1.day.ago)
-    @latest_event = @star_events.first
+    @latest_event = @star_events.last
 
     respond_to do |format|
       format.atom
