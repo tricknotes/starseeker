@@ -12,7 +12,7 @@ class ActivitiesController < ApplicationController
     @latest_event = @star_events.last
 
     respond_to do |format|
-      format.atom
+      format.atom { logging_ua }
     end
   end
 
@@ -24,5 +24,9 @@ class ActivitiesController < ApplicationController
     @user = User.where(username: params[:username], feed_token: params[:token]).first
 
     head :unauthorized unless @user
+  end
+
+  def logging_ua
+    Rails.logger.info "[TRACK][UA - #{params[:controller]}##{params[:action]}] User#id=#{@user.id} - \"#{request.user_agent}\""
   end
 end
