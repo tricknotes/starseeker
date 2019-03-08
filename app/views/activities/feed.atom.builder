@@ -5,8 +5,8 @@ atom_feed do |feed|
   @star_events.starred_ranking.each do |repo_name, events, repo|
     feed.entry(
       repo,
-      published: repo.created_at,
-      updated: events.first.created_at,
+      published: events.last.created_at, # oldest in today's events
+      updated: events.first.created_at, # latest in today's events
       url: github_url(repo.full_name)
     ) do |entry|
       entry.title repo_name
