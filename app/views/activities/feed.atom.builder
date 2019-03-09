@@ -10,24 +10,15 @@ atom_feed do |feed|
       url: github_url(repo.full_name)
     ) do |entry|
       entry.title repo_name
-      entry.content(<<-HTML, type: :html)
-        #{
-          link_to(
-            image_tag(repo['owner']['avatar_url'], size: '30x30'),
-            github_url(repo['owner']['login'])
-          )
-        }
-        by
-        #{
+      entry.content(<<~HTML, type: :html)
+        <blockquote>#{h repo.description}</blockquote>
+        starred by #{
           safe_join(
             events.map {|event|
-              link_to(github_url(event['actor']['login'])) {
-                "#{image_tag(event['actor']['avatar_url'], size: '20x20')} #{event['actor']['login']}"
-              }
+              "#{image_tag(event['actor']['avatar_url'], size: '20x20')}#{event['actor']['login']}"
             },
           ',')
         }
-        <blockquote>#{h repo.description}</blockquote>
       HTML
     end
   end
