@@ -25,7 +25,7 @@ describe User do
       create(:user)
     end
 
-    # its(:feed_token) { is_expected.to have(32).length } # TODO `have` matcher doesn't support String?
+    its(:feed_token) { is_expected.to match(/\A.{32}\z/) }
     its(:feed_token) { is_expected.not_to be_blank }
   end
 
