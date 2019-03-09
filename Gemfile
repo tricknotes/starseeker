@@ -6,7 +6,7 @@ gem 'rails', '~> 5.2.0'
 
 gem 'hamlit'
 gem 'mongoid'
-gem 'mongo', '~> 2.4.2' # XXX 2.5 doesn't connect MongoDB
+gem 'mongo'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
