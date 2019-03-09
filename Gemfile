@@ -14,7 +14,7 @@ gem 'pg', groups: %i(production), require: false
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'settingslogic'
 gem 'uglifier'
 
