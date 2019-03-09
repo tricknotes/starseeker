@@ -11,7 +11,7 @@ atom_feed do |feed|
     ) do |entry|
       entry.title repo_name
       entry.content(<<~HTML, type: :html)
-        <blockquote>#{h repo.description}</blockquote>
+        <blockquote>#{h repo.description}</blockquote> #{repo.language.try {|l| "[#{l}] " }}⭐️ (#{repo.stargazers_count})
         starred by #{
           safe_join(
             events.map {|event|
