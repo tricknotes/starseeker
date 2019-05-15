@@ -25,7 +25,7 @@ group :development do
   gem 'pry-rails', groups: %i(test)
   gem 'tapp', groups: %i(test)
   gem 'web-console'
-  gem 'sqlite3', '~> 1.3.6', groups: %i(test) # 1.4.0 causes loading error
+  gem 'sqlite3', groups: %i(test)
 end
 
 group :test do
