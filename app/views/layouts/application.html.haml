@@ -29,7 +29,7 @@
             %li= link_to 'dashboard', dashboard_path
             %li= link_to 'Logout', logout_path, method: :delete
           - else
-            %li= link_to 'Sign in with GitHub', '/auth/github'
+            %li= link_to 'Sign in with GitHub', '/auth/github', method: :post
       %p#notice= notice
       %p#alert= alert
 

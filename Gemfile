@@ -10,6 +10,7 @@ gem 'mongo'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
 gem 'pg', groups: %i(production), require: false
 gem 'puma', require: false
 gem 'redis'
