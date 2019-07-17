@@ -24,7 +24,7 @@ describe UserMailer do
     end
 
     it 'should contains login url' do
-      expect(subject.body).to match(URI.join(Settings.base_url, '/auth/github').to_s)
+      expect(subject.body).to match(settings_email_url)
     end
   end
 end
