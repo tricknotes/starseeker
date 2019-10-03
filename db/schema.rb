@@ -10,32 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2014_09_21_032348) do
+ActiveRecord::Schema.define(version: 2012_12_18_110908) do
 
-  create_table "authentications", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "authentications", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "provider", limit: 255, null: false
-    t.string "uid", limit: 255, null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "token", limit: 255
+    t.string "token"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "username", limit: 255, null: false
-    t.string "email", limit: 255
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "username", null: false
+    t.string "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "name", limit: 255
-    t.string "avatar_url", limit: 255
+    t.string "name"
+    t.string "avatar_url"
     t.boolean "subscribe", default: true
-    t.string "activation_state", limit: 255
-    t.string "activation_token", limit: 255
+    t.string "activation_state"
+    t.string "activation_token"
     t.datetime "activation_token_expires_at"
-    t.string "crypted_password", limit: 255
-    t.string "salt", limit: 255
-    t.string "feed_token", limit: 255
-    t.integer "daily_mail_hour", default: 9, null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.string "feed_token"
     t.index ["activation_token"], name: "index_users_on_activation_token"
   end
 
