@@ -3,6 +3,9 @@ development:
   clients:
     # Defines the default client. (required)
     default:
+      <% if ENV['MONGOID_URI'] %>
+      uri: <%= ENV['MONGOID_URI'] %>
+      <% else %>
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
       database: starseeker_development
@@ -96,7 +99,7 @@ development:
         # The file containing a set of concatenated certification authority certifications
         # used to validate certs passed from the other end of the connection.
         # ssl_ca_cert: /path/to/ca.cert
-
+        <% end %>
 
   # Configure Mongoid specific options. (optional)
   options:
