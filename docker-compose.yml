@@ -12,6 +12,8 @@ services:
     container_name: starseeker-mongo
     volumes:
       - mongo-data:/var/lib/mongodb/data
+  redis:
+    image: redis:5.0.4
   app:
     build: .
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -23,9 +25,11 @@ services:
     depends_on:
       - postgres
       - mongo
+      - redis
     environment:
       DATABASE_HOST: postgres
       MONGO_HOST: mongo
+      REDIS_URL: redis://redis:6379
 
 volumes:
   postgres-data:
