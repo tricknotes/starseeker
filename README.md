@@ -8,21 +8,22 @@ http://starseeker.so
 
 * Ruby    (2.6.4)
 * MongoDB (>= 3.6.0)
-* Redis   (>= 3.0.0)
+* Redis   (>= 5.0.0)
 * Bundler (>= 1.10.0)
+* Docker  (>= 2.1.0)
 
 ## Setup
 
 ``` sh
 $ git clone git://github.com:tricknotes/starseeker.git
 $ cd starseeker
-$ bundle install
-$ rake db:create db:migrate
+$ docker-compose run app bundle install
+$ docker-compose run app rails db:create db:migrate
 ```
 
 Initialize stub data for **local development**.
 ``` sh
-$ GITHUB_LOGIN="your github account" rake db:seeds_stub_event
+$ docker-compose run -e GITHUB_LOGIN="your github account" app rails db:seeds_stub_event
 ```
 
 Edit config:
@@ -34,35 +35,36 @@ Write your settings to `config/settings.yml`
 
 And run:
 ``` sh
-$ rails server
+$ docker-compose up -d app
 ```
 
 ## Tasks
 
 Schedule users as to be sent mail:
 ``` sh
-$ rake schedule_sending_hot_repositories
+$ docker-compose run app rails schedule_sending_hot_repositories
 ```
 
 Send daily hot repositories mail to scheduled users:
 ``` sh
-$ rake send_hot_repositories
+$ docker-compose run app rails send_hot_repositories
 ```
 
 Refresh repository data for chache:
 ``` sh
-$ rake fetch_repositories
+$ docker-compose run app rails fetch_repositories
 ```
 
 Update user account info:
 ``` sh
-$ rake update_account_info
+$ docker-compose run rails update_account_info
 ```
 
 ## Test
 
 ``` sh
-$ rake
+$ docker-compose run -e RAILS_ENV=test app rails db:migrate
+$ docker-compose run app bundle exec rspec
 ```
 
 ## License

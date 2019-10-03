@@ -5,6 +5,7 @@ sudo: false
 cache:
   - bundler
 services:
+  - postgresql
   - mongodb
   - redis-server
 bundler_args: --without development:production

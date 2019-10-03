@@ -11,7 +11,7 @@ gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
-gem 'pg', groups: %i(production), require: false
+gem 'pg'
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
@@ -26,7 +26,6 @@ group :development do
   gem 'pry-rails', groups: %i(test)
   gem 'tapp', groups: %i(test)
   gem 'web-console'
-  gem 'sqlite3', groups: %i(test)
 end
 
 group :test do
