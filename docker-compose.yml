@@ -5,6 +5,8 @@ services:
     container_name: starseeker-postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    environment:
+      PG_USER: postgres
   mongo:
     image: mongo:3.6.12
     container_name: starseeker-mongo
@@ -22,8 +24,8 @@ services:
       - postgres
       - mongo
     environment:
-      DATABASE_URL: postgres://postgres@postgres/starseeker
-      MONGOID_URI: mongodb://@mongo/starseeker
+      DATABASE_HOST: postgres
+      MONGO_HOST: mongo
 
 volumes:
   postgres-data:

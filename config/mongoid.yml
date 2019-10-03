@@ -12,7 +12,7 @@ development:
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - localhost:27017
+        - <%= ENV['MONGO_HOST'] || 'localhost:27017' %>
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -132,7 +132,7 @@ test:
     default:
       database: starseeker_test
       hosts:
-        - localhost:27017
+        - <%= ENV['MONGO_HOST'] || 'localhost:27017' %>
       options:
         max_pool_size: 1
 
