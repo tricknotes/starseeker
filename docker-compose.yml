@@ -20,6 +20,7 @@ services:
     container_name: starseeker
     volumes:
       - .:/app
+      - bundle:/bundle
     ports:
       - "3000:3000"
     depends_on:
@@ -30,7 +31,9 @@ services:
       DATABASE_HOST: postgres
       MONGO_HOST: mongo
       REDIS_URL: redis://redis:6379
+      BUNDLE_PATH: /bundle
 
 volumes:
   postgres-data:
   mongo-data:
+  bundle:
