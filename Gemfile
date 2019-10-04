@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.5'
 
-gem 'rails', '~> 6.0.0.rc1'
+gem 'rails', '~> 6.0.0'
 
 gem 'hamlit'
 gem 'mongo', '~> 2.8.0' # For 'mongod version: 3.6.12 (MMAPv1)'
