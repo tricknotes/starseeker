@@ -13,6 +13,7 @@ services:
     volumes:
       - mongo-data:/var/lib/mongodb/data
   redis:
+    container_name: starseeker-redis
     image: redis:5.0.4
   app:
     build: .
