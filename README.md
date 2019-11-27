@@ -14,13 +14,13 @@ http://starseeker.so
 ``` sh
 $ git clone git://github.com:tricknotes/starseeker.git
 $ cd starseeker
-$ docker-compose run app bundle install
-$ docker-compose run app rails db:create db:migrate
+$ docker-compose run --rm app bundle install
+$ docker-compose run --rm app rails db:create db:migrate
 ```
 
 Initialize stub data for **local development**.
 ``` sh
-$ docker-compose run -e GITHUB_LOGIN="your github account" app rails db:seeds_stub_event
+$ docker-compose run --rm -e GITHUB_LOGIN="your github account" app rails db:seeds_stub_event
 ```
 
 Edit config:
@@ -39,29 +39,29 @@ $ docker-compose up -d app
 
 Schedule users as to be sent mail:
 ``` sh
-$ docker-compose run app rails schedule_sending_hot_repositories
+$ docker-compose run --rm app rails schedule_sending_hot_repositories
 ```
 
 Send daily hot repositories mail to scheduled users:
 ``` sh
-$ docker-compose run app rails send_hot_repositories
+$ docker-compose run --rm app rails send_hot_repositories
 ```
 
 Refresh repository data for chache:
 ``` sh
-$ docker-compose run app rails fetch_repositories
+$ docker-compose run --rm app rails fetch_repositories
 ```
 
 Update user account info:
 ``` sh
-$ docker-compose run rails update_account_info
+$ docker-compose run --rm rails update_account_info
 ```
 
 ## Test
 
 ``` sh
-$ docker-compose run -e RAILS_ENV=test app rails db:migrate
-$ docker-compose run app bundle exec rspec
+$ docker-compose run --rm -e RAILS_ENV=test app rails db:migrate
+$ docker-compose run --rm app bundle exec rspec
 ```
 
 ## License
