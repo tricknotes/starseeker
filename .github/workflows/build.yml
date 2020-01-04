@@ -1,0 +1,44 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:9.4.24
+        env:
+          PG_USER: postgres
+      mongo:
+        image: mongo:3.6.12
+      redis:
+        image: redis:5.0.4
+        options: --entrypoint redis-server
+
+    container:
+      image: ruby:2.7.0
+      env:
+        DATABASE_HOST: postgres
+        MONGO_HOST: mongo
+        REDIS_URL: redis://redis:6379
+        RAILS_ENV: test
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle config set without 'development production'
+          bundle install --jobs 4 --retry 3
+      - name: Setup
+        run: |
+          bin/rails db:create db:migrate
+      - name: Run specs
+        run: |
+          bundle exec rake

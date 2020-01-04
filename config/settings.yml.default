@@ -23,7 +23,7 @@ test:
   <<: *defaults
   base_url: http://example.com/
   redis:
-    url: http://localhost:6379
+    url: <%= ENV['REDIS_URL'] || 'redis://localhost:6379' %>
 
 production:
   <<: *defaults
