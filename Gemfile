@@ -7,7 +7,7 @@ gem 'rails', '~> 6.0.0'
 gem 'hamlit'
 gem 'mongo', '~> 2.8.0' # For 'mongod version: 3.6.12 (MMAPv1)'
 gem 'mongoid'
-gem 'octokit', github: 'octokit/octokit.rb' # Workaround for waiting new release. https://github.com/octokit/octokit.rb/issues/1177
+gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
