@@ -3,8 +3,8 @@ development:
   clients:
     # Defines the default client. (required)
     default:
-      <% if ENV['MONGOID_URI'] %>
-      uri: <%= ENV['MONGOID_URI'] %>
+      <% if ENV['MONGODB_URI'] %>
+      uri: <%= ENV['MONGODB_URI'] %>
       <% else %>
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
@@ -139,6 +139,6 @@ test:
 production:
   clients:
     default:
-      uri: <%= ENV['MONGOID_URI'] %>
+      uri: <%= ENV['MONGODB_URI'] %>
       options:
         max_pool_size: 16
