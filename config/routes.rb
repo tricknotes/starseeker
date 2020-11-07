@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if defined?(LetterOpenerWeb)
+
   root to: 'root#index'
   resource 'dashboard', only: %w(show), controller: 'dashboard'
   namespace :settings do
