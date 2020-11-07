@@ -12,7 +12,7 @@ jobs:
         env:
           PG_USER: postgres
       mongo:
-        image: mongo:3.6.12
+        image: mongo:4.4.1
       redis:
         image: redis:5.0.4
         options: --entrypoint redis-server
