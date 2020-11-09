@@ -8,10 +8,11 @@ services:
     environment:
       PG_USER: postgres
   mongo:
-    image: mongo:3.6.12
+    image: mongo:4.4.1
     container_name: starseeker-mongo
     volumes:
-      - mongo-data:/var/lib/mongodb/data
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
   redis:
     container_name: starseeker-redis
     image: redis:5.0.4
@@ -37,4 +38,5 @@ services:
 volumes:
   postgres-data:
   mongo-data:
+  mongo-config:
   bundle:

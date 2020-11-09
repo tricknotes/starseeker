@@ -5,7 +5,7 @@ ruby '2.7.2'
 gem 'rails', '~> 6.0.0'
 
 gem 'hamlit'
-gem 'mongo', '~> 2.8.0' # For 'mongod version: 3.6.12 (MMAPv1)'
+gem 'mongo'
 gem 'mongoid'
 gem 'octokit'
 gem 'omniauth'
