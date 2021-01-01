@@ -23,6 +23,7 @@ group :development do
   gem 'listen'
   gem 'pry', groups: %i(test)
   gem 'pry-rails', groups: %i(test)
+  gem 'rexml' # To use letter_opener_web on Ruby 3.0. Ref: https://github.com/fgrehm/letter_opener_web/pull/106
   gem 'tapp', groups: %i(test)
   gem 'web-console'
 end
