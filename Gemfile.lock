@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: d1c926de66deb29956c73af1fec84f9c19869035
+  revision: d68b9cc78cc6250c06c56cefaa93c6f7926d6990
   branch: master
   specs:
     mongoid (7.3.0.alpha)
@@ -99,7 +99,7 @@ GEM
       faraday-net_http (~> 1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
-    faraday-net_http (1.0.0)
+    faraday-net_http (1.0.1)
     ffi (1.14.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -119,10 +119,10 @@ GEM
       actionmailer (>= 3.2)
       letter_opener (~> 1.0)
       railties (>= 3.2)
-    listen (3.4.0)
+    listen (3.4.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.8.0)
+    loofah (2.9.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -152,18 +152,19 @@ GEM
     octokit (4.20.0)
       faraday (>= 0.9)
       sawyer (~> 0.8.0, >= 0.5.3)
-    omniauth (1.9.1)
+    omniauth (2.0.0)
       hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-github (1.4.0)
-      omniauth (~> 1.5)
-      omniauth-oauth2 (>= 1.4.0, < 2.0)
-    omniauth-oauth2 (1.7.0)
+      rack-protection
+    omniauth-github (2.0.0)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.7.1)
+    omniauth-oauth2 (1.7.1)
       oauth2 (~> 1.4)
-      omniauth (~> 1.9)
-    omniauth-rails_csrf_protection (0.1.2)
+      omniauth (>= 1.9, < 3)
+    omniauth-rails_csrf_protection (1.0.0)
       actionpack (>= 4.2)
-      omniauth (>= 1.3.1)
+      omniauth (~> 2.0)
     pg (1.2.3)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -175,6 +176,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
+    rack-protection (2.1.0)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.1.1)
