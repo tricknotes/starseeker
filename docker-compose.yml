@@ -34,6 +34,11 @@ services:
       MONGO_HOST: mongo
       REDIS_URL: redis://redis:6379
       BUNDLE_PATH: /bundle
+      BASE_URL: ${BASE_URL:-http://localhost:3000}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_LOGIN: ${GITHUB_LOGIN}
+      GITHUB_SECRET: ${GITHUB_SECRET}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
 
 volumes:
   postgres-data:
