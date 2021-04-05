@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: 63fccd4e45147decfbb13101b12dcd66e5d0290e
+  revision: 2d613e0964a81c7125e2c7589f4b8d3317cf5937
   branch: master
   specs:
     mongoid (7.3.0.alpha)
@@ -108,7 +108,7 @@ GEM
       thor
       tilt
     hashie (4.1.0)
-    i18n (1.8.9)
+    i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jwt (2.2.2)
     launchy (2.5.0)
@@ -119,7 +119,7 @@ GEM
       actionmailer (>= 3.2)
       letter_opener (~> 1.0)
       railties (>= 3.2)
-    listen (3.5.0)
+    listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.9.0)
@@ -127,7 +127,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.0)
+    marcel (1.0.1)
     method_source (1.0.0)
     mini_mime (1.0.3)
     mini_portile2 (2.5.0)
@@ -210,7 +210,7 @@ GEM
       ffi (~> 1.0)
     redis (4.2.5)
     regexp_parser (2.1.1)
-    rexml (3.2.4)
+    rexml (3.2.5)
     roadie (4.0.0)
       css_parser (~> 1.4)
       nokogiri (~> 1.8)
