@@ -5,7 +5,7 @@ ruby '3.0.1'
 gem 'rails', '~> 6.1.0.rc2'
 
 gem 'hamlit'
-gem 'mongoid', github: 'mongodb/mongoid', branch: 'master' # To use Rails 6.1
+gem 'mongoid'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
