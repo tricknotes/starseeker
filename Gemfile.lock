@@ -298,7 +298,7 @@ DEPENDENCIES
   pry
   pry-rails
   puma
-  rails (~> 6.1.0.rc2)
+  rails (~> 6.1.0)
   redis
   rexml
   roadie-rails
