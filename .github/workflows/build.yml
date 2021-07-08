@@ -18,7 +18,7 @@ jobs:
         options: --entrypoint redis-server
 
     container:
-      image: ruby:3.0.1
+      image: ruby:3.0.2
       env:
         DATABASE_HOST: postgres
         MONGO_HOST: mongo
