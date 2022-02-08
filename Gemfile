@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.3'
+ruby '3.1.0'
 
 gem 'rails', '~> 6.1.0'
 
@@ -11,6 +11,7 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg'
+gem 'psych', '~> 3.0' # To avoid Rails 6.1 & YAML 4 issue: https://github.com/ruby/psych/pull/487
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'

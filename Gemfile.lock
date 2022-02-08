@@ -185,6 +185,7 @@ GEM
       method_source (~> 1.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
+    psych (3.3.2)
     public_suffix (4.0.6)
     puma (5.6.1)
       nio4r (~> 2.0)
@@ -311,6 +312,7 @@ DEPENDENCIES
   pg
   pry
   pry-rails
+  psych (~> 3.0)
   puma
   rails (~> 6.1.0)
   redis
@@ -325,7 +327,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.0.3p157
+   ruby 3.1.0p0
 
 BUNDLED WITH
    2.2.32
