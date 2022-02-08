@@ -6,6 +6,9 @@ gem 'rails', '~> 6.1.0'
 
 gem 'hamlit'
 gem 'mongoid'
+gem 'net-imap' # Missing gem for mail. Ref: https://github.com/mikel/mail/pull/1439
+gem 'net-pop' # Same as above
+gem 'net-smtp' # Same as above
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'

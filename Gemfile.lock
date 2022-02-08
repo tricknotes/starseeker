@@ -80,6 +80,7 @@ GEM
     css_parser (1.11.0)
       addressable
     diff-lcs (1.5.0)
+    digest (3.1.0)
     erubi (1.10.0)
     execjs (2.8.1)
     factory_bot (6.2.0)
@@ -120,6 +121,7 @@ GEM
     hashie (5.0.0)
     i18n (1.9.1)
       concurrent-ruby (~> 1.0)
+    io-wait (0.2.1)
     jwt (2.3.0)
     launchy (2.5.0)
       addressable (~> 2.7)
@@ -153,6 +155,21 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
+    net-protocol (0.1.2)
+      io-wait
+      timeout
+    net-smtp (0.3.1)
+      digest
+      net-protocol
+      timeout
     nio4r (2.5.8)
     nokogiri (1.13.1)
       mini_portile2 (~> 2.7.0)
@@ -274,11 +291,13 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    strscan (3.0.1)
     tapp (1.5.1)
       thor
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
+    timeout (0.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
@@ -305,6 +324,9 @@ DEPENDENCIES
   letter_opener_web
   listen
   mongoid
+  net-imap
+  net-pop
+  net-smtp
   octokit
   omniauth
   omniauth-github
