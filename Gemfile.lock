@@ -335,9 +335,6 @@ DEPENDENCIES
   letter_opener_web
   listen
   mongoid!
-  net-imap
-  net-pop
-  net-smtp
   octokit
   omniauth
   omniauth-github
@@ -349,7 +346,6 @@ DEPENDENCIES
   puma
   rails (~> 7.0.2)
   redis
-  rexml
   roadie-rails
   rspec-its
   rspec-rails

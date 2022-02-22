@@ -6,15 +6,12 @@ gem 'rails', '~> 7.0.2'
 
 gem 'hamlit'
 gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/5122
-gem 'net-imap' # Missing gem for mail. Ref: https://github.com/mikel/mail/pull/1439
-gem 'net-pop' # Same as above
-gem 'net-smtp' # Same as above
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg'
-gem 'psych', '~> 3.0' # To avoid Rails 6.1 & YAML 4 issue: https://github.com/ruby/psych/pull/487
+gem 'psych', '~> 3.0' # To avoid Settinglogics & YAML 4 issue: https://github.com/ruby/psych/pull/487
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
@@ -28,7 +25,6 @@ group :development do
   gem 'listen'
   gem 'pry', groups: %i(test)
   gem 'pry-rails', groups: %i(test)
-  gem 'rexml' # To use letter_opener_web on Ruby 3.0. Ref: https://github.com/fgrehm/letter_opener_web/pull/106
   gem 'tapp', groups: %i(test)
   gem 'web-console'
 end
