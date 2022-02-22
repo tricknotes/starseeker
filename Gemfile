@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.1.1'
 
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.0.2'
 
 gem 'hamlit'
 gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/5122
@@ -20,6 +20,7 @@ gem 'redis'
 gem 'roadie-rails'
 gem 'sassc-rails'
 gem 'settingslogic'
+gem 'sprockets-rails'
 gem 'uglifier'
 
 group :development do
