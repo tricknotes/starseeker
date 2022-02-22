@@ -5,7 +5,7 @@ ruby '3.1.1'
 gem 'rails', '~> 6.1.0'
 
 gem 'hamlit'
-gem 'mongoid'
+gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/5122
 gem 'net-imap' # Missing gem for mail. Ref: https://github.com/mikel/mail/pull/1439
 gem 'net-pop' # Same as above
 gem 'net-smtp' # Same as above
