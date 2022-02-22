@@ -33,7 +33,7 @@ module Starseeker
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.after_initialize do
-      ActionMailer::Base.default_url_options = Settings.url_options
+      Rails.application.default_url_options = Settings.url_options
     end
   end
 end
