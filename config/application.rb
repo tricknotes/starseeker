@@ -32,8 +32,8 @@ module Starseeker
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.before_initialize do
-      config.action_mailer.default_url_options = Settings.url_options
+    config.after_initialize do
+      ActionMailer::Base.default_url_options = Settings.url_options
     end
   end
 end
