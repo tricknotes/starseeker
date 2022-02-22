@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module Starseeker
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -32,8 +32,8 @@ module Starseeker
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.before_initialize do
-      config.action_mailer.default_url_options = Settings.url_options
+    config.after_initialize do
+      Rails.application.default_url_options = Settings.url_options
     end
   end
 end

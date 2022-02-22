@@ -5,13 +5,6 @@ defaults: &defaults
     secret: <%= ENV['GITHUB_SECRET'] %>
     login: <%= ENV['GITHUB_LOGIN'] %>
     token: <%= ENV['GITHUB_TOKEN'] %>
-  mail:
-    address: 'smtp.sendgrid.net'
-    port: 587
-    domain: 'heroku.com'
-    authentication: :plain
-    user_name: <%= ENV['SENDGRID_USERNAME'] %>
-    password: <%= ENV['SENDGRID_PASSWORD'] %>
   redis:
     url: <%= ENV['REDIS_URL'] %>
   idobata_hook_url: <%= ENV['IDOBATA_HOOK_URL'] %>
