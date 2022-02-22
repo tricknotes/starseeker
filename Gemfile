@@ -11,12 +11,10 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg'
-gem 'psych', '~> 3.0' # To avoid Settinglogics & YAML 4 issue: https://github.com/ruby/psych/pull/487
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
 gem 'sassc-rails'
-gem 'settingslogic'
 gem 'sprockets-rails'
 gem 'uglifier'
 
