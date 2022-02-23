@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Stars page' do
   given!(:user) { create(:user) }
 

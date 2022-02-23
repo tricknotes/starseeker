@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe MyHotRepository do
   let!(:user) { create(:user) }
   let!(:starred_user_data) { {'login' => 'Buccellati', 'avatar_url' => 'http://example.com/icon.png'} }

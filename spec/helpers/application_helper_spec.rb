@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ApplicationHelper do
   describe '#github_url' do
     it 'should contains name' do

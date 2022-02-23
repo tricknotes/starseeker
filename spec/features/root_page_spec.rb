@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Root page' do
   context 'Without signin' do
     scenario 'Visit root page' do

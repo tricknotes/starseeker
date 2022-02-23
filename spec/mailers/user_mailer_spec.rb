@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe UserMailer do
   let(:user) { create(:user) }
 

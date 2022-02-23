@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Activity' do
   given!(:user) { create(:user, :with_authentication) }
   given!(:starred_user_data) { {'login' => 'Jeseph', 'avatar_url' => 'http://example.com/joseph.png'} }

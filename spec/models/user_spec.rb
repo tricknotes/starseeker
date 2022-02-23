@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe User do
   describe 'default attributes' do
     its(:activation_state) { is_expected.to be_nil }

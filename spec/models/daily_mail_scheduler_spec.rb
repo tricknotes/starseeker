@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe DailyMailScheduler do
   let!(:user) { create(:user, :with_authentication) }
 

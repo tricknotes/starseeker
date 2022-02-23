@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Dashboard' do
   given!(:user) { create(:user, :with_authentication, email: 'user@starseeker.so') }
   given!(:starred_user_data) { {login: 'USER', avatar_url: 'http://example.com/user.png'} }
