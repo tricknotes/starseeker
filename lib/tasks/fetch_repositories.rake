@@ -16,7 +16,7 @@ task :fetch_repositories => :environment do
   repo_names = star_events.map {|star_event| star_event.repo['name'] }.uniq
   puts "\033[33m%d\033[39m repositories found." % repo_names.count
 
-  repo_names.map do |repo_name|
+  repo_names.each do |repo_name|
     repo = Repository.fetch!(repo_name)
     message = if repo
         "Fetched repository \033[36m%s\033[39m.\n"
