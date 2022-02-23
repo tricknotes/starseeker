@@ -13,11 +13,11 @@ task :update_account_info => :environment do
       next
     end
 
-    {
+    user.attributes = {
       username: user_info['login'],
       name: user_info['name'],
       avatar_url: user_info['avatar_url']
-    }.each {|attribute, value| user.send("#{attribute}=", value) }
+    }
 
     if user.changed?
       change_detail = user.changes.map {|attribute, (before, after)| '%s: %s -> %s' % [attribute, before, after] }.join(', ')
