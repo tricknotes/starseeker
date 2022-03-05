@@ -23,12 +23,7 @@ Initialize stub data for **local development**.
 $ docker-compose run --rm -e GITHUB_LOGIN="your github account" app rails db:seeds_stub_event
 ```
 
-Edit config:
-``` sh
-$ cp config/settings.yml.example config/settings.yml
-```
-
-Write your settings to `config/settings.yml`
+Setup environment variables that are described in `docker-compose.yml`.
 
 And run:
 ``` sh
