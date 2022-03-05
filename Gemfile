@@ -21,9 +21,7 @@ gem 'uglifier'
 group :development do
   gem 'letter_opener_web'
   gem 'listen'
-  gem 'pry', groups: %i(test)
-  gem 'pry-rails', groups: %i(test)
-  gem 'tapp', groups: %i(test)
+  gem 'debug', groups: %i(test)
   gem 'web-console'
 end
 
