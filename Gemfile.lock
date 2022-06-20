@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: f563bc0fcdff57c07f1405746336d8e9dc4892e5
+  revision: aa28ed9f4921f4cfa1579c08ae06ce84d5e474a0
   specs:
     mongoid (8.0.0.alpha)
       activemodel (>= 5.1, < 7.1, != 7.0.0)
@@ -122,7 +122,7 @@ GEM
     io-console (0.5.11)
     irb (1.4.1)
       reline (>= 0.3.0)
-    jwt (2.3.0)
+    jwt (2.4.1)
     launchy (2.5.0)
       addressable (~> 2.7)
     letter_opener (1.8.1)
@@ -145,7 +145,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minitest (5.15.0)
+    minitest (5.16.0)
     mongo (2.17.1)
       bson (>= 4.8.2, < 5.0.0)
     multi_json (1.15.0)
@@ -174,7 +174,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    octokit (4.23.0)
+    octokit (4.25.0)
       faraday (>= 1, < 3)
       sawyer (~> 0.9)
     omniauth (2.1.0)
@@ -184,8 +184,8 @@ GEM
     omniauth-github (2.0.0)
       omniauth (~> 2.0)
       omniauth-oauth2 (~> 1.7.1)
-    omniauth-oauth2 (1.7.2)
-      oauth2 (~> 1.4)
+    omniauth-oauth2 (1.7.3)
+      oauth2 (>= 1.4, < 3)
       omniauth (>= 1.9, < 3)
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
@@ -217,7 +217,7 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.2)
+    rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
     railties (7.0.3)
       actionpack (= 7.0.3)
@@ -270,7 +270,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sawyer (0.9.1)
+    sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
     sprockets (4.0.3)
@@ -299,7 +299,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   ruby
