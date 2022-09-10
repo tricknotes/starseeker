@@ -113,7 +113,7 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    hamlit (3.0.1)
+    haml (6.0.0.beta.2)
       temple (>= 0.8.2)
       thor
       tilt
@@ -316,7 +316,7 @@ DEPENDENCIES
   capybara
   debug
   factory_bot_rails
-  hamlit
+  haml (~> 6.0.0.beta.2)
   letter_opener_web
   listen
   mongoid!
