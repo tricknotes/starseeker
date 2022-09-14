@@ -2,7 +2,9 @@
 
 %h1 #{@user.name}
 
-%p Hello, #{link_to "@#{@user.username}", github_url(@user.username)}
+%p
+  Hello,
+  = link_to "@#{@user.username}", github_url(@user.username)
 
 %p
   = image_link_to_github_url(@user)
