@@ -4,7 +4,7 @@ ruby '3.1.2'
 
 gem 'rails', '~> 7.0.2'
 
-gem 'haml', '~> 6.0.0.beta.2'
+gem 'haml'
 gem 'mongoid', github: 'mongodb/mongoid' # To use https://github.com/mongodb/mongoid/pull/5122
 gem 'octokit'
 gem 'omniauth'
