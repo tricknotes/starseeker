@@ -95,6 +95,7 @@ GEM
     crass (1.0.6)
     css_parser (1.12.0)
       addressable
+    date (3.3.1)
     debug (1.7.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
@@ -113,7 +114,7 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    haml (6.0.12)
+    haml (6.1.1)
       temple (>= 0.8.2)
       thor
       tilt
@@ -121,7 +122,7 @@ GEM
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-console (0.5.11)
-    irb (1.5.1)
+    irb (1.6.1)
       reline (>= 0.3.0)
     jwt (2.5.0)
     launchy (2.5.0)
@@ -136,7 +137,7 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.19.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.0)
@@ -150,10 +151,11 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.16.3)
-    mongo (2.18.1)
+    mongo (2.18.2)
       bson (>= 4.14.1, < 5.0.0)
     multi_xml (0.6.0)
-    net-imap (0.3.1)
+    net-imap (0.3.2)
+      date
       net-protocol
     net-pop (0.1.2)
       net-protocol
@@ -215,8 +217,8 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.4.3)
-      loofah (~> 2.3)
+    rails-html-sanitizer (1.4.4)
+      loofah (~> 2.19, >= 2.19.1)
     railties (7.0.4)
       actionpack (= 7.0.4)
       activesupport (= 7.0.4)
@@ -250,7 +252,7 @@ GEM
     rspec-its (1.3.0)
       rspec-core (>= 3.0.0)
       rspec-expectations (>= 3.0.0)
-    rspec-mocks (3.12.0)
+    rspec-mocks (3.12.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
     rspec-rails (6.0.1)
