@@ -6,12 +6,10 @@ default: &default
 
 development:
   <<: *default
-  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
   database: starseeker_development
 
 test:
   <<: *default
-  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
   database: starseeker_test
 
 production:

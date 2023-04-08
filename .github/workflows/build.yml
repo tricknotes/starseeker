@@ -10,7 +10,7 @@ jobs:
       postgres:
         image: postgres:15.2
         env:
-          PG_USER: postgres
+          POSTGRES_PASSWORD: password
       mongo:
         image: mongo:4.4.1
       redis:
@@ -21,7 +21,7 @@ jobs:
       image: ruby:3.2.2
       env:
         BASE_URL: 'http://example.com'
-        DATABASE_HOST: postgres
+        DATABASE_URL: postgresql://postgres:password@postgres
         MONGO_HOST: mongo
         RAILS_ENV: test
         REDIS_URL: redis://redis:6379
