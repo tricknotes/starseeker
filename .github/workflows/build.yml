@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:9.4.24
+        image: postgres:15.2
         env:
           PG_USER: postgres
       mongo:
