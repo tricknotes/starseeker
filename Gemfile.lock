@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: 59e55643cf490932bcf6fc5c485faf9df843132a
+  revision: 3bfbd3d8f0d3b244753a86c4bf20312dff88fa58
   specs:
     mongoid (9.0.0.alpha)
       activemodel (>= 5.1, < 7.1, != 7.0.0)
@@ -81,7 +81,7 @@ GEM
     bindex (0.8.1)
     bson (4.15.0)
     builder (3.2.4)
-    capybara (3.39.1)
+    capybara (3.39.2)
       addressable
       matrix
       mini_mime (>= 0.1.3)
@@ -107,7 +107,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (2.7.5)
+    faraday (2.7.6)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
@@ -119,12 +119,12 @@ GEM
       thor
       tilt
     hashie (5.0.0)
-    i18n (1.13.0)
+    i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
-    irb (1.6.4)
+    irb (1.7.0)
       reline (>= 0.3.0)
-    jwt (2.7.0)
+    jwt (2.7.1)
     launchy (2.5.2)
       addressable (~> 2.8)
     letter_opener (1.8.1)
@@ -153,7 +153,7 @@ GEM
     mongo (2.18.2)
       bson (>= 4.14.1, < 5.0.0)
     multi_xml (0.6.0)
-    net-imap (0.3.4)
+    net-imap (0.3.6)
       date
       net-protocol
     net-pop (0.1.2)
@@ -192,9 +192,9 @@ GEM
       omniauth (~> 2.0)
     pg (1.5.3)
     public_suffix (5.0.1)
-    puma (6.2.2)
+    puma (6.3.0)
       nio4r (~> 2.0)
-    racc (1.6.2)
+    racc (1.7.0)
     rack (2.2.7)
     rack-protection (3.0.6)
       rack
@@ -235,8 +235,8 @@ GEM
       redis-client (>= 0.9.0)
     redis-client (0.14.1)
       connection_pool
-    regexp_parser (2.8.0)
-    reline (0.3.4)
+    regexp_parser (2.8.1)
+    reline (0.3.5)
       io-console (~> 0.5)
     rexml (3.2.5)
     roadie (5.1.0)
@@ -256,7 +256,7 @@ GEM
     rspec-mocks (3.12.5)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-rails (6.0.2)
+    rspec-rails (6.0.3)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       railties (>= 6.1)
@@ -289,13 +289,13 @@ GEM
       sprockets (>= 3.0.0)
     temple (0.10.2)
     thor (1.2.2)
-    tilt (2.1.0)
+    tilt (2.2.0)
     timeout (0.3.2)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    version_gem (1.1.2)
+    version_gem (1.1.3)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
