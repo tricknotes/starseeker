@@ -42,7 +42,7 @@ Send daily hot repositories mail to scheduled users:
 $ docker compose run --rm app rails send_hot_repositories
 ```
 
-Refresh repository data for chache:
+Refresh repository data for cache:
 ``` sh
 $ docker compose run --rm app rails fetch_repositories
 ```
