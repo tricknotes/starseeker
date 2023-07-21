@@ -9,7 +9,7 @@ class Settings::EmailsController < ApplicationController
 
     if @user.update(setting_email_params)
       if @user.email_sendable? && before_email != @user.email
-        send_actiavtion_mail(@user)
+        send_activation_mail(@user)
 
         message = 'Send email to your address.'
       else
@@ -23,7 +23,7 @@ class Settings::EmailsController < ApplicationController
   end
 
   def send_confirmation
-    send_actiavtion_mail(@user)
+    send_activation_mail(@user)
     redirect_to dashboard_path, notice: 'Confirmation mail has been sent to your mailbox.'
   end
 
@@ -33,7 +33,7 @@ class Settings::EmailsController < ApplicationController
     params.require(:user).permit(:email, :subscribe)
   end
 
-  def send_actiavtion_mail(user)
+  def send_activation_mail(user)
     UserMailer.activation_needed_email(user).deliver_now
   end
 end
