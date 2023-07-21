@@ -1,5 +1,5 @@
 class Settings::EmailsController < ApplicationController
-  before_action :require_login, :assign_curent_user
+  before_action :require_login, :assign_current_user
 
   def show
   end

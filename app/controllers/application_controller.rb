@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def assign_curent_user
+  def assign_current_user
     @user = current_user
   end
 end
