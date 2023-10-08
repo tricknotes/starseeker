@@ -20,7 +20,6 @@ gem 'uglifier'
 
 group :development do
   gem 'letter_opener_web'
-  gem 'listen'
   gem 'debug', groups: %i(test)
   gem 'web-console'
 end
