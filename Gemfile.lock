@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: 6cfc4f88caa8e14a9c36dca76947bdb47de1728c
+  revision: 37f32efc540dc7d39be40dbd9c3ac0c8a011ecc7
   ref: refs/pull/5728/head
   specs:
     mongoid (9.0.0.alpha)
