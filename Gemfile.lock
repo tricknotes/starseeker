@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/Mange/roadie-rails.git
-  revision: a13712c32f68aacf425c8dbe552abc5ddd74b4e5
-  ref: refs/pull/107/head
-  specs:
-    roadie-rails (3.0.0)
-      railties (>= 5.1)
-      roadie (~> 5.0)
-
-GIT
   remote: https://github.com/mongodb/mongoid.git
   revision: 37f32efc540dc7d39be40dbd9c3ac0c8a011ecc7
   ref: refs/pull/5728/head
@@ -145,7 +136,7 @@ GEM
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
-    irb (1.8.1)
+    irb (1.8.3)
       rdoc
       reline (>= 0.3.8)
     jwt (2.7.1)
@@ -158,7 +149,7 @@ GEM
       letter_opener (~> 1.7)
       railties (>= 5.2)
       rexml
-    loofah (2.21.3)
+    loofah (2.21.4)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -212,7 +203,7 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     pg (1.5.4)
-    psych (5.1.0)
+    psych (5.1.1.1)
       stringio
     public_suffix (5.0.3)
     puma (6.4.0)
@@ -271,6 +262,9 @@ GEM
     roadie (5.2.0)
       css_parser (~> 1.4)
       nokogiri (~> 1.15)
+    roadie-rails (3.1.0)
+      railties (>= 5.1, < 8.0)
+      roadie (~> 5.0)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.3)
@@ -315,7 +309,7 @@ GEM
       sprockets (>= 3.0.0)
     stringio (3.0.8)
     temple (0.10.3)
-    thor (1.2.2)
+    thor (1.3.0)
     tilt (2.3.0)
     timeout (0.4.0)
     tzinfo (2.0.6)
@@ -355,7 +349,7 @@ DEPENDENCIES
   puma
   rails (~> 7.1.0)
   redis
-  roadie-rails!
+  roadie-rails
   rspec-its
   rspec-rails
   sassc-rails

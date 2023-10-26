@@ -13,7 +13,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'pg'
 gem 'puma', require: false
 gem 'redis'
-gem 'roadie-rails', github: 'Mange/roadie-rails', ref: 'refs/pull/107/head' # To use https://github.com/Mange/roadie-rails/pull/107
+gem 'roadie-rails'
 gem 'sassc-rails'
 gem 'sprockets-rails'
 gem 'uglifier'
