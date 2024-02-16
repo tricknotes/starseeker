@@ -142,7 +142,7 @@ GEM
     jwt (2.7.1)
     launchy (2.5.2)
       addressable (~> 2.8)
-    letter_opener (1.8.1)
+    letter_opener (1.9.0)
       launchy (>= 2.2, < 3)
     letter_opener_web (2.0.0)
       actionmailer (>= 5.2)
@@ -207,7 +207,7 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    pg (1.5.4)
+    pg (1.5.5)
     psych (5.1.2)
       stringio
     public_suffix (5.0.4)
@@ -259,7 +259,7 @@ GEM
       psych (>= 4.0.0)
     redis (5.1.0)
       redis-client (>= 0.17.0)
-    redis-client (0.19.1)
+    redis-client (0.20.0)
       connection_pool
     regexp_parser (2.9.0)
     reline (0.4.2)
