@@ -112,8 +112,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
-    drb (2.2.0)
-      ruby2_keywords
+    drb (2.2.1)
     erubi (1.12.0)
     execjs (2.9.1)
     factory_bot (6.4.6)
@@ -139,7 +138,7 @@ GEM
     irb (1.11.2)
       rdoc
       reline (>= 0.4.2)
-    jwt (2.8.0)
+    jwt (2.8.1)
       base64
     launchy (2.5.2)
       addressable (~> 2.8)
@@ -158,7 +157,7 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.2)
+    marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.22.2)
@@ -208,7 +207,7 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    pg (1.5.5)
+    pg (1.5.6)
     psych (5.1.2)
       stringio
     public_suffix (5.0.4)
@@ -260,7 +259,7 @@ GEM
       psych (>= 4.0.0)
     redis (5.1.0)
       redis-client (>= 0.17.0)
-    redis-client (0.20.0)
+    redis-client (0.21.0)
       connection_pool
     regexp_parser (2.9.0)
     reline (0.4.3)
