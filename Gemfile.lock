@@ -1,14 +1,3 @@
-GIT
-  remote: https://github.com/mongodb/mongoid.git
-  revision: 37f32efc540dc7d39be40dbd9c3ac0c8a011ecc7
-  ref: refs/pull/5728/head
-  specs:
-    mongoid (9.0.0.alpha)
-      activemodel (>= 5.1, < 7.2, != 7.0.0)
-      concurrent-ruby (>= 1.0.5, < 2.0)
-      mongo (>= 2.18.0, < 3.0.0)
-      ruby2_keywords (~> 0.0.5)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -165,6 +154,11 @@ GEM
     minitest (5.22.3)
     mongo (2.20.0)
       bson (>= 4.14.1, < 6.0.0)
+    mongoid (8.1.5)
+      activemodel (>= 5.1, < 7.2, != 7.0.0)
+      concurrent-ruby (>= 1.0.5, < 2.0)
+      mongo (>= 2.18.0, < 3.0.0)
+      ruby2_keywords (~> 0.0.5)
     multi_xml (0.6.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
@@ -350,7 +344,7 @@ DEPENDENCIES
   factory_bot_rails
   haml
   letter_opener_web
-  mongoid!
+  mongoid
   octokit
   omniauth
   omniauth-github
