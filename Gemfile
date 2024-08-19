@@ -19,8 +19,9 @@ gem 'sprockets-rails'
 gem 'uglifier'
 
 group :development do
-  gem 'letter_opener_web'
+  gem 'brakeman'
   gem 'debug', groups: %i(test)
+  gem 'letter_opener_web'
   gem 'web-console'
 end
 

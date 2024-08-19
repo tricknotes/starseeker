@@ -86,6 +86,8 @@ GEM
     base64 (0.2.0)
     bigdecimal (3.1.8)
     bindex (0.8.1)
+    brakeman (6.1.2)
+      racc
     bson (5.0.1)
     builder (3.3.0)
     capybara (3.40.0)
@@ -348,6 +350,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  brakeman
   capybara
   debug
   factory_bot_rails
