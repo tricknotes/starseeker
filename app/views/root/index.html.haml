@@ -21,7 +21,7 @@
 
   %span.join-us
     - if logged_in?
-      = link_to 'Let\'s go on a journey to seek for your stars!', github_url, target: :_blank
+      = link_to 'Let\'s go on a journey to seek for your stars!', github_url, target: :_blank, rel: 'noopener noreferrer'
     - else
       = link_to 'Sign in with GitHub', '/auth/github', method: :post
 
