@@ -1,18 +1,16 @@
-name: reviewdog
+name: Reviewdog
+
 on: [pull_request]
+
 jobs:
   brakeman:
-    name: runner / brakeman
+    name: brakeman
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.3
-      - name: brakeman
-        uses: reviewdog/action-brakeman@v2
+          ruby-version: 3.3.4
+      - uses: reviewdog/action-brakeman@v2
         with:
-          brakeman_version: 4.8.2
           reporter: github-pr-review # Default is github-pr-check
