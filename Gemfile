@@ -2,10 +2,10 @@ source 'https://rubygems.org'
 
 ruby '3.3.4'
 
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0'
 
 gem 'haml'
-gem 'mongoid'
+gem 'mongoid', github: 'mongodb/mongoid', ref: 'refs/pull/5852/head'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
@@ -19,8 +19,9 @@ gem 'sprockets-rails'
 gem 'uglifier'
 
 group :development do
-  gem 'letter_opener_web'
+  gem 'brakeman'
   gem 'debug', groups: %i(test)
+  gem 'letter_opener_web'
   gem 'web-console'
 end
 
