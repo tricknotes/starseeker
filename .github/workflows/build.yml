@@ -8,11 +8,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15.2
+        image: postgres:15.4
         env:
           POSTGRES_PASSWORD: password
       mongo:
-        image: mongo:4.4.1
+        image: mongo:7.0.12
       redis:
         image: redis:7.0
         options: --entrypoint redis-server
