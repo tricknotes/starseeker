@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: ABeeZee;
-  src: local("ABeeZee"), asset-url("ABeeZee-Regular.ttf") format("truetype");
+  src: local("ABeeZee"), url("ABeeZee-Regular.ttf") format("truetype");
 }
 
 html {

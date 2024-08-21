@@ -11,11 +11,10 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg'
+gem 'propshaft'
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
-gem 'sassc-rails'
-gem 'sprockets-rails'
 gem 'uglifier'
 
 group :development do
