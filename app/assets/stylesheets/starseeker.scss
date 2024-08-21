@@ -1,5 +1,7 @@
-$font-size: 15px;
-$link-color: #edb020;
+* {
+  --font-size: 15px;
+  --link-color: #edb020;
+}
 
 @font-face {
   font-family: ABeeZee;
@@ -29,9 +31,9 @@ html {
 body {
   background-color: #fff;
   color: #333;
-  border-top: 7px solid $link-color;
+  border-top: 7px solid var(--link-color);
   font-family: ABeeZee, verdana, arial, helvetica, sans-serif;
-  font-size: $font-size;
+  font-size: var(--font-size);
 }
 
 nav {
@@ -41,7 +43,7 @@ nav {
   li {
     text-align: right;
     border: none;
-    min-width: $font-size * 7;
+    min-width: calc(var(--font-size) * 7);
     display: inline-block;
   }
 }
@@ -76,11 +78,11 @@ header {
 }
 
 a {
-  color: $link-color;
+  color: var(--link-color);
   text-decoration: none;
 
   &:visited {
-    color: $link-color;
+    color: var(--link-color);
   }
 
   &:hover {
@@ -99,7 +101,7 @@ li {
 }
 
 .repo_name {
-  font-size: $font-size * 1.2;
+  font-size: calc(var(--font-size) * 1.2);
 }
 
 .starred_at, .stargazers {
@@ -113,18 +115,18 @@ li {
 }
 
 .starred_at {
-  font-size: $font-size / 1.3;
+  font-size: calc(var(--font-size) / 1.3);
   font-style: italic;
 }
 
 .description {
   display: block;
-  font-size: $font-size * 0.9;
-  min-height: $font-size * 0.9;
+  font-size: calc(var(--font-size) * 0.9);
+  min-height: calc(var(--font-size) * 0.9);
 }
 
 #catch-phrase {
-  font-size: $font-size * 1.15;
+  font-size: calc(var(--font-size) * 1.15);
 }
 
 #members {
@@ -150,18 +152,18 @@ li {
   .join-us {
     margin: 30px 0px;
     display: block;
-    font-size: $font-size * 1.5;
+    font-size: calc(var(--font-size) * 1.5);
     text-align: center;
   }
 }
 
 #notice {
-  font-size: $font-size * 1.38;
+  font-size: calc(var(--font-size) * 1.38);
   color: green;
 }
 
 #alert {
-  font-size: $font-size * 1.38;
+  font-size: calc(var(--font-size) * 1.38);
   color: red;
 }
 
@@ -174,14 +176,14 @@ li {
 footer {
   background: #eee;
   width: 100%;
-  padding: $font-size * 4 0px;
+  padding: calc(var(--font-size) * 4) 0px;
   text-align: right;
   border-top: 1px solid #ddd;
 
   span {
     display: block;
-    margin-right: $font-size * 2.5;
+    margin-right: calc(var(--font-size) * 2.5);
     color: #888;
-    font-size: $font-size;
+    font-size: calc(var(--font-size);
   }
 }
