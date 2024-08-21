@@ -3,8 +3,9 @@
   %head
     - page_title = [@title, 'starseeker'].compact.join(' | ')
     %title= page_title
+    = stylesheet_link_tag    'normalize',   media: 'all'
     = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'rails-ujs'
     = csrf_meta_tags
 
     - # OGP
