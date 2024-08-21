@@ -8,14 +8,6 @@
   src: local("ABeeZee"), asset-url("ABeeZee-Regular.ttf") format("truetype");
 }
 
-@mixin shadow($scale, $shading) {
-  $bright: #eee;
-  $dark:   #999;
-  $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
-
-  box-shadow: $box-shadow;
-}
-
 html {
   overflow-x: hidden;
   min-width: 550px;
@@ -54,11 +46,24 @@ nav li {
   transition-property: box-shadow;
   transition-duration: 0.5s;
   transition-timing-function: default;
-  @include shadow(7px, 0.9);
+
+  $bright:  #eee;
+  $dark:    #999;
+  $scale:   7px;
+  $shading: 0.9;
+  $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
+
+  box-shadow: $box-shadow;
 }
 
 #content img:hover, header img:hover {
-  @include shadow(9px, 0.7);
+  $bright: #eee;
+  $dark:   #999;
+  $scale:   9px;
+  $shading: 0.7;
+  $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
+
+  box-shadow: $box-shadow;
 }
 
 header {
