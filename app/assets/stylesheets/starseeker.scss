@@ -15,20 +15,10 @@ $link-color: #edb020;
   $dark:   #999;
   $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
 
-  -webkit-box-shadow: $box-shadow;
   box-shadow:         $box-shadow;
-  -webkit-transition-property: -webkit-box-shadow;
-  -webkit-transition-duration: 0.5s;
-  -webkit-transition-timing-function: default;
-  -moz-transition-property: box-shadow;
-  -moz-transition-duration: 0.5s;
-  -moz-transition-timing-function: default;
-}
-
-@mixin radius($scale) {
-  -webkit-border-radius: $scale;
-  -moz-border-radius: $scale;
-  border-radius: $scale;
+  transition-property: box-shadow;
+  transition-duration: 0.5s;
+  transition-timing-function: default;
 }
 
 html {
@@ -64,7 +54,7 @@ nav {
     margin: 0px 2px 0px 2px;
     padding: 1px;
     max-width: 100%;
-    @include radius(5px);
+    border-radius: 5px;
     @include shadow(7px, 0.9);
 
     &:hover {
