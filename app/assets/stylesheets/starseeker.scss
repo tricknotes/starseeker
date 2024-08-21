@@ -35,38 +35,38 @@ body {
 nav {
   display: inline-block;
   float: right;
+}
 
-  li {
-    text-align: right;
-    border: none;
-    min-width: calc(var(--font-size) * 7);
-    display: inline-block;
-  }
+nav li {
+  text-align: right;
+  border: none;
+  min-width: calc(var(--font-size) * 7);
+  display: inline-block;
 }
 
 #content, header {
   margin: auto;
   max-width: 650px;
+}
 
-  img {
-    margin: 0px 2px 0px 2px;
-    padding: 1px;
-    max-width: 100%;
-    border-radius: 5px;
-    @include shadow(7px, 0.9);
+#content img, header img {
+  margin: 0px 2px 0px 2px;
+  padding: 1px;
+  max-width: 100%;
+  border-radius: 5px;
+  @include shadow(7px, 0.9);
+}
 
-    &:hover {
-      @include shadow(9px, 0.7);
-    }
-  }
+#content img:hover, header img:hover {
+  @include shadow(9px, 0.7);
 }
 
 header {
   padding-top: 60px;
+}
 
-  h1 {
-    display: inline-block;
-  }
+header h1 {
+  display: inline-block;
 }
 
 #content {
@@ -76,14 +76,14 @@ header {
 a {
   color: var(--link-color);
   text-decoration: none;
+}
 
-  &:visited {
-    color: var(--link-color);
-  }
+a:visited {
+  color: var(--link-color);
+}
 
-  &:hover {
-    text-decoration: underline;
-  }
+a:hover {
+  text-decoration: underline;
 }
 
 ul {
@@ -104,10 +104,10 @@ li {
   display: inline-block;
   text-align: right;
   float: right;
+}
 
-  & > .starred_at {
-    float: none;
-  }
+.stargazers > .starred_at {
+  float: none;
 }
 
 .starred_at {
@@ -129,28 +129,26 @@ li {
   display: block;
   min-height: 320px;
   padding: 40px 17px 0px 17px;
-
-  li {
-    display: inline-block;
-    width: calc((100% - 1%) / 5);
-    text-align: center;
-    border: 0;
-  }
 }
 
-#usage {
-  ol li {
-    display: list-item;
-    border: none;
-    margin: 10px 0px;
-  }
+#members li {
+  display: inline-block;
+  width: calc((100% - 1%) / 5);
+  text-align: center;
+  border: 0;
+}
 
-  .join-us {
-    margin: 30px 0px;
-    display: block;
-    font-size: calc(var(--font-size) * 1.5);
-    text-align: center;
-  }
+#usage ol li {
+  display: list-item;
+  border: none;
+  margin: 10px 0px;
+}
+
+#usage .join-us {
+  margin: 30px 0px;
+  display: block;
+  font-size: calc(var(--font-size) * 1.5);
+  text-align: center;
 }
 
 #notice {
@@ -175,11 +173,11 @@ footer {
   padding: calc(var(--font-size) * 4) 0px;
   text-align: right;
   border-top: 1px solid #ddd;
+}
 
-  span {
-    display: block;
-    margin-right: calc(var(--font-size) * 2.5);
-    color: #888;
-    font-size: calc(var(--font-size);
-  }
+footer span {
+  display: block;
+  margin-right: calc(var(--font-size) * 2.5);
+  color: #888;
+  font-size: calc(var(--font-size));
 }
