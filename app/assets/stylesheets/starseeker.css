@@ -47,23 +47,14 @@ nav li {
   transition-duration: 0.5s;
   transition-timing-function: default;
 
-  $bright:  #eee;
-  $dark:    #999;
-  $scale:   7px;
-  $shading: 0.9;
-  $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
-
-  box-shadow: $box-shadow;
+  --scale:   7px;
+  --shading: 0.9;
+  box-shadow: 0 var(--scale) calc(var(--scale) * 2) #d6d6d6, 0 calc(var(--scale) / 2) calc(var(--scale) * 2) #8a8a8a;
 }
 
 #content img:hover, header img:hover {
-  $bright: #eee;
-  $dark:   #999;
-  $scale:   9px;
-  $shading: 0.7;
-  $box-shadow: 0 $scale $scale * 2 $bright * $shading, 0 $scale / 2 $scale * 2 $dark * $shading;
-
-  box-shadow: $box-shadow;
+  --scale:   9px;
+  --shading: 0.7;
 }
 
 header {
