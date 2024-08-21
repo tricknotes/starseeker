@@ -8,10 +8,6 @@
   src: local("ABeeZee"), asset-url("ABeeZee-Regular.ttf") format("truetype");
 }
 
-@function divide-equally($count) {
-  @return floor((100% - 1) / $count);
-}
-
 @mixin shadow($scale, $shading) {
   $bright: #eee;
   $dark:   #999;
@@ -136,7 +132,7 @@ li {
 
   li {
     display: inline-block;
-    width: divide-equally(5);
+    width: calc((100% - 1%) / 5);
     text-align: center;
     border: 0;
   }
