@@ -15,7 +15,6 @@ gem 'propshaft'
 gem 'puma', require: false
 gem 'redis'
 gem 'roadie-rails'
-gem 'uglifier'
 
 group :development do
   gem 'brakeman'
