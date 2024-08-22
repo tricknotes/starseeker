@@ -1,3 +1,4 @@
+/* Use default value for mailer style since Gmail doesn't support custom CSS properies. */
 :root {
   --font-size: 15px;
   --link-color: #edb020;
@@ -16,7 +17,7 @@ html {
 body {
   background-color: #fff;
   color: #333;
-  border-top: 7px solid var(--link-color);
+  border-top: 7px solid var(--link-color, #edb020);
   font-family: ABeeZee, verdana, arial, helvetica, sans-serif;
   font-size: var(--font-size);
 }
@@ -70,12 +71,12 @@ header h1 {
 }
 
 a {
-  color: var(--link-color);
+  color: var(--link-color, #edb020);
   text-decoration: none;
 }
 
 a:visited {
-  color: var(--link-color);
+  color: var(--link-color, #edb020);
 }
 
 a:hover {
