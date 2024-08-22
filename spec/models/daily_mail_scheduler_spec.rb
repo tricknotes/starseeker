@@ -73,7 +73,7 @@ describe DailyMailScheduler do
         subject.send_mail_to_scheduled_users
       end
 
-      it 'should skip mail seding' do
+      it 'should skip mail sending' do
         mail = ActionMailer::Base.deliveries.first
         expect(mail).to be_nil
       end
