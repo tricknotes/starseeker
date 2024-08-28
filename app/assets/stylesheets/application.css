@@ -130,7 +130,7 @@ li {
 
 #members li {
   display: inline-block;
-  width: calc((100% - 1%) / 5);
+  width: calc(100% / 5 - 1%);
   text-align: center;
   border: 0;
 }
