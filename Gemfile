@@ -4,7 +4,7 @@ ruby '3.3.5'
 gem 'rails', '~> 7.2.0'
 
 gem 'haml'
-gem 'mongoid', github: 'mongodb/mongoid', ref: 'refs/pull/5852/head'
+gem 'mongoid', github: 'mongodb/mongoid'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
