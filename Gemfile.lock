@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: a79e90cb67b8a5865e99a1c6d7cb11e0d7591e7c
+  revision: fc0971439d2d6ec3cc8aeb082c656a3f2c37136c
   specs:
-    mongoid (9.0.1)
+    mongoid (9.0.2)
       activemodel (>= 5.1, < 7.3, != 7.0.0)
       concurrent-ruby (>= 1.0.5, < 2.0)
       mongo (>= 2.18.0, < 3.0.0)
@@ -117,8 +117,9 @@ GEM
     factory_bot_rails (6.4.3)
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
-    faraday (2.11.0)
+    faraday (2.12.0)
       faraday-net_http (>= 2.0, < 3.4)
+      json
       logger
     faraday-net_http (3.3.0)
       net-http
@@ -129,13 +130,14 @@ GEM
       thor
       tilt
     hashie (5.0.0)
-    i18n (1.14.5)
+    i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
     irb (1.14.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jwt (2.8.2)
+    json (2.7.2)
+    jwt (2.9.0)
       base64
     launchy (3.0.1)
       addressable (~> 2.8)
@@ -160,7 +162,7 @@ GEM
     matrix (0.4.2)
     mini_mime (1.1.5)
     minitest (5.25.1)
-    mongo (2.20.1)
+    mongo (2.21.0)
       bson (>= 4.14.1, < 6.0.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
@@ -214,7 +216,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.7)
