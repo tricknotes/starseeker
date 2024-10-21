@@ -25,6 +25,7 @@ jobs:
         MONGO_HOST: mongo
         RAILS_ENV: test
         REDIS_URL: redis://redis:6379
+        RUBYOPT: '-W:deprecated'
 
     steps:
       - uses: actions/checkout@v3

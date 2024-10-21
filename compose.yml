@@ -38,6 +38,7 @@ services:
       GITHUB_LOGIN: ${GITHUB_LOGIN}
       GITHUB_SECRET: ${GITHUB_SECRET}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
+      RUBYOPT: '-W:deprecated'
 
 volumes:
   postgres-data:
