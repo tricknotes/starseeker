@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  attr_accessor :github_client
-
   MAX_FOLLOWER_PAGE_COUNT = 50
 
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
@@ -24,8 +22,7 @@ class User < ActiveRecord::Base
   class << self
     def find_or_fetch_by_username(username)
       self.find_by_username(username) || User.new {|user|
-        user.github_client = Settings.github_client
-        github_user = user.github_client.user(username)
+        github_user = Settings.github_client.user(username)
         user.username = github_user.login
         user.avatar_url = github_user.avatar_url
       }
