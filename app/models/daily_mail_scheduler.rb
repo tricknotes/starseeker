@@ -64,9 +64,17 @@ module DailyMailScheduler
     private
 
     def redis
-      @redis ||= begin
-        RedisClient.config(url: Settings.redis_url).new_client
-      end
+      @redis ||=
+        begin
+          config = RedisClient.config(
+            url: Settings.redis_url,
+            ssl_params: {
+              verify_mode: OpenSSL::SSL::VERIFY_NONE
+            }
+          )
+
+          config.new_client
+        end
     end
 
     def status_for_user(user)
