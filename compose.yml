@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
   mongo:
-    image: mongo:7.0.12
+    image: mongo:7.0.14
     container_name: starseeker-mongo
     volumes:
       - mongo-data:/data/db
