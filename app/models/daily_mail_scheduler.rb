@@ -13,7 +13,7 @@ module DailyMailScheduler
     def schedule(users)
       statuses = users.flat_map {|user| [user.id, Status::SCHEDULED] }
 
-      redis.hmset TABLE_NAME, *statuses
+      redis.call 'HMSET', TABLE_NAME, *statuses
     end
 
     def send_mail_to_scheduled_users
@@ -52,11 +52,11 @@ module DailyMailScheduler
     end
 
     def clear!
-      redis.del TABLE_NAME
+      redis.call 'DEL', TABLE_NAME
     end
 
     def scheduled_users
-      user_ids = redis.hkeys(TABLE_NAME)
+      user_ids = redis.call('HKEYS', TABLE_NAME)
 
       User.find(user_ids)
     end
@@ -65,25 +65,24 @@ module DailyMailScheduler
 
     def redis
       @redis ||= begin
-        uri = URI.parse(Settings.redis_url)
-        Redis.new(host: uri.host, port: uri.port, password: uri.password)
+        RedisClient.config(url: Settings.redis_url).new_client
       end
     end
 
     def status_for_user(user)
-      redis.hmget(TABLE_NAME, user.id).first
+      redis.call('HMGET', TABLE_NAME, user.id).first
     end
 
     def start_processing(user)
-      redis.hmset(TABLE_NAME, user.id, Status::PROCESSIONG)
+      redis.call('HMSET', TABLE_NAME, user.id, Status::PROCESSIONG)
     end
 
     def finish_sending_mail(user)
-      redis.hdel(TABLE_NAME, user.id)
+      redis.call('HDEL', TABLE_NAME, user.id)
     end
 
     def schedule_as_retry(user)
-      redis.hmset(TABLE_NAME, user.id, Status::FAILED)
+      redis.call('HMSET', TABLE_NAME, user.id, Status::FAILED)
     end
 
     def user_has_starred?(user, term)
