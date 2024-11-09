@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.3.6'
 
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 
 gem 'haml'
 gem 'mongoid', github: 'mongodb/mongoid'
@@ -14,7 +14,7 @@ gem 'pg'
 gem 'propshaft'
 gem 'puma', require: false
 gem 'redis-client'
-gem 'roadie-rails'
+gem 'roadie-rails', github: 'Mange/roadie-rails', ref: 'refs/pull/116/head'
 
 group :development do
   gem 'brakeman'
