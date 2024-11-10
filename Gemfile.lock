@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/Mange/roadie-rails.git
-  revision: bd4e06d2b583c46a5d2f2f947c7b4da9437faf0c
-  ref: refs/pull/116/head
-  specs:
-    roadie-rails (3.2.0)
-      railties (>= 5.1, < 8.1)
-      roadie (~> 5.0)
-
-GIT
   remote: https://github.com/mongodb/mongoid.git
   revision: 3cf6a4e93543e1c922281da0b115164d079d1aae
   specs:
@@ -281,6 +272,9 @@ GEM
     roadie (5.2.1)
       css_parser (~> 1.4)
       nokogiri (~> 1.15)
+    roadie-rails (3.3.0)
+      railties (>= 5.1, < 8.1)
+      roadie (~> 5.0)
     rspec-core (3.13.2)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.3)
@@ -353,7 +347,7 @@ DEPENDENCIES
   puma
   rails (~> 8.0.0)
   redis-client
-  roadie-rails!
+  roadie-rails
   rspec-its
   rspec-rails
   web-console

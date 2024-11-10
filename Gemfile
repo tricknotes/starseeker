@@ -14,7 +14,7 @@ gem 'pg'
 gem 'propshaft'
 gem 'puma', require: false
 gem 'redis-client'
-gem 'roadie-rails', github: 'Mange/roadie-rails', ref: 'refs/pull/116/head'
+gem 'roadie-rails'
 
 group :development do
   gem 'brakeman'
