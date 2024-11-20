@@ -89,7 +89,7 @@ GEM
     bindex (0.8.1)
     brakeman (6.2.2)
       racc
-    bson (5.0.1)
+    bson (5.0.2)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -222,8 +222,9 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.8)
-    rack-protection (4.0.0)
+    rack-protection (4.1.0)
       base64 (>= 0.1.0)
+      logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
     rack-session (2.0.0)
       rack (>= 3.0.0)
@@ -261,7 +262,7 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
     rake (13.2.1)
-    rdoc (6.7.0)
+    rdoc (6.8.1)
       psych (>= 4.0.0)
     redis-client (0.22.2)
       connection_pool
