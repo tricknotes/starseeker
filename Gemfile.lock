@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mongodb/mongoid.git
-  revision: 3cf6a4e93543e1c922281da0b115164d079d1aae
+  revision: cd5257635a2e09c920520b6facf37fd0c1f1f929
   specs:
     mongoid (9.0.2)
       activemodel (>= 5.1, < 8.1, != 7.0.0)
@@ -163,7 +163,7 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
-    minitest (5.25.1)
+    minitest (5.25.2)
     mongo (2.21.0)
       bson (>= 4.14.1, < 6.0.0)
     multi_xml (0.7.1)
@@ -218,11 +218,11 @@ GEM
     psych (5.2.0)
       stringio
     public_suffix (6.0.1)
-    puma (6.4.3)
+    puma (6.5.0)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.8)
-    rack-protection (4.1.0)
+    rack-protection (4.1.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
@@ -267,7 +267,7 @@ GEM
     redis-client (0.22.2)
       connection_pool
     regexp_parser (2.9.2)
-    reline (0.5.11)
+    reline (0.5.12)
       io-console (~> 0.5)
     rexml (3.3.9)
     roadie (5.2.1)
