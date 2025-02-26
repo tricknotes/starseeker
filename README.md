@@ -1,8 +1,10 @@
 # starseeker
-
 **Seek your following's stars!**
-
 http://starseeker.so
+
+## About
+
+Starseeker is an application that helps you track the GitHub stars of people you follow. It provides notifications about hot repositories starred by your network.
 
 ## Requirements
 
@@ -11,8 +13,8 @@ http://starseeker.so
 
 ## Setup
 
-``` sh
-$ git clone git://github.com:tricknotes/starseeker.git
+```sh
+$ git clone https://github.com/tricknotes/starseeker.git
 $ cd starseeker
 $ docker compose run --rm app bundle install
 $ docker compose run --rm app bin/rails db:create db:migrate
@@ -23,38 +25,48 @@ Initialize stub data for **local development**.
 $ docker compose run --rm -e GITHUB_LOGIN="your github account" app bin/rails db:seeds_stub_event
 ```
 
-Setup environment variables that are described in `compose.yml`.
+Setup environment variables that are described in `compose.yml`:
+
+- `GITHUB_CLIENT_ID`: Your GitHub OAuth application client ID
+- `GITHUB_SECRET`: Your GitHub OAuth application secret
+- `GITHUB_TOKEN`: Your GitHub personal access token
+- `GITHUB_LOGIN`: Your GitHub username
+- `BASE_URL`: Base URL for the application (defaults to http://localhost:3000)
+
+You can set these variables in your environment or use a `.env` file.
 
 And run:
-``` sh
+```sh
 $ docker compose up -d app
 ```
+
+The application will be available at http://localhost:3000
 
 ## Tasks
 
 Schedule users as to be sent mail:
-``` sh
+```sh
 $ docker compose run --rm app bin/rails schedule_sending_hot_repositories
 ```
 
 Send daily hot repositories mail to scheduled users:
-``` sh
+```sh
 $ docker compose run --rm app bin/rails send_hot_repositories
 ```
 
 Refresh repository data for cache:
-``` sh
+```sh
 $ docker compose run --rm app bin/rails fetch_repositories
 ```
 
 Update user account info:
-``` sh
-$ docker compose run --rm bin/rails update_account_info
+```sh
+$ docker compose run --rm app bin/rails update_account_info
 ```
 
 ## Test
 
-``` sh
+```sh
 $ docker compose run --rm -e RAILS_ENV=test app bin/rails db:migrate
 $ docker compose run --rm app bundle exec rspec
 ```
