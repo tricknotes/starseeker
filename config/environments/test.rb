@@ -34,7 +34,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :test
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
+  config.action_mailer.default_url_options = { host: "example.com", port: 80 }
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

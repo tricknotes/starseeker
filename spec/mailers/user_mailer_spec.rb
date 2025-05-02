@@ -10,7 +10,7 @@ describe UserMailer do
 
     it 'should contains activation url' do
       expect(user.activation_token).not_to be_blank
-      expect(subject.body).to match(URI.join('http://example.com/sessions/activate/', user.activation_token).to_s)
+      expect(subject.body.raw_source).to match(URI.join('http://example.com/sessions/activate/', user.activation_token).to_s)
     end
   end
 
