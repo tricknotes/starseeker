@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15.4
+        image: postgres:17.4
         env:
           POSTGRES_PASSWORD: password
       mongo:
