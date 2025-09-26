@@ -11,10 +11,11 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg'
-gem 'propshaft'
 gem 'puma', require: false
 gem 'redis-client'
 gem 'roadie-rails'
+
+gem 'propshaft' # XXX Temporary fix for https://github.com/Mange/roadie-rails/issues/118
 
 group :development do
   gem 'brakeman'
