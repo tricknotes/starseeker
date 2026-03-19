@@ -10,7 +10,7 @@ class Repository < ApplicationRecord
   end
 
   def owner
-    @owner ||= OpenStruct.new(login: owner_login, avatar_url: owner_avatar_url)
+    @owner ||= ::OpenStruct.new(login: owner_login, avatar_url: owner_avatar_url)
   end
 
   # Compatibility: GitHub API uses watchers_count for stargazers_count

@@ -63,7 +63,7 @@ class StarEvent < ApplicationRecord
         break if starred.empty?
 
         starred.each do |item|
-          starred_at = Time.parse(item.starred_at)
+          starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
           return events if starred_at < since
 
           repo = item.repo
