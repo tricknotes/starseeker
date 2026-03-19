@@ -14,5 +14,7 @@ class Repository < ApplicationRecord
   end
 
   # Compatibility: GitHub API uses watchers_count for stargazers_count
-  alias_method :watchers_count, :stargazers_count
+  def watchers_count
+    stargazers_count
+  end
 end
