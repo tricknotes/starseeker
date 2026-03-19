@@ -39,7 +39,7 @@ module ApplicationHelper
   end
 
   def image_link_to_github_url_from_event(event)
-    image_link_to_github_url(event['actor'])
+    image_link_to_github_url({'login' => event.actor_login, 'avatar_url' => event.actor_avatar_url})
   end
 
   def html_title_about_user(user)

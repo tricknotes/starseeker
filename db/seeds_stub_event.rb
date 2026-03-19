@@ -1,6 +1,6 @@
 # Setup stub data for star events.
 
-raise "'\033[31mproduction\033[39m' should not be sutubed." if Rails.env.production?
+raise "'\033[31mproduction\033[39m' should not be stubbed." if Rails.env.production?
 
 GITHUB_LOGIN = ENV['GITHUB_LOGIN']
 unless GITHUB_LOGIN
@@ -8,43 +8,57 @@ unless GITHUB_LOGIN
 end
 
 StarEvent.delete_all
-
-def star_event_from_path(path)
-  data = JSON.parse(File.read(path))
-  StarEvent.new(data.except('id'))
-end
-
-fixture_path = Rails.root.join('spec', 'fixtures', 'watch_events')
+Repository.delete_all
 
 github_client = Settings.github_client
+user = github_client.user(GITHUB_LOGIN)
+following = github_client.following(GITHUB_LOGIN)
+repos = github_client.repos(GITHUB_LOGIN)
 
-# Setup star event from `GITHUB_LOGIN`
-data_path = fixture_path.join('*.json').to_s
-Dir[data_path].each.with_index do |path, n|
-  star_event = star_event_from_path(path)
+# Setup star events from `GITHUB_LOGIN`
+starred = github_client.starred(
+  GITHUB_LOGIN,
+  sort: 'created',
+  direction: 'desc',
+  per_page: 10,
+  headers: { accept: 'application/vnd.github.v3.star+json' }
+)
 
-  @user ||= github_client.user(GITHUB_LOGIN)
-  keys = star_event.actor.keys
-  star_event.actor = @user.to_hash.with_indifferent_access.extract!(*keys)
-
-  star_event.created_at = n.days.ago.strftime(StarEvent::DATETIME_FORMAT)
-  star_event.save!
-  puts "Stub event: '\033[36m%s\033[39m' starred by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
+starred.each do |item|
+  repo = item.repo
+  star_event = StarEvent.create!(
+    actor_login: user.login,
+    actor_avatar_url: user.avatar_url,
+    repo_name: repo.full_name,
+    starred_at: item.starred_at
+  )
+  Repository.find_or_create_by!(name: repo.full_name) do |r|
+    r.description = repo.description
+    r.language = repo.language
+    r.stargazers_count = repo.stargazers_count
+    r.owner_login = repo.owner.login
+    r.owner_avatar_url = repo.owner.avatar_url
+  end
+  puts "Stub event: '\033[36m%s\033[39m' starred by \033[36m%s\033[39m" % [star_event.repo_name, star_event.actor_login]
 end
 
-# Setup star event to `GITHUB_LOGIN`
-Dir[data_path].each.with_index do |path, n|
-  star_event = star_event_from_path(path)
+# Setup star events to `GITHUB_LOGIN` (followings starring user's repos)
+following.sample(5).each_with_index do |follower, n|
+  repo = repos.sample
+  next unless repo
 
-  @following ||= github_client.following(GITHUB_LOGIN)
-  star_event.actor = @following.sample.to_hash.with_indifferent_access.extract!(*star_event.actor.keys)
-  @repos ||= github_client.repos(GITHUB_LOGIN)
-  repo = @repos.sample
-  star_event.repo['id']   = repo['id']
-  star_event.repo['name'] = repo['full_name']
-  star_event.repo['url']  = repo['url']
-
-  star_event.created_at = n.hours.ago.strftime(StarEvent::DATETIME_FORMAT)
-  star_event.save!
-  puts "Stub event: '\033[36m%s\033[39m' starred by \033[36m%s\033[39m" % [star_event['repo']['name'], star_event['actor']['login']]
+  star_event = StarEvent.create!(
+    actor_login: follower.login,
+    actor_avatar_url: follower.avatar_url,
+    repo_name: repo.full_name,
+    starred_at: n.hours.ago
+  )
+  Repository.find_or_create_by!(name: repo.full_name) do |r|
+    r.description = repo.description
+    r.language = repo.language
+    r.stargazers_count = repo.stargazers_count
+    r.owner_login = repo.owner.login
+    r.owner_avatar_url = repo.owner.avatar_url
+  end
+  puts "Stub event: '\033[36m%s\033[39m' starred by \033[36m%s\033[39m" % [star_event.repo_name, star_event.actor_login]
 end
