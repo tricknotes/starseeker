@@ -9,6 +9,7 @@ gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
+gem 'ostruct'
 gem 'pg'
 gem 'propshaft'
 gem 'puma', require: false
