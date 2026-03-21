@@ -10,33 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2012_12_18_110908) do
+ActiveRecord::Schema[8.1].define(version: 2012_12_18_110908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "authentications", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "provider", null: false
-    t.string "uid", null: false
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.string "provider", null: false
     t.string "token"
+    t.string "uid", null: false
+    t.datetime "updated_at", precision: nil
+    t.integer "user_id", null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "username", null: false
-    t.string "email"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "name"
-    t.string "avatar_url"
-    t.boolean "subscribe", default: true
     t.string "activation_state"
     t.string "activation_token"
     t.datetime "activation_token_expires_at", precision: nil
+    t.string "avatar_url"
+    t.datetime "created_at", precision: nil
     t.string "crypted_password"
-    t.string "salt"
+    t.string "email"
     t.string "feed_token"
+    t.string "name"
+    t.string "salt"
+    t.boolean "subscribe", default: true
+    t.datetime "updated_at", precision: nil
+    t.string "username", null: false
     t.index ["activation_token"], name: "index_users_on_activation_token"
   end
 end
