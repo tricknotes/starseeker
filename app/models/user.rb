@@ -61,11 +61,6 @@ class User < ActiveRecord::Base
     StarEvent.all_by(following_names + [username])
   end
 
-  def fetch_star_events(since:)
-    following_names = followings.map { |following| following['login'] }
-    StarEvent.fetch_and_upsert(client: github_client, logins: following_names + [username], since: since)
-  end
-
   def followings
     return @followings if @followings
 

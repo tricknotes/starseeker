@@ -21,7 +21,6 @@ RSpec.configure do |config|
   end
 
   config.before :each do
-    allow(StarEvent).to receive(:fetch_and_upsert)
     clear_mail_box
   end
 
