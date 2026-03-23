@@ -23,7 +23,13 @@ module ApplicationHelper
   end
 
   def image_link_to_github_url(user, size = '30x30')
-    username = user.is_a?(User) ? user.username : user['login']
+    username = if user.is_a?(User)
+      user.username
+    elsif user.respond_to?(:login)
+      user.login
+    else
+      user['login']
+    end
 
     link_to avatar_image_tag(user, size), github_url(username)
   end
@@ -31,6 +37,8 @@ module ApplicationHelper
   def avatar_image_tag(user, size)
     username, avatar_url = if user.is_a?(User)
       [user.username, user.avatar_url]
+    elsif user.respond_to?(:login)
+      [user.login, user.avatar_url]
     else
       [user.login, user.avatar_url]
     end
