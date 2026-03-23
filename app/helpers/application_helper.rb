@@ -40,7 +40,7 @@ module ApplicationHelper
     elsif user.respond_to?(:login)
       [user.login, user.avatar_url]
     else
-      [user.login, user.avatar_url]
+      user.with_indifferent_access.values_at('login', 'avatar_url')
     end
 
     image_tag(avatar_url, title: username, alt: username, size: size)
