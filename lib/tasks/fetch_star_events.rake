@@ -18,6 +18,6 @@ namespace :star_events do
 
     Rails.logger.info "Fetching star events for #{logins.size} logins"
 
-    StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since)
+    StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since, debug: true)
   end
 end
