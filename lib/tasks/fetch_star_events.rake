@@ -1,7 +1,7 @@
 namespace :star_events do
   desc 'Fetch star events for all users and their followings from GitHub'
   task fetch: :environment do
-    since = 7.days.ago
+    since = 2.hours.ago
 
     User.find_each do |user|
       following_names = user.followings.map { |following| following['login'] }
