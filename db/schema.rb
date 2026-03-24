@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_20_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_24_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,10 +40,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_000002) do
     t.string "actor_login", null: false
     t.datetime "created_at", null: false
     t.string "repo_name", null: false
+    t.string "repo_owner"
     t.datetime "starred_at", null: false
     t.datetime "updated_at", null: false
     t.index ["actor_login", "repo_name"], name: "index_star_events_on_actor_login_and_repo_name", unique: true
     t.index ["actor_login"], name: "index_star_events_on_actor_login"
+    t.index ["repo_owner"], name: "index_star_events_on_repo_owner"
     t.index ["starred_at"], name: "index_star_events_on_starred_at"
   end
 
