@@ -3,10 +3,12 @@ module StubHelper
     actor = attrs[:actor] || {}
     repo = attrs[:repo] || {}
 
+    repo_name = repo[:name] || repo['name']
     StarEvent.create!(
       actor_login: actor[:login] || actor['login'],
       actor_avatar_url: actor[:avatar_url] || actor['avatar_url'],
-      repo_name: repo[:name] || repo['name'],
+      repo_name: repo_name,
+      repo_owner: repo_name&.split('/')&.first,
       starred_at: attrs[:starred_at] || Time.current
     )
   end
