@@ -4,7 +4,7 @@ class StarEvent < ApplicationRecord
   scope :latest, ->(from) { where('starred_at >= ?', from) }
   scope :newly,  -> { order(starred_at: :desc) }
   scope :by,    ->(logins) { where(actor_login: logins) }
-  scope :owner, ->(login) { where('repo_name LIKE ?', "#{sanitize_sql_like(login)}/%") }
+  scope :owner, ->(login) { where(repo_owner: login) }
 
   def self.fetch_and_upsert(client:, logins:, since:)
     logins.each do |login|
@@ -68,6 +68,7 @@ class StarEvent < ApplicationRecord
             actor_login: login,
             actor_avatar_url: actor_avatar_url,
             repo_name: repo.full_name,
+            repo_owner: repo.owner.login,
             starred_at: starred_at,
           }
           repos[repo.full_name] ||= {
