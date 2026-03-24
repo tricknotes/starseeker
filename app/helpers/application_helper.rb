@@ -23,13 +23,7 @@ module ApplicationHelper
   end
 
   def image_link_to_github_url(user, size = '30x30')
-    username = if user.is_a?(User)
-      user.username
-    elsif user.respond_to?(:login)
-      user.login
-    else
-      user['login']
-    end
+    username = user.is_a?(User) ? user.username : user.login
 
     link_to avatar_image_tag(user, size), github_url(username)
   end
@@ -37,17 +31,16 @@ module ApplicationHelper
   def avatar_image_tag(user, size)
     username, avatar_url = if user.is_a?(User)
       [user.username, user.avatar_url]
-    elsif user.respond_to?(:login)
-      [user.login, user.avatar_url]
     else
-      user.with_indifferent_access.values_at('login', 'avatar_url')
+      [user.login, user.avatar_url]
     end
 
     image_tag(avatar_url, title: username, alt: username, size: size)
   end
 
   def image_link_to_github_url_from_event(event)
-    image_link_to_github_url({'login' => event.actor_login, 'avatar_url' => event.actor_avatar_url})
+    owner = Repository::Owner.new(login: event.actor_login, avatar_url: event.actor_avatar_url)
+    image_link_to_github_url(owner)
   end
 
   def html_title_about_user(user)
