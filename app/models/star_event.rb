@@ -61,7 +61,7 @@ class StarEvent < ApplicationRecord
       repos = {}
       actor_avatar_url = client.user(login).avatar_url
 
-      Rails.logger.debug "Fetching starred repositories for @#{login} since #{since}" if debug
+      Rails.logger.info "Fetching starred repositories for @#{login} since #{since}" if debug
 
       (1..).each do |page|
         starred = client.starred(
@@ -99,7 +99,7 @@ class StarEvent < ApplicationRecord
         break if starred.size < Octokit.per_page
       end
 
-      Rails.logger.debug "Fetched #{star_events.size} starred repositories for @#{login}" if debug
+      Rails.logger.info "Fetched #{star_events.size} starred repositories for @#{login}" if debug
 
       [star_events, repos.values]
     end
