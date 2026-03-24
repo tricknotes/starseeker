@@ -6,14 +6,27 @@ class StarEvent < ApplicationRecord
   scope :by,    ->(logins) { where(actor_login: logins) }
   scope :owner, ->(login) { where(repo_owner: login) }
 
+  FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
+
   def self.fetch_and_upsert(client:, logins:, since:, debug: false)
-    logins.each do |login|
-      star_events, repos = fetch_starred_since(client, login, since, debug)
-      next if star_events.empty?
+    pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
+
+    futures = logins.map { |login|
+      Concurrent::Future.execute(executor: pool) {
+        fetch_starred_since(client, login, since, debug)
+      }
+    }
+
+    futures.each do |future|
+      star_events, repos = future.value
+      next if star_events.nil? || star_events.empty?
 
       upsert_events(star_events)
       upsert_repositories(repos)
     end
+  ensure
+    pool.shutdown
+    pool.wait_for_termination(30)
   end
 
   def self.starred_ranking
