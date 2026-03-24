@@ -20,9 +20,9 @@ $ docker compose run --rm app bundle install
 $ docker compose run --rm app bin/rails db:create db:migrate
 ```
 
-Initialize stub data for **local development**.
+Fetch star events from GitHub for **local development**.
 ``` sh
-$ docker compose run --rm -e GITHUB_LOGIN="your github account" app bin/rails db:seeds_stub_event
+$ docker compose run --rm app bin/rails star_events:fetch
 ```
 
 Setup environment variables that are described in `compose.yml`:
