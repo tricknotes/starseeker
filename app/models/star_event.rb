@@ -12,11 +12,11 @@ class StarEvent < ApplicationRecord
 
   def self.fetch_and_upsert(client:, logins:, since:)
     logins.each do |login|
-      events = fetch_starred_since(client, login, since)
-      next if events.empty?
+      star_events, repos = fetch_starred_since(client, login, since)
+      next if star_events.empty?
 
-      upsert_events(events)
-      upsert_repositories(events)
+      upsert_events(star_events)
+      upsert_repositories(repos)
     end
   end
 
@@ -48,7 +48,8 @@ class StarEvent < ApplicationRecord
     private
 
     def fetch_starred_since(client, login, since)
-      events = []
+      star_events = []
+      repos = {}
       actor_avatar_url = client.user(login).avatar_url
 
       (1..).each do |page|
@@ -64,48 +65,36 @@ class StarEvent < ApplicationRecord
 
         starred.each do |item|
           starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
-          return events if starred_at < since
+          return [star_events, repos.values] if starred_at < since
 
           repo = item.repo
-          events << {
+          star_events << {
             actor_login: login,
             actor_avatar_url: actor_avatar_url,
             repo_name: repo.full_name,
             starred_at: starred_at,
-            repo_description: repo.description,
-            repo_language: repo.language,
-            repo_stargazers_count: repo.stargazers_count,
-            repo_owner_login: repo.owner.login,
-            repo_owner_avatar_url: repo.owner.avatar_url,
+          }
+          repos[repo.full_name] ||= {
+            name: repo.full_name,
+            description: repo.description,
+            language: repo.language,
+            stargazers_count: repo.stargazers_count,
+            owner_login: repo.owner.login,
+            owner_avatar_url: repo.owner.avatar_url,
           }
         end
 
         break if starred.size < Octokit.per_page
       end
 
-      events
+      [star_events, repos.values]
     end
 
-    def upsert_events(events)
-      rows = events.map do |e|
-        e.slice(:actor_login, :actor_avatar_url, :repo_name, :starred_at)
-      end
-
-      StarEvent.upsert_all(rows, unique_by: [:actor_login, :repo_name])
+    def upsert_events(star_events)
+      StarEvent.upsert_all(star_events, unique_by: [:actor_login, :repo_name])
     end
 
-    def upsert_repositories(events)
-      repos = events.uniq { |e| e[:repo_name] }.map do |e|
-        {
-          name: e[:repo_name],
-          description: e[:repo_description],
-          language: e[:repo_language],
-          stargazers_count: e[:repo_stargazers_count],
-          owner_login: e[:repo_owner_login],
-          owner_avatar_url: e[:repo_owner_avatar_url],
-        }
-      end
-
+    def upsert_repositories(repos)
       Repository.upsert_all(repos, unique_by: :name)
     end
   end
