@@ -27,5 +27,4 @@ group :test do
   gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', groups: %i(development)
-  gem 'webmock'
 end
