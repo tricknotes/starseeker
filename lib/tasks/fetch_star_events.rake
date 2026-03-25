@@ -3,24 +3,26 @@ namespace :star_events do
   task :fetch, [:hours] => :environment do |_, args|
     hours = (args[:hours] || ENV['FETCH_HOURS'] || 2).to_i
     since = hours.hours.ago
-    pool = Concurrent::FixedThreadPool.new(StarEvent::FETCH_CONCURRENCY)
 
-    logins = User.all.map { |user|
-      Concurrent::Future.execute(executor: pool) {
-        begin
-          user.followings.map { |following| following['login'] } + [user.username]
-        rescue => e
-          Rails.logger.error "Failed to fetch followings for @#{user.username}: #{e.message}"
-          [user.username]
-        end
-      }
-    }.flat_map(&:value).uniq
+    Rails.logger.info "[star_events:fetch] start: hours=#{hours}, since=#{since}"
 
-    pool.shutdown
-    pool.wait_for_termination(30)
+    users = User.all.to_a
+    Rails.logger.info "[star_events:fetch] #{users.size} users found"
 
-    Rails.logger.info "Fetching star events for #{logins.size} logins"
+    logins = users.flat_map do |user|
+      Rails.logger.info "[star_events:fetch] fetching followings for @#{user.username}"
+      followings = user.followings.map { |following| following['login'] }
+      Rails.logger.info "[star_events:fetch] @#{user.username}: #{followings.size} followings -> #{(followings + [user.username]).uniq.size} logins"
+      followings + [user.username]
+    rescue => e
+      Rails.logger.error "[star_events:fetch] failed to fetch followings for @#{user.username}: #{e.class}: #{e.message}"
+      [user.username]
+    end.uniq
+
+    Rails.logger.info "[star_events:fetch] #{logins.size} unique logins to fetch"
 
     StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since, debug: true)
+
+    Rails.logger.info "[star_events:fetch] finished"
   end
 end

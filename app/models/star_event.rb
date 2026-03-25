@@ -33,36 +33,31 @@ class StarEvent < ApplicationRecord
   end
 
   concerning :Fetchable do
-    FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
-    FETCH_TIMEOUT_SECONDS = ENV.fetch('FETCH_TIMEOUT_SECONDS', 60).to_i
-
     class_methods do
       def fetch_and_upsert(client:, logins:, since:, debug: false)
-        pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
+        Rails.logger.info "[fetch_and_upsert] start: #{logins.size} logins, since=#{since}" if debug
 
-        futures = logins.map { |login|
-          Concurrent::Future.execute(executor: pool) {
-            fetch_starred_since(client, login, since, debug)
-          }
-        }
+        logins.each_with_index do |login, i|
+          Rails.logger.info "[fetch_and_upsert] (#{i + 1}/#{logins.size}) fetching @#{login}" if debug
+          started_at = Time.current
 
-        futures.each do |future|
-          future.value(FETCH_TIMEOUT_SECONDS)
-
-          if future.rejected?
-            Rails.logger.error "Failed to fetch star events: #{future.reason}"
+          begin
+            star_events, repos = fetch_starred_since(client, login, since, debug)
+          rescue => e
+            Rails.logger.error "[fetch_and_upsert] failed to fetch @#{login}: #{e.class}: #{e.message}"
             next
           end
 
-          star_events, repos = future.value
+          elapsed = (Time.current - started_at).round(2)
+          Rails.logger.info "[fetch_and_upsert] @#{login}: #{star_events.size} events, #{repos.size} repos (#{elapsed}s)" if debug
+
           next if star_events.empty?
 
-          upsert_events(star_events)
-          upsert_repositories(repos)
+          upsert_events(star_events, debug)
+          upsert_repositories(repos, debug)
         end
-      ensure
-        pool.shutdown
-        pool.wait_for_termination(30)
+
+        Rails.logger.info "[fetch_and_upsert] done" if debug
       end
 
       private
@@ -70,11 +65,14 @@ class StarEvent < ApplicationRecord
       def fetch_starred_since(client, login, since, debug)
         star_events = []
         repos = {}
-        actor_avatar_url = client.user(login).avatar_url
 
-        Rails.logger.info "Fetching starred repositories for @#{login} since #{since}" if debug
+        Rails.logger.info "[fetch_starred_since] resolving avatar_url for @#{login}" if debug
+        actor_avatar_url = client.user(login).avatar_url
+        Rails.logger.info "[fetch_starred_since] avatar_url=#{actor_avatar_url}" if debug
 
         (1..).each do |page|
+          Rails.logger.info "[fetch_starred_since] @#{login} fetching page=#{page}" if debug
+
           starred = client.starred(
             login,
             sort: 'created',
@@ -83,13 +81,21 @@ class StarEvent < ApplicationRecord
             page: page,
             headers: { accept: 'application/vnd.github.v3.star+json' }
           )
+
+          Rails.logger.info "[fetch_starred_since] @#{login} page=#{page}: #{starred.size} items" if debug
           break if starred.empty?
 
           starred.each do |item|
             starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
-            return [star_events, repos.values] if starred_at < since
+
+            if starred_at < since
+              Rails.logger.info "[fetch_starred_since] @#{login} reached since (#{item.repo.full_name} starred_at=#{starred_at}), stopping" if debug
+              return [star_events, repos.values]
+            end
 
             repo = item.repo
+            Rails.logger.info "[fetch_starred_since] @#{login} +#{repo.full_name} (starred_at=#{starred_at})" if debug
+
             star_events << {
               actor_login: login,
               actor_avatar_url: actor_avatar_url,
@@ -107,20 +113,26 @@ class StarEvent < ApplicationRecord
             }
           end
 
-          break if starred.size < Octokit.per_page
+          if starred.size < Octokit.per_page
+            Rails.logger.info "[fetch_starred_since] @#{login} last page reached (#{starred.size} < #{Octokit.per_page})" if debug
+            break
+          end
         end
 
-        Rails.logger.info "Fetched #{star_events.size} starred repositories for @#{login}" if debug
-
+        Rails.logger.info "[fetch_starred_since] @#{login} total: #{star_events.size} events collected" if debug
         [star_events, repos.values]
       end
 
-      def upsert_events(star_events)
+      def upsert_events(star_events, debug)
+        Rails.logger.info "[upsert_events] upserting #{star_events.size} star_events" if debug
         upsert_all(star_events, unique_by: [:actor_login, :repo_name])
+        Rails.logger.info "[upsert_events] done" if debug
       end
 
-      def upsert_repositories(repos)
+      def upsert_repositories(repos, debug)
+        Rails.logger.info "[upsert_repositories] upserting #{repos.size} repositories" if debug
         Repository.upsert_all(repos, unique_by: :name)
+        Rails.logger.info "[upsert_repositories] done" if debug
       end
     end
   end
