@@ -6,23 +6,25 @@ class StarEvent < ApplicationRecord
   scope :by,    ->(logins) { where(actor_login: logins) }
   scope :owner, ->(login) { where(repo_owner: login) }
 
-  def self.starred_ranking
-    star_events = all.newly.to_a
-    star_events = star_events.uniq { |e| [e.repo_name, e.actor_login].hash }
+  class << self
+    def starred_ranking
+      star_events = all.newly.to_a
+      star_events = star_events.uniq { |e| [e.repo_name, e.actor_login].hash }
 
-    grouped_events = star_events.group_by(&:repo_name)
-    grouped_events = grouped_events.sort_by { |_, events| [-events.count, -events.first.starred_at.to_i] }
-    grouped_events = grouped_events.filter_map do |repo_name, events|
-      repo = events.first.repository
-      [repo_name, events, repo] if repo
+      grouped_events = star_events.group_by(&:repo_name)
+      grouped_events = grouped_events.sort_by { |_, events| [-events.count, -events.first.starred_at.to_i] }
+      grouped_events = grouped_events.filter_map do |repo_name, events|
+        repo = events.first.repository
+        [repo_name, events, repo] if repo
+      end
+
+      grouped_events
     end
 
-    grouped_events
-  end
-
-  def self.each_with_repo
-    includes(:repository).newly.each do |star_event|
-      yield star_event, star_event.repository if star_event.repository
+    def each_with_repo
+      includes(:repository).newly.each do |star_event|
+        yield star_event, star_event.repository if star_event.repository
+      end
     end
   end
 
