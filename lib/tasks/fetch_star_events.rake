@@ -6,18 +6,19 @@ namespace :star_events do
 
     Rails.logger.info "[star_events:fetch] start: hours=#{hours}, since=#{since}"
 
-    users = User.all.to_a
-    Rails.logger.info "[star_events:fetch] #{users.size} users found"
+    Rails.logger.info "[star_events:fetch] #{User.count} users found"
 
-    logins = users.flat_map do |user|
+    logins = []
+    User.find_each do |user|
       Rails.logger.info "[star_events:fetch] fetching followings for @#{user.username}"
       followings = user.followings.map { |following| following['login'] }
-      Rails.logger.info "[star_events:fetch] @#{user.username}: #{followings.size} followings -> #{(followings + [user.username]).uniq.size} logins"
-      followings + [user.username]
+      Rails.logger.info "[star_events:fetch] @#{user.username}: #{followings.size} followings"
+      logins.concat(followings + [user.username])
     rescue => e
       Rails.logger.error "[star_events:fetch] failed to fetch followings for @#{user.username}: #{e.class}: #{e.message}"
-      [user.username]
-    end.uniq
+      logins << user.username
+    end
+    logins.uniq!
 
     Rails.logger.info "[star_events:fetch] #{logins.size} unique logins to fetch"
 

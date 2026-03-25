@@ -42,19 +42,17 @@ class StarEvent < ApplicationRecord
           started_at = Time.current
 
           begin
-            star_events, repos = fetch_starred_since(client, login, since, debug)
+            fetch_each_page(client, login, since, debug) do |star_events, repos|
+              upsert_events(star_events, debug)
+              upsert_repositories(repos, debug)
+            end
           rescue => e
             Rails.logger.error "[fetch_and_upsert] failed to fetch @#{login}: #{e.class}: #{e.message}"
             next
           end
 
           elapsed = (Time.current - started_at).round(2)
-          Rails.logger.info "[fetch_and_upsert] @#{login}: #{star_events.size} events, #{repos.size} repos (#{elapsed}s)" if debug
-
-          next if star_events.empty?
-
-          upsert_events(star_events, debug)
-          upsert_repositories(repos, debug)
+          Rails.logger.info "[fetch_and_upsert] @#{login} done (#{elapsed}s)" if debug
         end
 
         Rails.logger.info "[fetch_and_upsert] done" if debug
@@ -62,16 +60,13 @@ class StarEvent < ApplicationRecord
 
       private
 
-      def fetch_starred_since(client, login, since, debug)
-        star_events = []
-        repos = {}
-
-        Rails.logger.info "[fetch_starred_since] resolving avatar_url for @#{login}" if debug
+      def fetch_each_page(client, login, since, debug)
+        Rails.logger.info "[fetch_each_page] resolving avatar_url for @#{login}" if debug
         actor_avatar_url = client.user(login).avatar_url
-        Rails.logger.info "[fetch_starred_since] avatar_url=#{actor_avatar_url}" if debug
+        Rails.logger.info "[fetch_each_page] avatar_url=#{actor_avatar_url}" if debug
 
         (1..).each do |page|
-          Rails.logger.info "[fetch_starred_since] @#{login} fetching page=#{page}" if debug
+          Rails.logger.info "[fetch_each_page] @#{login} fetching page=#{page}" if debug
 
           starred = client.starred(
             login,
@@ -82,19 +77,24 @@ class StarEvent < ApplicationRecord
             headers: { accept: 'application/vnd.github.v3.star+json' }
           )
 
-          Rails.logger.info "[fetch_starred_since] @#{login} page=#{page}: #{starred.size} items" if debug
+          Rails.logger.info "[fetch_each_page] @#{login} page=#{page}: #{starred.size} items" if debug
           break if starred.empty?
+
+          star_events = []
+          repos = {}
+          done = false
 
           starred.each do |item|
             starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
 
             if starred_at < since
-              Rails.logger.info "[fetch_starred_since] @#{login} reached since (#{item.repo.full_name} starred_at=#{starred_at}), stopping" if debug
-              return [star_events, repos.values]
+              Rails.logger.info "[fetch_each_page] @#{login} reached since (#{item.repo.full_name} starred_at=#{starred_at}), stopping" if debug
+              done = true
+              break
             end
 
             repo = item.repo
-            Rails.logger.info "[fetch_starred_since] @#{login} +#{repo.full_name} (starred_at=#{starred_at})" if debug
+            Rails.logger.info "[fetch_each_page] @#{login} +#{repo.full_name} (starred_at=#{starred_at})" if debug
 
             star_events << {
               actor_login: login,
@@ -113,14 +113,19 @@ class StarEvent < ApplicationRecord
             }
           end
 
+          Rails.logger.info "[fetch_each_page] @#{login} page=#{page}: yielding #{star_events.size} events" if debug
+          yield star_events, repos.values unless star_events.empty?
+
+          if done
+            Rails.logger.info "[fetch_each_page] @#{login} stopped at since threshold" if debug
+            break
+          end
+
           if starred.size < Octokit.per_page
-            Rails.logger.info "[fetch_starred_since] @#{login} last page reached (#{starred.size} < #{Octokit.per_page})" if debug
+            Rails.logger.info "[fetch_each_page] @#{login} last page (#{starred.size} < #{Octokit.per_page})" if debug
             break
           end
         end
-
-        Rails.logger.info "[fetch_starred_since] @#{login} total: #{star_events.size} events collected" if debug
-        [star_events, repos.values]
       end
 
       def upsert_events(star_events, debug)
