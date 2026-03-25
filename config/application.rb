@@ -40,7 +40,9 @@ module Starseeker
     config.generators.system_tests = nil
 
     config.after_initialize do
-      Rails.application.default_url_options = Settings.url_options
+      unless Rails.env.test?
+        Rails.application.default_url_options = Settings.url_options
+      end
     end
   end
 end

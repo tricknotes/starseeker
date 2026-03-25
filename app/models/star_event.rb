@@ -6,29 +6,6 @@ class StarEvent < ApplicationRecord
   scope :by,    ->(logins) { where(actor_login: logins) }
   scope :owner, ->(login) { where(repo_owner: login) }
 
-  FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
-
-  def self.fetch_and_upsert(client:, logins:, since:, debug: false)
-    pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
-
-    futures = logins.map { |login|
-      Concurrent::Future.execute(executor: pool) {
-        fetch_starred_since(client, login, since, debug)
-      }
-    }
-
-    futures.each do |future|
-      star_events, repos = future.value
-      next if star_events.nil? || star_events.empty?
-
-      upsert_events(star_events)
-      upsert_repositories(repos)
-    end
-  ensure
-    pool.shutdown
-    pool.wait_for_termination(30)
-  end
-
   def self.starred_ranking
     star_events = all.newly.to_a
     star_events = star_events.uniq { |e| [e.repo_name, e.actor_login].hash }
@@ -53,63 +30,88 @@ class StarEvent < ApplicationRecord
     starred_at
   end
 
-  class << self
-    private
+  concerning :Fetchable do
+    FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
 
-    def fetch_starred_since(client, login, since, debug)
-      star_events = []
-      repos = {}
-      actor_avatar_url = client.user(login).avatar_url
+    class_methods do
+      def fetch_and_upsert(client:, logins:, since:, debug: false)
+        pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
 
-      Rails.logger.info "Fetching starred repositories for @#{login} since #{since}" if debug
-
-      (1..).each do |page|
-        starred = client.starred(
-          login,
-          sort: 'created',
-          direction: 'desc',
-          per_page: Octokit.per_page,
-          page: page,
-          headers: { accept: 'application/vnd.github.v3.star+json' }
-        )
-        break if starred.empty?
-
-        starred.each do |item|
-          starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
-          return [star_events, repos.values] if starred_at < since
-
-          repo = item.repo
-          star_events << {
-            actor_login: login,
-            actor_avatar_url: actor_avatar_url,
-            repo_name: repo.full_name,
-            repo_owner: repo.owner.login,
-            starred_at: starred_at,
+        futures = logins.map { |login|
+          Concurrent::Future.execute(executor: pool) {
+            fetch_starred_since(client, login, since, debug)
           }
-          repos[repo.full_name] ||= {
-            name: repo.full_name,
-            description: repo.description,
-            language: repo.language,
-            stargazers_count: repo.stargazers_count,
-            owner_login: repo.owner.login,
-            owner_avatar_url: repo.owner.avatar_url,
-          }
+        }
+
+        futures.each do |future|
+          star_events, repos = future.value
+          next if star_events.nil? || star_events.empty?
+
+          upsert_events(star_events)
+          upsert_repositories(repos)
         end
-
-        break if starred.size < Octokit.per_page
+      ensure
+        pool.shutdown
+        pool.wait_for_termination(30)
       end
 
-      Rails.logger.info "Fetched #{star_events.size} starred repositories for @#{login}" if debug
+      private
 
-      [star_events, repos.values]
-    end
+      def fetch_starred_since(client, login, since, debug)
+        star_events = []
+        repos = {}
+        actor_avatar_url = client.user(login).avatar_url
 
-    def upsert_events(star_events)
-      StarEvent.upsert_all(star_events, unique_by: [:actor_login, :repo_name])
-    end
+        Rails.logger.info "Fetching starred repositories for @#{login} since #{since}" if debug
 
-    def upsert_repositories(repos)
-      Repository.upsert_all(repos, unique_by: :name)
+        (1..).each do |page|
+          starred = client.starred(
+            login,
+            sort: 'created',
+            direction: 'desc',
+            per_page: Octokit.per_page,
+            page: page,
+            headers: { accept: 'application/vnd.github.v3.star+json' }
+          )
+          break if starred.empty?
+
+          starred.each do |item|
+            starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
+            return [star_events, repos.values] if starred_at < since
+
+            repo = item.repo
+            star_events << {
+              actor_login: login,
+              actor_avatar_url: actor_avatar_url,
+              repo_name: repo.full_name,
+              repo_owner: repo.owner.login,
+              starred_at: starred_at,
+            }
+            repos[repo.full_name] ||= {
+              name: repo.full_name,
+              description: repo.description,
+              language: repo.language,
+              stargazers_count: repo.stargazers_count,
+              owner_login: repo.owner.login,
+              owner_avatar_url: repo.owner.avatar_url,
+            }
+          end
+
+          break if starred.size < Octokit.per_page
+        end
+
+        Rails.logger.info "Fetched #{star_events.size} starred repositories for @#{login}" if debug
+
+        [star_events, repos.values]
+      end
+
+      def upsert_events(star_events)
+        upsert_all(star_events, unique_by: [:actor_login, :repo_name])
+      end
+
+      def upsert_repositories(repos)
+        Repository.upsert_all(repos, unique_by: :name)
+      end
     end
   end
 end
