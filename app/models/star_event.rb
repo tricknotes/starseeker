@@ -34,6 +34,7 @@ class StarEvent < ApplicationRecord
 
   concerning :Fetchable do
     FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
+    FETCH_TIMEOUT_SECONDS = ENV.fetch('FETCH_TIMEOUT_SECONDS', 60).to_i
 
     class_methods do
       def fetch_and_upsert(client:, logins:, since:, debug: false)
@@ -46,8 +47,15 @@ class StarEvent < ApplicationRecord
         }
 
         futures.each do |future|
+          future.value(FETCH_TIMEOUT_SECONDS)
+
+          if future.rejected?
+            Rails.logger.error "Failed to fetch star events: #{future.reason}"
+            next
+          end
+
           star_events, repos = future.value
-          next if star_events.nil? || star_events.empty?
+          next if star_events.empty?
 
           upsert_events(star_events)
           upsert_repositories(repos)
