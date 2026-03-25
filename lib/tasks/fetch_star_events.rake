@@ -1,7 +1,8 @@
 namespace :star_events do
-  desc 'Fetch star events for all users and their followings from GitHub'
-  task fetch: :environment do
-    since = 2.hours.ago
+  desc 'Fetch star events for all users and their followings from GitHub. hours=N or FETCH_HOURS=N to set lookback period (default: 2)'
+  task :fetch, [:hours] => :environment do |_, args|
+    hours = (args[:hours] || ENV['FETCH_HOURS'] || 2).to_i
+    since = hours.hours.ago
     pool = Concurrent::FixedThreadPool.new(StarEvent::FETCH_CONCURRENCY)
 
     logins = User.all.map { |user|
