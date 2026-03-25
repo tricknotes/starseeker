@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   MAX_FOLLOWER_PAGE_COUNT = 50
 
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
