@@ -57,8 +57,7 @@ class User < ApplicationRecord
   end
 
   def star_events_by_followings_with_me
-    following_names = followings.map { |following| following['login'] }
-    StarEvent.by(following_names + [username])
+    StarEvent.by(followings + [username])
   end
 
   def followings
@@ -67,7 +66,7 @@ class User < ApplicationRecord
     @followings = []
 
     (1..MAX_FOLLOWER_PAGE_COUNT).each do |page|
-      followings_in_one_page = github_client.following(username, page: page)
+      followings_in_one_page = github_client.following(username, page: page).map { _1['login'] }
       @followings += followings_in_one_page
       break if Octokit.per_page > followings_in_one_page.count
     end

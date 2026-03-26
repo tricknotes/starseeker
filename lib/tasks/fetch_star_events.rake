@@ -11,7 +11,8 @@ namespace :star_events do
     logins = []
     User.find_each do |user|
       Rails.logger.info "[star_events:fetch] fetching followings for @#{user.username}"
-      followings = user.followings.map { |following| following['login'] }
+      followings = user.followings
+      GC.start
       Rails.logger.info "[star_events:fetch] @#{user.username}: #{followings.size} followings"
       logins.concat(followings + [user.username])
     rescue => e
@@ -22,7 +23,11 @@ namespace :star_events do
 
     Rails.logger.info "[star_events:fetch] #{logins.size} unique logins to fetch"
 
-    StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since, debug: true)
+    logins.each_slice(10) do |logins|
+      Rails.logger.info "[star_events:fetch] fetching star events for @#{logins}"
+      StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since, debug: true)
+      GC.start
+    end
 
     Rails.logger.info "[star_events:fetch] finished"
   end
