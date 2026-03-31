@@ -5,29 +5,36 @@ namespace :star_events do
     since = hours.hours.ago
 
     Rails.logger.info "[star_events:fetch] start: hours=#{hours}, since=#{since}"
-
     Rails.logger.info "[star_events:fetch] #{User.count} users found"
 
+    pool = Concurrent::FixedThreadPool.new(StarEvent::FETCH_CONCURRENCY)
+    mutex = Mutex.new
     logins = []
+    futures = []
+
     User.find_each do |user|
-      Rails.logger.info "[star_events:fetch] fetching followings for @#{user.username}"
-      followings = user.followings
-      GC.start
-      Rails.logger.info "[star_events:fetch] @#{user.username}: #{followings.size} followings"
-      logins.concat(followings + [user.username])
-    rescue => e
-      Rails.logger.error "[star_events:fetch] failed to fetch followings for @#{user.username}: #{e.class}: #{e.message}"
-      logins << user.username
+      futures << Concurrent::Future.execute(executor: pool) {
+        Rails.logger.info "[star_events:fetch] fetching followings for @#{user.username}"
+        followings = user.followings
+        Rails.logger.info "[star_events:fetch] @#{user.username}: #{followings.size} followings"
+        mutex.synchronize { logins.concat(followings + [user.username]) }
+      }
     end
+
+    futures.each do |future|
+      future.value
+      if future.rejected?
+        Rails.logger.error "[star_events:fetch] failed to fetch followings: #{future.reason.class}: #{future.reason.message}"
+      end
+    end
+
+    pool.shutdown
+    pool.wait_for_termination(60)
     logins.uniq!
 
     Rails.logger.info "[star_events:fetch] #{logins.size} unique logins to fetch"
 
-    logins.each_slice(10) do |logins|
-      Rails.logger.info "[star_events:fetch] fetching star events for @#{logins}"
-      StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since, debug: true)
-      GC.start
-    end
+    StarEvent.fetch_and_upsert(client: Settings.github_client, logins: logins, since: since, debug: true)
 
     Rails.logger.info "[star_events:fetch] finished"
   end

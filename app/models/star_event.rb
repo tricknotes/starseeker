@@ -33,29 +33,39 @@ class StarEvent < ApplicationRecord
   end
 
   concerning :Fetchable do
+    FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
+
     class_methods do
       def fetch_and_upsert(client:, logins:, since:, debug: false)
-        Rails.logger.info "[fetch_and_upsert] start: #{logins.size} logins, since=#{since}" if debug
+        Rails.logger.info "[fetch_and_upsert] start: #{logins.size} logins, since=#{since}, concurrency=#{FETCH_CONCURRENCY}" if debug
+        pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
 
-        logins.each_with_index do |login, i|
-          Rails.logger.info "[fetch_and_upsert] (#{i + 1}/#{logins.size}) fetching @#{login}" if debug
-          started_at = Time.current
+        futures = logins.map { |login|
+          Concurrent::Future.execute(executor: pool) {
+            started_at = Time.current
+            Rails.logger.info "[fetch_and_upsert] fetching @#{login}" if debug
 
-          begin
             fetch_each_page(client, login, since, debug) do |star_events, repos|
               upsert_events(star_events, debug)
               upsert_repositories(repos, debug)
             end
-          rescue => e
-            Rails.logger.error "[fetch_and_upsert] failed to fetch @#{login}: #{e.class}: #{e.message}"
-            next
-          end
 
-          elapsed = (Time.current - started_at).round(2)
-          Rails.logger.info "[fetch_and_upsert] @#{login} done (#{elapsed}s)" if debug
+            elapsed = (Time.current - started_at).round(2)
+            Rails.logger.info "[fetch_and_upsert] @#{login} done (#{elapsed}s)" if debug
+          }
+        }
+
+        futures.each do |future|
+          future.value
+          if future.rejected?
+            Rails.logger.error "[fetch_and_upsert] failed: #{future.reason.class}: #{future.reason.message}"
+          end
         end
 
         Rails.logger.info "[fetch_and_upsert] done" if debug
+      ensure
+        pool.shutdown
+        pool.wait_for_termination(60)
       end
 
       private
