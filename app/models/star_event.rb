@@ -78,9 +78,7 @@ class StarEvent < ApplicationRecord
       private
 
       def fetch_each_page(client, login, since, debug)
-        Rails.logger.info "[fetch_each_page] resolving avatar_url for @#{login}" if debug
-        actor_avatar_url = client.user(login).avatar_url
-        Rails.logger.info "[fetch_each_page] avatar_url=#{actor_avatar_url}" if debug
+        actor_avatar_url = "https://github.com/#{login}.png"
 
         (1..).each do |page|
           Rails.logger.info "[fetch_each_page] @#{login} fetching page=#{page}" if debug
