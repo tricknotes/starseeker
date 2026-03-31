@@ -40,26 +40,30 @@ class StarEvent < ApplicationRecord
         Rails.logger.info "[fetch_and_upsert] start: #{logins.size} logins, since=#{since}, concurrency=#{FETCH_CONCURRENCY}" if debug
         pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
 
-        futures = logins.map { |login|
-          Concurrent::Future.execute(executor: pool) {
-            started_at = Time.current
-            Rails.logger.info "[fetch_and_upsert] fetching @#{login}" if debug
+        logins.each_slice(FETCH_CONCURRENCY) do |slice|
+          futures = slice.map { |login|
+            Concurrent::Future.execute(executor: pool) {
+              started_at = Time.current
+              Rails.logger.info "[fetch_and_upsert] fetching @#{login}" if debug
 
-            fetch_each_page(client, login, since, debug) do |star_events, repos|
-              upsert_events(star_events, debug)
-              upsert_repositories(repos, debug)
-            end
+              fetch_each_page(client, login, since, debug) do |star_events, repos|
+                upsert_events(star_events, debug)
+                upsert_repositories(repos, debug)
+              end
 
-            elapsed = (Time.current - started_at).round(2)
-            Rails.logger.info "[fetch_and_upsert] @#{login} done (#{elapsed}s)" if debug
+              elapsed = (Time.current - started_at).round(2)
+              Rails.logger.info "[fetch_and_upsert] @#{login} done (#{elapsed}s)" if debug
+            }
           }
-        }
 
-        futures.each do |future|
-          future.value
-          if future.rejected?
-            Rails.logger.error "[fetch_and_upsert] failed: #{future.reason.class}: #{future.reason.message}"
+          futures.each do |future|
+            future.value
+            if future.rejected?
+              Rails.logger.error "[fetch_and_upsert] failed: #{future.reason.class}: #{future.reason.message}"
+            end
           end
+
+          GC.compact
         end
 
         Rails.logger.info "[fetch_and_upsert] done" if debug

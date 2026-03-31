@@ -31,6 +31,7 @@ namespace :star_events do
     pool.shutdown
     pool.wait_for_termination(60)
     logins.uniq!
+    GC.compact
 
     Rails.logger.info "[star_events:fetch] #{logins.size} unique logins to fetch"
 
