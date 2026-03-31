@@ -37,14 +37,17 @@ class StarEvent < ApplicationRecord
 
     class_methods do
       def fetch_and_upsert(client:, logins:, since:, debug: false)
-        Rails.logger.info "[fetch_and_upsert] start: #{logins.size} logins, since=#{since}, concurrency=#{FETCH_CONCURRENCY}" if debug
+        total = logins.size
+        counter = Concurrent::AtomicFixnum.new(0)
+        Rails.logger.info "[fetch_and_upsert] start: #{total} logins, since=#{since}, concurrency=#{FETCH_CONCURRENCY}" if debug
         pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
 
         logins.each_slice(FETCH_CONCURRENCY) do |slice|
           futures = slice.map { |login|
             Concurrent::Future.execute(executor: pool) {
+              current = counter.increment
               started_at = Time.current
-              Rails.logger.info "[fetch_and_upsert] fetching @#{login}" if debug
+              Rails.logger.info "[fetch_and_upsert] (#{current}/#{total}) fetching @#{login}" if debug
 
               fetch_each_page(client, login, since, debug) do |star_events, repos|
                 upsert_events(star_events, debug)
@@ -52,7 +55,7 @@ class StarEvent < ApplicationRecord
               end
 
               elapsed = (Time.current - started_at).round(2)
-              Rails.logger.info "[fetch_and_upsert] @#{login} done (#{elapsed}s)" if debug
+              Rails.logger.info "[fetch_and_upsert] (#{current}/#{total}) @#{login} done (#{elapsed}s)" if debug
             }
           }
 
