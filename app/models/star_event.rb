@@ -34,6 +34,10 @@ class StarEvent < ApplicationRecord
 
   concerning :Fetchable do
     FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
+    GRAPHQL_BATCH_SIZE = ENV.fetch('GRAPHQL_BATCH_SIZE', 20).to_i
+    # 30 matches REST default per_page; minimises GraphQL point cost while
+    # covering most users who star fewer than 30 repos in the lookback window.
+    GRAPHQL_PAGE_SIZE = 30
 
     class_methods do
       def fetch_and_upsert(client:, logins:, since:, debug: false)
@@ -75,7 +79,176 @@ class StarEvent < ApplicationRecord
         pool.wait_for_termination(60)
       end
 
+      # Fetch star events using the GitHub GraphQL API.
+      #
+      # Batches multiple logins into a single HTTP request (GRAPHQL_BATCH_SIZE
+      # users per call) using GraphQL field aliases.  This reduces the number of
+      # HTTP round-trips from N_logins to N_logins/GRAPHQL_BATCH_SIZE.
+      #
+      # When a user has more starred repos than GRAPHQL_PAGE_SIZE within the
+      # lookback window the method falls back to the REST path for that user,
+      # keeping the happy-path lean while remaining correct.
+      #
+      # Arguments:
+      #   token:  GitHub personal access token (string)
+      #   logins: array of GitHub login names
+      #   since:  Time – only star events after this point are stored
+      #   debug:  when true, detailed progress is written to Rails.logger
+      def fetch_and_upsert_graphql(token:, logins:, since:, debug: false)
+        total = logins.size
+        processed = 0
+        needs_rest_fallback = []
+
+        Rails.logger.info "[graphql] start: #{total} logins, batch_size=#{GRAPHQL_BATCH_SIZE}, page_size=#{GRAPHQL_PAGE_SIZE}, since=#{since}" if debug
+
+        logins.each_slice(GRAPHQL_BATCH_SIZE) do |batch|
+          processed += batch.size
+          Rails.logger.info "[graphql] batch (#{processed}/#{total}): #{batch.size} logins" if debug
+
+          started_at = Time.current
+          result = execute_graphql_starred_batch(token, batch)
+          elapsed = (Time.current - started_at).round(2)
+          Rails.logger.info "[graphql] batch HTTP call took #{elapsed}s" if debug
+
+          if (errors = result['errors'])
+            Rails.logger.error "[graphql] top-level errors: #{errors.inspect}"
+          end
+
+          batch.each_with_index do |login, idx|
+            user_data = result.dig('data', "u#{idx}")
+            unless user_data
+              Rails.logger.warn "[graphql] no data for @#{login} (u#{idx})" if debug
+              next
+            end
+
+            edges     = user_data.dig('starredRepositories', 'edges') || []
+            page_info = user_data.dig('starredRepositories', 'pageInfo') || {}
+
+            star_events, repos, done = parse_starred_edges(login, edges, since, debug)
+
+            upsert_events(star_events, debug)      unless star_events.empty?
+            upsert_repositories(repos.values, debug) unless repos.empty?
+
+            # If there are more pages and we have not yet reached `since`,
+            # the REST path must fetch the remaining pages.
+            if !done && page_info['hasNextPage']
+              Rails.logger.info "[graphql] @#{login} has more pages – queued for REST fallback" if debug
+              needs_rest_fallback << login
+            end
+          end
+
+          GC.compact
+        end
+
+        if needs_rest_fallback.any?
+          Rails.logger.info "[graphql] REST fallback for #{needs_rest_fallback.size} logins" if debug
+          client = Settings.github_client
+          needs_rest_fallback.each do |login|
+            # upsert_all is idempotent, so re-fetching page 1 is safe.
+            fetch_each_page(client, login, since, debug) do |star_events, repos|
+              upsert_events(star_events, debug)
+              upsert_repositories(repos, debug)
+            end
+          end
+        end
+
+        Rails.logger.info "[graphql] done" if debug
+      end
+
       private
+
+      # Parse a list of GraphQL StarredRepositoryEdge hashes into the shape
+      # expected by upsert_events / upsert_repositories.
+      #
+      # Returns [star_events_array, repos_hash, done_boolean]
+      # done is true when the earliest edge in the slice predates `since`.
+      def parse_starred_edges(login, edges, since, debug)
+        actor_avatar_url = "https://github.com/#{login}.png"
+        star_events = []
+        repos       = {}
+        done        = false
+
+        edges.each do |edge|
+          starred_at = Time.parse(edge['starredAt'])
+
+          if starred_at < since
+            Rails.logger.info "[graphql] @#{login} reached since (starred_at=#{starred_at}), stopping" if debug
+            done = true
+            break
+          end
+
+          node      = edge['node']
+          repo_name = node['nameWithOwner']
+          repo_owner = repo_name.split('/').first
+
+          Rails.logger.info "[graphql] @#{login} +#{repo_name} (starred_at=#{starred_at})" if debug
+
+          star_events << {
+            actor_login:      login,
+            actor_avatar_url: actor_avatar_url,
+            repo_name:        repo_name,
+            repo_owner:       repo_owner,
+            starred_at:       starred_at,
+          }
+          repos[repo_name] ||= {
+            name:             repo_name,
+            description:      node['description'],
+            language:         node.dig('primaryLanguage', 'name'),
+            stargazers_count: node['stargazerCount'],
+            owner_login:      repo_owner,
+            owner_avatar_url: node.dig('owner', 'avatarUrl'),
+          }
+        end
+
+        [star_events, repos, done]
+      end
+
+      # Execute a single batched GraphQL query that fetches the first page of
+      # starred repos for every login in the slice.
+      def execute_graphql_starred_batch(token, logins)
+        aliases_str = logins.each_with_index.map do |login, idx|
+          # Aliases must be valid GraphQL identifiers; use positional u0…uN.
+          <<~GQL
+            u#{idx}: user(login: #{login.to_json}) {
+              starredRepositories(first: #{GRAPHQL_PAGE_SIZE}, orderBy: {field: STARRED_AT, direction: DESC}) {
+                edges {
+                  starredAt
+                  node {
+                    nameWithOwner
+                    description
+                    primaryLanguage { name }
+                    stargazerCount
+                    owner { login avatarUrl }
+                  }
+                }
+                pageInfo { hasNextPage endCursor }
+              }
+            }
+          GQL
+        end.join
+
+        execute_graphql(token, "query {\n#{aliases_str}}")
+      end
+
+      # POST a GraphQL query to the GitHub API and return the parsed JSON body.
+      def execute_graphql(token, query)
+        require 'net/http'
+
+        uri     = URI('https://api.github.com/graphql')
+        http    = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl      = true
+        http.open_timeout = 15
+        http.read_timeout = 60
+
+        request = Net::HTTP::Post.new(uri.path)
+        request['Authorization'] = "bearer #{token}"
+        request['Content-Type']  = 'application/json'
+        request['User-Agent']    = 'Starseeker'
+        request.body             = { query: query }.to_json
+
+        response = http.request(request)
+        JSON.parse(response.body)
+      end
 
       def fetch_each_page(client, login, since, debug)
         actor_avatar_url = "https://github.com/#{login}.png"
