@@ -94,55 +94,65 @@ class StarEvent < ApplicationRecord
       #   logins: array of GitHub login names
       #   since:  Time – only star events after this point are stored
       #   debug:  when true, detailed progress is written to Rails.logger
-      def fetch_and_upsert_graphql(token:, logins:, since:, debug: false)
+      def fetch_and_upsert_graphql(token:, logins:, since:, debug: false, fallback_client: nil)
+        require 'net/http'
+
         total = logins.size
         processed = 0
         needs_rest_fallback = []
 
         Rails.logger.info "[graphql] start: #{total} logins, batch_size=#{GRAPHQL_BATCH_SIZE}, page_size=#{GRAPHQL_PAGE_SIZE}, since=#{since}" if debug
 
-        logins.each_slice(GRAPHQL_BATCH_SIZE) do |batch|
-          processed += batch.size
-          Rails.logger.info "[graphql] batch (#{processed}/#{total}): #{batch.size} logins" if debug
+        # Open a single persistent HTTPS connection for all batch requests.
+        # Re-using one connection avoids repeated TLS handshakes and OpenSSL
+        # context allocations (which can reach hundreds of MB when running
+        # N_logins / GRAPHQL_BATCH_SIZE batches serially).
+        Net::HTTP.start('api.github.com', 443,
+          use_ssl: true, open_timeout: 15, read_timeout: 60) do |http|
 
-          started_at = Time.current
-          result = execute_graphql_starred_batch(token, batch)
-          elapsed = (Time.current - started_at).round(2)
-          Rails.logger.info "[graphql] batch HTTP call took #{elapsed}s" if debug
+          logins.each_slice(GRAPHQL_BATCH_SIZE) do |batch|
+            processed += batch.size
+            Rails.logger.info "[graphql] batch (#{processed}/#{total}): #{batch.size} logins" if debug
 
-          if (errors = result['errors'])
-            Rails.logger.error "[graphql] top-level errors: #{errors.inspect}"
-          end
+            started_at = Time.current
+            result = execute_graphql_starred_batch(http, token, batch)
+            elapsed = (Time.current - started_at).round(2)
+            Rails.logger.info "[graphql] batch HTTP call took #{elapsed}s" if debug
 
-          batch.each_with_index do |login, idx|
-            user_data = result.dig('data', "u#{idx}")
-            unless user_data
-              Rails.logger.warn "[graphql] no data for @#{login} (u#{idx})" if debug
-              next
+            if (errors = result['errors'])
+              Rails.logger.error "[graphql] top-level errors: #{errors.inspect}"
             end
 
-            edges     = user_data.dig('starredRepositories', 'edges') || []
-            page_info = user_data.dig('starredRepositories', 'pageInfo') || {}
+            batch.each_with_index do |login, idx|
+              user_data = result.dig('data', "u#{idx}")
+              unless user_data
+                Rails.logger.warn "[graphql] no data for @#{login} (u#{idx})" if debug
+                next
+              end
 
-            star_events, repos, done = parse_starred_edges(login, edges, since, debug)
+              edges     = user_data.dig('starredRepositories', 'edges') || []
+              page_info = user_data.dig('starredRepositories', 'pageInfo') || {}
 
-            upsert_events(star_events, debug)      unless star_events.empty?
-            upsert_repositories(repos.values, debug) unless repos.empty?
+              star_events, repos, done = parse_starred_edges(login, edges, since, debug)
 
-            # If there are more pages and we have not yet reached `since`,
-            # the REST path must fetch the remaining pages.
-            if !done && page_info['hasNextPage']
-              Rails.logger.info "[graphql] @#{login} has more pages – queued for REST fallback" if debug
-              needs_rest_fallback << login
+              upsert_events(star_events, debug)        unless star_events.empty?
+              upsert_repositories(repos.values, debug) unless repos.empty?
+
+              # If there are more pages and we have not yet reached `since`,
+              # the REST path must fetch the remaining pages.
+              if !done && page_info['hasNextPage']
+                Rails.logger.info "[graphql] @#{login} has more pages – queued for REST fallback" if debug
+                needs_rest_fallback << login
+              end
             end
-          end
 
-          GC.compact
+            GC.compact
+          end
         end
 
         if needs_rest_fallback.any?
           Rails.logger.info "[graphql] REST fallback for #{needs_rest_fallback.size} logins" if debug
-          client = Settings.github_client
+          client = fallback_client || Settings.github_client
           needs_rest_fallback.each do |login|
             # upsert_all is idempotent, so re-fetching page 1 is safe.
             fetch_each_page(client, login, since, debug) do |star_events, repos|
@@ -186,6 +196,10 @@ class StarEvent < ApplicationRecord
 
           elapsed = (Time.current - started_at).round(2)
           Rails.logger.info "[per_user] (#{idx + 1}/#{total}) @#{login} done (#{elapsed}s)" if debug
+
+          # Periodically compact the heap to release memory accumulated from
+          # Sawyer / Faraday response objects before they are collected by GC.
+          GC.compact if (idx + 1) % FETCH_CONCURRENCY == 0
         end
 
         Rails.logger.info "[per_user] done" if debug
@@ -246,7 +260,8 @@ class StarEvent < ApplicationRecord
 
       # Execute a single batched GraphQL query that fetches the first page of
       # starred repos for every login in the slice.
-      def execute_graphql_starred_batch(token, logins)
+      # http must be an already-open Net::HTTP connection to api.github.com.
+      def execute_graphql_starred_batch(http, token, logins)
         aliases_str = logins.each_with_index.map do |login, idx|
           # Aliases must be valid GraphQL identifiers; use positional u0…uN.
           <<~GQL
@@ -269,20 +284,15 @@ class StarEvent < ApplicationRecord
           GQL
         end.join
 
-        execute_graphql(token, "query {\n#{aliases_str}}")
+        execute_graphql(http, token, "query {\n#{aliases_str}}")
       end
 
-      # POST a GraphQL query to the GitHub API and return the parsed JSON body.
-      def execute_graphql(token, query)
-        require 'net/http'
-
-        uri     = URI('https://api.github.com/graphql')
-        http    = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl      = true
-        http.open_timeout = 15
-        http.read_timeout = 60
-
-        request = Net::HTTP::Post.new(uri.path)
+      # POST a GraphQL query over an existing Net::HTTP connection and return
+      # the parsed JSON body.  The caller is responsible for opening and closing
+      # the connection; this keeps each call allocation-free with respect to
+      # TCP / TLS setup.
+      def execute_graphql(http, token, query)
+        request = Net::HTTP::Post.new('/graphql')
         request['Authorization'] = "bearer #{token}"
         request['Content-Type']  = 'application/json'
         request['User-Agent']    = 'Starseeker'
