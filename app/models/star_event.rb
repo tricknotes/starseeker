@@ -155,6 +155,42 @@ class StarEvent < ApplicationRecord
         Rails.logger.info "[graphql] done" if debug
       end
 
+      # Fetch star events for a set of logins using the provided client,
+      # processing each login sequentially within the call.
+      #
+      # Designed for the per-user token pattern where the caller runs one
+      # invocation per app-user in parallel (e.g. with a thread pool).
+      # Keeping the inner loop sequential prevents thread explosion when many
+      # users are processed concurrently in an outer pool.
+      #
+      # Only public repositories are stored; private repos are silently skipped
+      # by the shared fetch_each_page helper.
+      #
+      # Arguments:
+      #   client: Octokit::Client authenticated with the user's own token
+      #   logins: array of GitHub login names (typically the user's followings)
+      #   since:  Time – only star events after this point are stored
+      #   debug:  when true, detailed progress is written to Rails.logger
+      def fetch_and_upsert_per_user(client:, logins:, since:, debug: false)
+        total = logins.size
+        Rails.logger.info "[per_user] start: #{total} logins" if debug
+
+        logins.each_with_index do |login, idx|
+          started_at = Time.current
+          Rails.logger.info "[per_user] (#{idx + 1}/#{total}) fetching @#{login}" if debug
+
+          fetch_each_page(client, login, since, debug) do |star_events, repos|
+            upsert_events(star_events, debug)
+            upsert_repositories(repos, debug)
+          end
+
+          elapsed = (Time.current - started_at).round(2)
+          Rails.logger.info "[per_user] (#{idx + 1}/#{total}) @#{login} done (#{elapsed}s)" if debug
+        end
+
+        Rails.logger.info "[per_user] done" if debug
+      end
+
       private
 
       # Parse a list of GraphQL StarredRepositoryEdge hashes into the shape
@@ -178,7 +214,12 @@ class StarEvent < ApplicationRecord
           end
 
           node      = edge['node']
-          repo_name = node['nameWithOwner']
+          if node['isPrivate']
+            Rails.logger.info "[graphql] @#{login} skipping private repo #{node['nameWithOwner']}" if debug
+            next
+          end
+
+          repo_name  = node['nameWithOwner']
           repo_owner = repo_name.split('/').first
 
           Rails.logger.info "[graphql] @#{login} +#{repo_name} (starred_at=#{starred_at})" if debug
@@ -215,6 +256,7 @@ class StarEvent < ApplicationRecord
                   starredAt
                   node {
                     nameWithOwner
+                    isPrivate
                     description
                     primaryLanguage { name }
                     stargazerCount
@@ -282,6 +324,11 @@ class StarEvent < ApplicationRecord
             end
 
             repo = item.repo
+            if repo[:private]
+              Rails.logger.info "[fetch_each_page] @#{login} skipping private repo #{repo.full_name}" if debug
+              next
+            end
+
             Rails.logger.info "[fetch_each_page] @#{login} +#{repo.full_name} (starred_at=#{starred_at})" if debug
 
             star_events << {

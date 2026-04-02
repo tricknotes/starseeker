@@ -43,6 +43,46 @@ namespace :star_events do
     Rails.logger.info "[star_events:fetch_graphql] finished"
   end
 
+  desc 'Fetch star events using each app-user\'s own GitHub token (multiplies rate limit). hours=N or FETCH_HOURS=N to set lookback period (default: 2)'
+  task :fetch_per_user, [:hours] => :environment do |_, args|
+    hours = (args[:hours] || ENV['FETCH_HOURS'] || 2).to_i
+    since = hours.hours.ago
+
+    Rails.logger.info "[star_events:fetch_per_user] start: hours=#{hours}, since=#{since}"
+    Rails.logger.info "[star_events:fetch_per_user] #{User.count} users found"
+
+    # One thread per user – each user fetches their followings sequentially
+    # with their own token, so total threads stay bounded at FETCH_CONCURRENCY.
+    pool    = Concurrent::FixedThreadPool.new(StarEvent::FETCH_CONCURRENCY)
+    futures = []
+
+    User.find_each do |user|
+      futures << Concurrent::Future.execute(executor: pool) do
+        logins = (user.followings + [user.username]).uniq
+        Rails.logger.info "[star_events:fetch_per_user] @#{user.username}: #{logins.size} logins"
+
+        StarEvent.fetch_and_upsert_per_user(
+          client: user.github_client,
+          logins: logins,
+          since:  since,
+          debug:  true
+        )
+      end
+    end
+
+    futures.each do |future|
+      future.value
+      if future.rejected?
+        Rails.logger.error "[star_events:fetch_per_user] failed: #{future.reason.class}: #{future.reason.message}"
+      end
+    end
+
+    pool.shutdown
+    pool.wait_for_termination(3600)
+
+    Rails.logger.info "[star_events:fetch_per_user] finished"
+  end
+
   desc 'Fetch star events for all users and their followings from GitHub. hours=N or FETCH_HOURS=N to set lookback period (default: 2)'
   task :fetch, [:hours] => :environment do |_, args|
     hours = (args[:hours] || ENV['FETCH_HOURS'] || 2).to_i
