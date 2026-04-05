@@ -28,10 +28,6 @@ class StarEvent < ApplicationRecord
     end
   end
 
-  def created_at
-    starred_at
-  end
-
   concerning :Fetchable do
     FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
     # Keep batches small enough to stay within GitHub's per-query resource
