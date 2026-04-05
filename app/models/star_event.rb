@@ -121,29 +121,6 @@ class StarEvent < ApplicationRecord
         Rails.logger.info "[graphql] done" if debug
       end
 
-      # Fetch star events for a set of logins using the provided client.
-      #
-      # Delegates to fetch_and_upsert_graphql so that all requests use the
-      # GraphQL batching path (plain Ruby Hashes) instead of REST
-      # (Sawyer::Resource objects), which significantly reduces heap pressure.
-      # The client is passed as fallback_client so that any users who require
-      # REST pagination still use the same authenticated token.
-      #
-      # Arguments:
-      #   client: Octokit::Client authenticated with the user's own token
-      #   logins: array of GitHub login names (typically the user's followings)
-      #   since:  Time – only star events after this point are stored
-      #   debug:  when true, detailed progress is written to Rails.logger
-      def fetch_and_upsert_per_user(client:, logins:, since:, debug: false)
-        fetch_and_upsert_graphql(
-          token:           client.access_token,
-          logins:          logins,
-          since:           since,
-          debug:           debug,
-          fallback_client: client
-        )
-      end
-
       private
 
       # Parse a list of GraphQL StarredRepositoryEdge hashes into the shape

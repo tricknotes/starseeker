@@ -60,14 +60,16 @@ namespace :star_events do
     User.find_in_batches(batch_size: StarEvent::FETCH_CONCURRENCY) do |user_batch|
       futures = user_batch.map do |user|
         Concurrent::Future.execute(executor: pool) do
+          client = user.github_client
           logins = (user.followings + [user.username]).uniq
           Rails.logger.info "[star_events:fetch] @#{user.username}: #{logins.size} logins"
 
-          StarEvent.fetch_and_upsert_per_user(
-            client: user.github_client,
-            logins: logins,
-            since:  since,
-            debug:  true
+          StarEvent.fetch_and_upsert_graphql(
+            token:           client.access_token,
+            logins:          logins,
+            since:           since,
+            debug:           true,
+            fallback_client: client
           )
         end
       end
