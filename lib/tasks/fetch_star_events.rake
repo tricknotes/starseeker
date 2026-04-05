@@ -44,12 +44,12 @@ namespace :star_events do
   end
 
   desc 'Fetch star events using each app-user\'s own GitHub token (multiplies rate limit). hours=N or FETCH_HOURS=N to set lookback period (default: 2)'
-  task :fetch_per_user, [:hours] => :environment do |_, args|
+  task :fetch, [:hours] => :environment do |_, args|
     hours = (args[:hours] || ENV['FETCH_HOURS'] || 2).to_i
     since = hours.hours.ago
 
-    Rails.logger.info "[star_events:fetch_per_user] start: hours=#{hours}, since=#{since}"
-    Rails.logger.info "[star_events:fetch_per_user] #{User.count} users found"
+    Rails.logger.info "[star_events:fetch] start: hours=#{hours}, since=#{since}"
+    Rails.logger.info "[star_events:fetch] #{User.count} users found"
 
     # Process users in slices of FETCH_CONCURRENCY.  Waiting for each slice to
     # complete before starting the next one lets GC.compact reclaim memory from
@@ -61,7 +61,7 @@ namespace :star_events do
       futures = user_batch.map do |user|
         Concurrent::Future.execute(executor: pool) do
           logins = (user.followings + [user.username]).uniq
-          Rails.logger.info "[star_events:fetch_per_user] @#{user.username}: #{logins.size} logins"
+          Rails.logger.info "[star_events:fetch] @#{user.username}: #{logins.size} logins"
 
           StarEvent.fetch_and_upsert_per_user(
             client: user.github_client,
@@ -75,7 +75,7 @@ namespace :star_events do
       futures.each do |future|
         future.value
         if future.rejected?
-          Rails.logger.error "[star_events:fetch_per_user] failed: #{future.reason.class}: #{future.reason.message}"
+          Rails.logger.error "[star_events:fetch] failed: #{future.reason.class}: #{future.reason.message}"
         end
       end
 
@@ -85,6 +85,6 @@ namespace :star_events do
     pool.shutdown
     pool.wait_for_termination(60)
 
-    Rails.logger.info "[star_events:fetch_per_user] finished"
+    Rails.logger.info "[star_events:fetch] finished"
   end
 end
