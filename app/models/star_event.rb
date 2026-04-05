@@ -46,45 +46,6 @@ class StarEvent < ApplicationRecord
     GRAPHQL_PAGE_SIZE = ENV.fetch('GRAPHQL_PAGE_SIZE', 10).to_i
 
     class_methods do
-      def fetch_and_upsert(client:, logins:, since:, debug: false)
-        total = logins.size
-        counter = Concurrent::AtomicFixnum.new(0)
-        Rails.logger.info "[fetch_and_upsert] start: #{total} logins, since=#{since}, concurrency=#{FETCH_CONCURRENCY}" if debug
-        pool = Concurrent::FixedThreadPool.new(FETCH_CONCURRENCY)
-
-        logins.each_slice(FETCH_CONCURRENCY) do |slice|
-          futures = slice.map { |login|
-            Concurrent::Future.execute(executor: pool) {
-              current = counter.increment
-              started_at = Time.current
-              Rails.logger.info "[fetch_and_upsert] (#{current}/#{total}) fetching @#{login}" if debug
-
-              fetch_each_page(client, login, since, debug) do |star_events, repos|
-                upsert_events(star_events, debug)
-                upsert_repositories(repos, debug)
-              end
-
-              elapsed = (Time.current - started_at).round(2)
-              Rails.logger.info "[fetch_and_upsert] (#{current}/#{total}) @#{login} done (#{elapsed}s)" if debug
-            }
-          }
-
-          futures.each do |future|
-            future.value
-            if future.rejected?
-              Rails.logger.error "[fetch_and_upsert] failed: #{future.reason.class}: #{future.reason.message}"
-            end
-          end
-
-          GC.compact
-        end
-
-        Rails.logger.info "[fetch_and_upsert] done" if debug
-      ensure
-        pool.shutdown
-        pool.wait_for_termination(60)
-      end
-
       # Fetch star events using the GitHub GraphQL API.
       #
       # Batches multiple logins into a single HTTP request (GRAPHQL_BATCH_SIZE
