@@ -2,7 +2,7 @@ class User < ApplicationRecord
   MAX_FOLLOWER_PAGE_COUNT = 50
 
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
-  scope :newly, -> { order('created_at DESC') }
+  scope :newly, -> { order(created_at: :desc) }
   scope :randomly, -> { order(Arel.sql('RANDOM()')) }
 
   has_many :authentications, dependent: :destroy
