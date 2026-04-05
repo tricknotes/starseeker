@@ -66,7 +66,8 @@ class User < ApplicationRecord
     @followings = []
 
     (1..MAX_FOLLOWER_PAGE_COUNT).each do |page|
-      followings_in_one_page = github_client.following(username, page: page).map { _1['login'] }
+      followings_in_one_page = github_client.following(username, page: page)
+                                            .filter_map { |f| f['login'] if f['type'] == 'User' }
       @followings += followings_in_one_page
       break if Octokit.per_page > followings_in_one_page.count
     end
