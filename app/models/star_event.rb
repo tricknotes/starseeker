@@ -153,28 +153,26 @@ class StarEvent < ApplicationRecord
         if needs_rest_fallback.any?
           Rails.logger.info "[graphql] REST fallback for #{needs_rest_fallback.size} logins" if debug
           client = fallback_client || Settings.github_client
-          needs_rest_fallback.each do |login|
+          needs_rest_fallback.each_with_index do |login, idx|
             # upsert_all is idempotent, so re-fetching page 1 is safe.
             fetch_each_page(client, login, since, debug) do |star_events, repos|
               upsert_events(star_events, debug)
               upsert_repositories(repos, debug)
             end
+            GC.compact if (idx + 1) % FETCH_CONCURRENCY == 0
           end
         end
 
         Rails.logger.info "[graphql] done" if debug
       end
 
-      # Fetch star events for a set of logins using the provided client,
-      # processing each login sequentially within the call.
+      # Fetch star events for a set of logins using the provided client.
       #
-      # Designed for the per-user token pattern where the caller runs one
-      # invocation per app-user in parallel (e.g. with a thread pool).
-      # Keeping the inner loop sequential prevents thread explosion when many
-      # users are processed concurrently in an outer pool.
-      #
-      # Only public repositories are stored; private repos are silently skipped
-      # by the shared fetch_each_page helper.
+      # Delegates to fetch_and_upsert_graphql so that all requests use the
+      # GraphQL batching path (plain Ruby Hashes) instead of REST
+      # (Sawyer::Resource objects), which significantly reduces heap pressure.
+      # The client is passed as fallback_client so that any users who require
+      # REST pagination still use the same authenticated token.
       #
       # Arguments:
       #   client: Octokit::Client authenticated with the user's own token
@@ -182,27 +180,13 @@ class StarEvent < ApplicationRecord
       #   since:  Time – only star events after this point are stored
       #   debug:  when true, detailed progress is written to Rails.logger
       def fetch_and_upsert_per_user(client:, logins:, since:, debug: false)
-        total = logins.size
-        Rails.logger.info "[per_user] start: #{total} logins" if debug
-
-        logins.each_with_index do |login, idx|
-          started_at = Time.current
-          Rails.logger.info "[per_user] (#{idx + 1}/#{total}) fetching @#{login}" if debug
-
-          fetch_each_page(client, login, since, debug) do |star_events, repos|
-            upsert_events(star_events, debug)
-            upsert_repositories(repos, debug)
-          end
-
-          elapsed = (Time.current - started_at).round(2)
-          Rails.logger.info "[per_user] (#{idx + 1}/#{total}) @#{login} done (#{elapsed}s)" if debug
-
-          # Periodically compact the heap to release memory accumulated from
-          # Sawyer / Faraday response objects before they are collected by GC.
-          GC.compact if (idx + 1) % FETCH_CONCURRENCY == 0
-        end
-
-        Rails.logger.info "[per_user] done" if debug
+        fetch_and_upsert_graphql(
+          token:           client.access_token,
+          logins:          logins,
+          since:           since,
+          debug:           debug,
+          fallback_client: client
+        )
       end
 
       private
