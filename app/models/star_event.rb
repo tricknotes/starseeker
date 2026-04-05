@@ -34,10 +34,16 @@ class StarEvent < ApplicationRecord
 
   concerning :Fetchable do
     FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
-    GRAPHQL_BATCH_SIZE = ENV.fetch('GRAPHQL_BATCH_SIZE', 20).to_i
-    # 30 matches REST default per_page; minimises GraphQL point cost while
-    # covering most users who star fewer than 30 repos in the lookback window.
-    GRAPHQL_PAGE_SIZE = 30
+    # Keep batches small enough to stay within GitHub's per-query resource
+    # limit.  20 users × 30 repos × nested fields (owner, primaryLanguage)
+    # routinely triggers RESOURCE_LIMITS_EXCEEDED; 5 keeps complexity well
+    # under the threshold while the persistent HTTPS connection means the
+    # extra round-trips carry no TLS overhead.
+    GRAPHQL_BATCH_SIZE = ENV.fetch('GRAPHQL_BATCH_SIZE', 5).to_i
+    # 10 covers the happy-path (most users star fewer than 10 repos in a
+    # 2-hour window) while keeping per-query node count low.
+    # Users who exceed this threshold fall back to the REST path automatically.
+    GRAPHQL_PAGE_SIZE = ENV.fetch('GRAPHQL_PAGE_SIZE', 10).to_i
 
     class_methods do
       def fetch_and_upsert(client:, logins:, since:, debug: false)
