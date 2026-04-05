@@ -36,13 +36,8 @@ class StarEvent < ApplicationRecord
     FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
     # Keep batches small enough to stay within GitHub's per-query resource
     # limit.  20 users × 30 repos × nested fields (owner, primaryLanguage)
-    # routinely triggers RESOURCE_LIMITS_EXCEEDED; 5 keeps complexity well
-    # under the threshold while the persistent HTTPS connection means the
-    # extra round-trips carry no TLS overhead.
+    # routinely triggers RESOURCE_LIMITS_EXCEEDED;
     GRAPHQL_BATCH_SIZE = ENV.fetch('GRAPHQL_BATCH_SIZE', 5).to_i
-    # 10 covers the happy-path (most users star fewer than 10 repos in a
-    # 2-hour window) while keeping per-query node count low.
-    # Users who exceed this threshold fall back to the REST path automatically.
     GRAPHQL_PAGE_SIZE = ENV.fetch('GRAPHQL_PAGE_SIZE', 10).to_i
 
     class_methods do
@@ -55,12 +50,6 @@ class StarEvent < ApplicationRecord
       # When a user has more starred repos than GRAPHQL_PAGE_SIZE within the
       # lookback window the method falls back to the REST path for that user,
       # keeping the happy-path lean while remaining correct.
-      #
-      # Arguments:
-      #   token:  GitHub personal access token (string)
-      #   logins: array of GitHub login names
-      #   since:  Time – only star events after this point are stored
-      #   debug:  when true, detailed progress is written to Rails.logger
       def fetch_and_upsert_graphql(token:, logins:, since:, debug: false, fallback_client: nil)
         require 'net/http'
 
@@ -74,8 +63,7 @@ class StarEvent < ApplicationRecord
         # Re-using one connection avoids repeated TLS handshakes and OpenSSL
         # context allocations (which can reach hundreds of MB when running
         # N_logins / GRAPHQL_BATCH_SIZE batches serially).
-        Net::HTTP.start('api.github.com', 443,
-          use_ssl: true, open_timeout: 15, read_timeout: 60) do |http|
+        Net::HTTP.start('api.github.com', 443, use_ssl: true, open_timeout: 15, read_timeout: 60) do |http|
 
           logins.each_slice(GRAPHQL_BATCH_SIZE) do |batch|
             processed += batch.size
