@@ -38,7 +38,7 @@ namespace :star_events do
 
     Rails.logger.info "[star_events:fetch_graphql] #{logins.size} unique logins to fetch"
 
-    StarEvent.fetch_and_upsert_graphql(token: token, logins: logins, since: since, debug: true)
+    StarEvent.fetch_and_upsert(token: token, logins: logins, since: since, debug: true)
 
     Rails.logger.info "[star_events:fetch_graphql] finished"
   end
@@ -64,7 +64,7 @@ namespace :star_events do
           logins = (user.followings + [user.username]).uniq
           Rails.logger.info "[star_events:fetch] @#{user.username}: #{logins.size} logins"
 
-          StarEvent.fetch_and_upsert_graphql(
+          StarEvent.fetch_and_upsert(
             token:           client.access_token,
             logins:          logins,
             since:           since,

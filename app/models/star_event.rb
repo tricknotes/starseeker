@@ -50,7 +50,7 @@ class StarEvent < ApplicationRecord
       # When a user has more starred repos than GRAPHQL_PAGE_SIZE within the
       # lookback window the method falls back to the REST path for that user,
       # keeping the happy-path lean while remaining correct.
-      def fetch_and_upsert_graphql(token:, logins:, since:, debug: false, fallback_client: nil)
+      def fetch_and_upsert(token:, logins:, since:, debug: false, fallback_client: nil)
         require 'net/http'
 
         total = logins.size
