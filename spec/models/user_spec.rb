@@ -57,4 +57,58 @@ describe User do
       its(:active?) { is_expected.to be_falsey }
     end
   end
+
+  describe '#followings' do
+    subject(:user) { build(:user, username: 'alice') }
+
+    let(:client) { instance_double(Octokit::Client) }
+
+    before do
+      allow(user).to receive(:github_client).and_return(client)
+    end
+
+    def following_entry(login:, type: 'User')
+      { 'login' => login, 'type' => type }
+    end
+
+    context 'when followings include both users and organizations' do
+      before do
+        allow(client).to receive(:following).and_return([
+          following_entry(login: 'bob',       type: 'User'),
+          following_entry(login: 'acme-corp', type: 'Organization'),
+          following_entry(login: 'carol',     type: 'User'),
+        ])
+      end
+
+      it 'returns only user logins' do
+        expect(user.followings).to contain_exactly('bob', 'carol')
+      end
+
+      it 'excludes organizations' do
+        expect(user.followings).not_to include('acme-corp')
+      end
+    end
+
+    context 'when all followings are organizations' do
+      before do
+        allow(client).to receive(:following).and_return([
+          following_entry(login: 'acme-corp', type: 'Organization'),
+        ])
+      end
+
+      it 'returns an empty array' do
+        expect(user.followings).to be_empty
+      end
+    end
+
+    context 'when there are no followings' do
+      before do
+        allow(client).to receive(:following).and_return([])
+      end
+
+      it 'returns an empty array' do
+        expect(user.followings).to be_empty
+      end
+    end
+  end
 end

@@ -170,7 +170,7 @@ describe StarEvent do
       let(:fallback_client) { double(:octokit_client) }
 
       # Sawyer-like double for a REST starred item
-      def rest_starred_item(repo_name:, starred_at:)
+      def rest_starred_item(repo_name:, starred_at:, private: false)
         owner = repo_name.split('/').first
         repo = double(
           :repo,
@@ -180,7 +180,7 @@ describe StarEvent do
           stargazers_count: 5,
           owner:            double(:owner, login: owner, avatar_url: "https://github.com/#{owner}.png"),
         )
-        allow(repo).to receive(:[]).with(:private).and_return(false)
+        allow(repo).to receive(:[]).with(:private).and_return(private)
         double(:starred_item, starred_at: starred_at.iso8601, repo: repo)
       end
 
@@ -217,6 +217,24 @@ describe StarEvent do
           fallback_client: fallback_client
         )
         expect(StarEvent.pluck(:repo_name)).to contain_exactly('bob/first', 'bob/extra')
+      end
+
+      context 'when the REST fallback returns a private repo' do
+        before do
+          allow(fallback_client).to receive(:starred).and_return([
+            rest_starred_item(repo_name: 'bob/secret', starred_at: 1.hour.ago, private: true),
+          ])
+        end
+
+        it 'does not persist the private repo' do
+          StarEvent.fetch_and_upsert(
+            token:           token,
+            logins:          logins,
+            since:           since,
+            fallback_client: fallback_client
+          )
+          expect(StarEvent.pluck(:repo_name)).to contain_exactly('bob/first')
+        end
       end
     end
 
