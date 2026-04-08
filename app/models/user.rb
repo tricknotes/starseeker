@@ -1,8 +1,8 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   MAX_FOLLOWER_PAGE_COUNT = 50
 
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
-  scope :newly, -> { order('created_at DESC') }
+  scope :newly, -> { order(created_at: :desc) }
   scope :randomly, -> { order(Arel.sql('RANDOM()')) }
 
   has_many :authentications, dependent: :destroy
@@ -57,11 +57,7 @@ class User < ActiveRecord::Base
   end
 
   def star_events_by_followings_with_me
-    following_names = followings.map do |following|
-      following['login']
-    end
-
-    StarEvent.all_by(following_names + [username])
+    StarEvent.by(followings + [username])
   end
 
   def followings
@@ -71,6 +67,7 @@ class User < ActiveRecord::Base
 
     (1..MAX_FOLLOWER_PAGE_COUNT).each do |page|
       followings_in_one_page = github_client.following(username, page: page)
+                                            .filter_map { |f| f['login'] if f['type'] == 'User' }
       @followings += followings_in_one_page
       break if Octokit.per_page > followings_in_one_page.count
     end

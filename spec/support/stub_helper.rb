@@ -1,31 +1,29 @@
 module StubHelper
-
-  FIXTURE_PATH = Rails.root.join('spec', 'fixtures')
-
-  def unique_id
-    @unique_id ||= rand(10000)
-    @unique_id += 1
-  end
-
   def stub_star_event!(attrs)
-    json = FIXTURE_PATH.join('watch_events', '1.json').read
-    event = JSON.parse(json)
-    event = event.merge(
-      'id' => unique_id,
-      'created_at' => DateTime.now.strftime(StarEvent::DATETIME_FORMAT)
+    actor = attrs[:actor] || {}
+    repo = attrs[:repo] || {}
+
+    repo_name = repo[:name] || repo['name']
+    StarEvent.create!(
+      actor_login: actor[:login] || actor['login'],
+      actor_avatar_url: actor[:avatar_url] || actor['avatar_url'],
+      repo_name: repo_name,
+      repo_owner: repo_name&.split('/')&.first,
+      starred_at: attrs[:starred_at] || Time.current
     )
-    StarEvent.create!(event.merge(attrs))
   end
 
   def stub_repository!(name, attrs = {})
-    json = FIXTURE_PATH.join('repositories', '1.json').read
-    repo = JSON.parse(json)
-    repo = repo.merge(
-      'id' => unique_id,
-      'full_name' => name
+    owner_login = name.split('/').first
+
+    Repository.create!(
+      name: name,
+      description: attrs[:description],
+      language: attrs[:language],
+      stargazers_count: attrs[:watchers_count] || attrs[:stargazers_count],
+      owner_login: owner_login,
+      owner_avatar_url: attrs[:owner_avatar_url] || "https://github.com/#{owner_login}.png"
     )
-    repo = repo.merge(attrs)
-    Repository.create!(repo)
   end
 end
 

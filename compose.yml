@@ -6,12 +6,6 @@ services:
       - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
-  mongo:
-    image: mongo:8.0.14
-    container_name: starseeker-mongo
-    volumes:
-      - mongo-data:/data/db
-      - mongo-config:/data/configdb
   redis:
     container_name: starseeker-redis
     image: redis:7.2-alpine
@@ -26,11 +20,9 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
-      - mongo
       - redis
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres
-      MONGO_HOST: mongo
       REDIS_URL: redis://redis:6379
       BUNDLE_PATH: /bundle
       BASE_URL: ${BASE_URL:-http://localhost:3000}
@@ -42,6 +34,4 @@ services:
 
 volumes:
   postgres-data:
-  mongo-data:
-  mongo-config:
   bundle:

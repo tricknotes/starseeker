@@ -11,8 +11,6 @@ jobs:
         image: postgres:17.4
         env:
           POSTGRES_PASSWORD: password
-      mongo:
-        image: mongo:8.0.14
       redis:
         image: redis:7.0
         options: --entrypoint redis-server
@@ -22,7 +20,6 @@ jobs:
       env:
         BASE_URL: 'http://example.com'
         DATABASE_URL: postgresql://postgres:password@postgres
-        MONGO_HOST: mongo
         RAILS_ENV: test
         REDIS_URL: redis://redis:6379
         RUBYOPT: '-W:deprecated'

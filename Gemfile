@@ -5,7 +5,6 @@ ruby '3.4.7'
 gem 'rails', '~> 8.1.0'
 
 gem 'haml'
-gem 'mongoid', github: 'mongodb/mongoid'
 gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'

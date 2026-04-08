@@ -35,7 +35,7 @@ describe DailyMailScheduler do
       before do
         user.activate!
 
-        allow_any_instance_of(User).to receive(:followings).and_return([starred_user_data])
+        allow_any_instance_of(User).to receive(:followings).and_return([starred_user_data['login']])
         stub_star_event! actor: starred_user_data, repo: {name: 'DIO/the-world'}
         stub_repository! 'DIO/the-world', watchers_count: 21
 
@@ -66,7 +66,7 @@ describe DailyMailScheduler do
       before do
         user.activate!
 
-        allow_any_instance_of(User).to receive(:followings).and_return([starred_user_data])
+        allow_any_instance_of(User).to receive(:followings).and_return([starred_user_data['login']])
 
         subject.schedule [user]
 
