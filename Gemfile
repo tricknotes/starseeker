@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.4.7'
+ruby '4.0.2'
 
 gem 'rails', '~> 8.1.0'
 

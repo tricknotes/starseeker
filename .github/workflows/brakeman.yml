@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: ruby/setup-ruby@3ff19f5e2baf30647122352b96108b1fbe250c64 # v1.299.0
         with:
-          ruby-version: 3.4.7
+          ruby-version: 4.0.2
       - uses: reviewdog/action-brakeman@5083efd49634e26645a0736681b618ccc3fb7f14 # v2.19.2
         with:
           reporter: github-pr-review # Default is github-pr-check
