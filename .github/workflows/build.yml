@@ -16,7 +16,7 @@ jobs:
         options: --entrypoint redis-server
 
     container:
-      image: ruby:4.0.2
+      image: ruby:4.0.3
       env:
         BASE_URL: 'http://example.com'
         DATABASE_URL: postgresql://postgres:password@postgres
