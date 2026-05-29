@@ -106,6 +106,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.6.2)
+    docile (1.4.1)
     drb (2.2.3)
     erb (6.0.4)
     erubi (1.13.1)
@@ -313,6 +314,15 @@ GEM
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
     securerandom (0.4.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-cobertura (3.1.0)
+      rexml
+      simplecov (~> 0.19)
+    simplecov-html (0.13.2)
+    simplecov_json_formatter (0.1.4)
     snaky_hash (2.0.4)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
@@ -365,6 +375,8 @@ DEPENDENCIES
   roadie-rails
   rspec-its
   rspec-rails
+  simplecov
+  simplecov-cobertura
   web-console
 
 RUBY VERSION
