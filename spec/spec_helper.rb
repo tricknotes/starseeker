@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'simplecov-cobertura'
+
 SimpleCov.start 'rails' do
   formatter SimpleCov::Formatter::CoberturaFormatter
 end

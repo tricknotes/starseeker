@@ -54,4 +54,3 @@ jobs:
         with:
           file: coverage/coverage.xml
           language: Ruby
-          label: code-coverage/starseeker
