@@ -54,3 +54,4 @@ jobs:
         with:
           file: coverage/coverage.xml
           language: Ruby
+          fail-on-error: false
