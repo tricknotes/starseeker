@@ -1,3 +1,9 @@
+require 'simplecov'
+require 'simplecov-cobertura'
+SimpleCov.start 'rails' do
+  formatter SimpleCov::Formatter::CoberturaFormatter
+end
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

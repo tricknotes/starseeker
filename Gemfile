@@ -27,4 +27,6 @@ group :test do
   gem 'factory_bot_rails'
   gem 'rspec-its'
   gem 'rspec-rails', groups: %i(development)
+  gem 'simplecov', require: false
+  gem 'simplecov-cobertura', require: false
 end

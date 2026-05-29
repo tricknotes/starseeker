@@ -2,6 +2,10 @@ name: Build
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+  code-quality: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,3 +48,9 @@ jobs:
       - name: Run specs
         run: |
           bundle exec rake
+      - name: Upload coverage report
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/upload-code-coverage@abb5995db9e0199b0e2bb9dbd136fce4cb1ec4d3 # v1.3.0
+        with:
+          report: coverage/coverage.xml
+          language: Ruby
