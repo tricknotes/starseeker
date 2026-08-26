@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
   before_action :require_login, :assign_current_user
 
   def show
-    @star_events = StarEvent.by(@user.username).latest(7.days.ago).newly
-    @starred_events = StarEvent.owner(@user.username).latest(7.days.ago).newly
+    @star_events = @user.recent_star_events
+    @starred_events = @user.recent_star_events_on_my_repositories
   end
 end

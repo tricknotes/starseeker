@@ -27,7 +27,7 @@ module DailyMailScheduler
           label = '%s(%s)' % [user.username, user.email]
 
           begin
-            if user_has_starred?(user, 1.day.ago)
+            if user_has_starred?(user)
               MyHotRepository.notify(user).deliver_now
 
               self.logger.info "Send hot repositories mail to \033[36m%s\033[39m." % [label]
@@ -93,8 +93,8 @@ module DailyMailScheduler
       redis.call('HMSET', TABLE_NAME, user.id, Status::FAILED)
     end
 
-    def user_has_starred?(user, term)
-      user.star_events_by_followings_with_me.latest(term).present?
+    def user_has_starred?(user)
+      user.daily_star_events_by_followings.present?
     end
   end
 
