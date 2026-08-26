@@ -19,9 +19,9 @@ class ActivitiesController < ApplicationController
   private
 
   def login_from_feed_token
-    head :unauthorized if params[:token].blank?
+    return head :unauthorized if params[:token].blank?
 
-    @user = User.where(username: params[:username], feed_token: params[:token]).first
+    @user = User.find_by(username: params[:username], feed_token: params[:token])
 
     head :unauthorized unless @user
   end
