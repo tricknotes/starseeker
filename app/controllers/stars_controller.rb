@@ -1,6 +1,8 @@
 class StarsController < ApplicationController
   rescue_from Octokit::NotFound do
-    render status: :not_found, file: 'public/404.html', layout: false
+    # `render file:` resolves its argument with File.exist?, so a relative path
+    # only works while the working directory happens to be the app root.
+    render status: :not_found, file: Rails.public_path.join('404.html').to_s, layout: false
   end
 
   def index
