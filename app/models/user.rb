@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   MAX_FOLLOWER_PAGE_COUNT = 50
 
+  # How far back the "daily" and "recent" listings look.
+  DAILY_TERM  = 1.day
+  RECENT_TERM = 7.days
+
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
   scope :newly, -> { order(created_at: :desc) }
   scope :randomly, -> { order(Arel.sql('RANDOM()')) }
@@ -58,6 +62,21 @@ class User < ApplicationRecord
 
   def star_events_by_followings_with_me
     StarEvent.by(followings + [username])
+  end
+
+  # Repositories starred by the people this user follows (and by the user).
+  def daily_star_events_by_followings
+    star_events_by_followings_with_me.latest(DAILY_TERM.ago)
+  end
+
+  # Repositories this user starred recently.
+  def recent_star_events
+    StarEvent.by(username).latest(RECENT_TERM.ago).newly
+  end
+
+  # This user's own repositories that were starred recently by someone.
+  def recent_star_events_on_my_repositories
+    StarEvent.owner(username).latest(RECENT_TERM.ago).newly
   end
 
   def followings

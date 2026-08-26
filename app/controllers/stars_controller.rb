@@ -7,6 +7,6 @@ class StarsController < ApplicationController
 
   def index
     @user = User.find_or_fetch_by_username(params[:username])
-    @star_events = StarEvent.by(@user.username).latest(7.days.ago).newly
+    @star_events = @user.recent_star_events
   end
 end
