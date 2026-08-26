@@ -17,16 +17,14 @@ module Settings
     end
 
     def github_client
-      @github_client =
-        begin
-          if ENV['GITHUB_LOGIN'] && ENV['GITHUB_TOKEN']
-            Octokit::Client.new(
-              login: ENV['GITHUB_LOGIN'],
-              access_token: ENV['GITHUB_TOKEN'],
-            )
-          else
-            Octokit::Client.new
-          end
+      @github_client ||=
+        if ENV['GITHUB_LOGIN'] && ENV['GITHUB_TOKEN']
+          Octokit::Client.new(
+            login: ENV['GITHUB_LOGIN'],
+            access_token: ENV['GITHUB_TOKEN'],
+          )
+        else
+          Octokit::Client.new
         end
     end
 
