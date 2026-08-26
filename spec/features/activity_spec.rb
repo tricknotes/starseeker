@@ -27,4 +27,16 @@ feature 'Activity' do
     expect(page.body).to match(%r{\A<\?xml version="1\.0" encoding="UTF-8"\?>})
     expect(page.body).to match('<title>DIO/the-world</title>')
   end
+
+  scenario 'News Feed without a token' do
+    visit feed_path(username: user.username, format: 'atom')
+
+    expect(page.status_code).to eq(401)
+  end
+
+  scenario 'News Feed with an invalid token' do
+    visit feed_path(username: user.username, format: 'atom', token: 'INVALID_TOKEN')
+
+    expect(page.status_code).to eq(401)
+  end
 end
