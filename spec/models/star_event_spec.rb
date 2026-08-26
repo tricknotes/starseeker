@@ -1,4 +1,52 @@
 describe StarEvent do
+  describe '.starred_ranking' do
+    subject(:ranking) { StarEvent.starred_ranking }
+
+    before do
+      stub_repository! 'popular/repo'
+      stub_repository! 'newer/repo'
+
+      stub_star_event! actor: {login: 'alice'}, repo: {name: 'popular/repo'}, starred_at: 3.hours.ago
+      stub_star_event! actor: {login: 'bob'},   repo: {name: 'popular/repo'}, starred_at: 2.hours.ago
+      stub_star_event! actor: {login: 'carol'}, repo: {name: 'newer/repo'},   starred_at: 1.hour.ago
+      # No Repository record is stored for this one.
+      stub_star_event! actor: {login: 'dave'},  repo: {name: 'unknown/repo'}, starred_at: 30.minutes.ago
+    end
+
+    it 'orders repositories by star count, then by recency' do
+      expect(ranking.map(&:first)).to eq(['popular/repo', 'newer/repo'])
+    end
+
+    it 'excludes events whose repository is not stored yet' do
+      expect(ranking.map(&:first)).not_to include('unknown/repo')
+    end
+
+    it 'orders the events of each repository newest first' do
+      _repo_name, events, _repo = ranking.first
+
+      expect(events.map(&:actor_login)).to eq(%w(bob alice))
+    end
+
+    it 'returns the repository of each group' do
+      _repo_name, _events, repo = ranking.first
+
+      expect(repo).to eq(Repository.find_by(name: 'popular/repo'))
+    end
+
+    it 'does not query the repositories table once per group' do
+      queries = 0
+      counter = ->(_name, _start, _finish, _id, payload) {
+        queries += 1 if payload[:sql].include?('FROM "repositories"') && !payload[:cached]
+      }
+
+      ActiveSupport::Notifications.subscribed(counter, 'sql.active_record') do
+        StarEvent.starred_ranking
+      end
+
+      expect(queries).to be <= 1
+    end
+  end
+
   describe '.fetch_and_upsert' do
     subject(:fetch) { StarEvent.fetch_and_upsert(token: token, logins: logins, since: since) }
 

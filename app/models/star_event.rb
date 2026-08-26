@@ -7,18 +7,19 @@ class StarEvent < ApplicationRecord
   scope :owner, ->(login) { where(repo_owner: login) }
 
   class << self
+    # Group events by repository and order them by popularity.
+    #
+    # Returns an array of [repo_name, events, repository] tuples, where +events+
+    # is ordered newest first.  Events whose repository is not stored yet are
+    # excluded by the join, so every tuple has a repository.
+    #
+    # (actor_login, repo_name) is unique at the database level, so an actor
+    # never appears twice within a group.
     def starred_ranking
-      star_events = all.newly.to_a
-      star_events = star_events.uniq { |e| [e.repo_name, e.actor_login].hash }
-
-      grouped_events = star_events.group_by(&:repo_name)
-      grouped_events = grouped_events.sort_by { |_, events| [-events.count, -events.first.starred_at.to_i] }
-      grouped_events = grouped_events.filter_map do |repo_name, events|
-        repo = events.first.repository
-        [repo_name, events, repo] if repo
-      end
-
-      grouped_events
+      joins(:repository).includes(:repository).newly.to_a
+        .group_by(&:repo_name)
+        .sort_by {|_, events| [-events.count, -events.first.starred_at.to_i] }
+        .map {|repo_name, events| [repo_name, events, events.first.repository] }
     end
 
     def each_with_repo
