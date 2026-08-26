@@ -46,7 +46,7 @@
         = link_to_language repo
       %span.stargazers
         - events.each do |event|
-          = image_link_to_github_url_from_event(event)
+          = image_link_to_github_url event.actor
           %span.starred_at
             = time_ago_in_words event.starred_at
       %div

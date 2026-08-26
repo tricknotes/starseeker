@@ -5,6 +5,32 @@ describe ApplicationHelper do
     end
   end
 
+  describe '#image_link_to_github_url' do
+    context 'with a User' do
+      let(:account) { create(:user) }
+
+      it 'links to the GitHub account page' do
+        expect(image_link_to_github_url(account)).to include('https://github.com/USER')
+      end
+
+      it 'renders the avatar of the account' do
+        expect(image_link_to_github_url(account)).to include(account.avatar_url)
+      end
+    end
+
+    context 'with a Repository::Owner' do
+      let(:account) { Repository::Owner.new(login: 'DIO', avatar_url: 'http://example.com/dio.png') }
+
+      it 'links to the GitHub account page' do
+        expect(image_link_to_github_url(account)).to include('https://github.com/DIO')
+      end
+
+      it 'renders the avatar of the account' do
+        expect(image_link_to_github_url(account)).to include('http://example.com/dio.png')
+      end
+    end
+  end
+
   describe '#html_title_about_user' do
     context 'when user has username and name' do
       let(:user) { create(:user) }

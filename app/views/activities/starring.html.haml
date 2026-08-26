@@ -23,7 +23,7 @@ Starred repositories by #{@user.username}'s followings
           = link_to_language repo
         %span.stargazers
           - events.each do |event|
-            = image_link_to_github_url_from_event(event)
+            = image_link_to_github_url event.actor
       %div
         %span.description
           = repo.description

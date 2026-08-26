@@ -18,6 +18,12 @@ describe User do
     end
   end
 
+  describe '#login' do
+    subject { build(:user, username: 'alice') }
+
+    its(:login) { is_expected.to eq('alice') }
+  end
+
   describe '#feed_token' do
     subject do
       create(:user)

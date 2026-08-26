@@ -29,6 +29,13 @@ class StarEvent < ApplicationRecord
     end
   end
 
+  # The GitHub account that starred the repository.
+  # Duck-types with Repository#owner and User so that view helpers can take
+  # either of them.
+  def actor
+    Repository::Owner.new(login: actor_login, avatar_url: actor_avatar_url)
+  end
+
   concerning :Fetchable do
     FETCH_CONCURRENCY = ENV.fetch('FETCH_CONCURRENCY', 5).to_i
     # Keep batches small enough to stay within GitHub's per-query resource
