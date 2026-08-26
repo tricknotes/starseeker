@@ -20,4 +20,14 @@ feature 'Stars page' do
     expect(page).to have_list('[25]')
     expect(page).to have_link('#GitHub')
   end
+
+  scenario 'Show 404 page for an unknown user' do
+    github_client = instance_double(Octokit::Client)
+    allow(github_client).to receive(:user).and_raise(Octokit::NotFound)
+    allow(Settings).to receive(:github_client).and_return(github_client)
+
+    visit stars_path(username: 'unknown-user')
+
+    expect(page.status_code).to eq(404)
+  end
 end
