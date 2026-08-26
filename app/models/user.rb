@@ -37,6 +37,14 @@ class User < ApplicationRecord
     end
   end
 
+  # GitHub's own naming for a username, so that a User duck-types with
+  # Repository::Owner wherever a GitHub account is rendered.
+  # (Not `alias_method`: `username` is a lazily generated attribute method and
+  # is not defined yet while this class body is evaluated.)
+  def login
+    username
+  end
+
   def access_token
     @access_token ||= authentications.find_by(provider: :github)&.token
   end

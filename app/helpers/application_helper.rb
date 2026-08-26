@@ -22,25 +22,14 @@ module ApplicationHelper
     link_to('[%d]' % repo.stargazers_count, github_url("#{repo.full_name}/stargazers"))
   end
 
-  def image_link_to_github_url(user, size = '30x30')
-    username = user.is_a?(User) ? user.username : user.login
-
-    link_to avatar_image_tag(user, size), github_url(username)
+  # +account+ is anything that responds to #login and #avatar_url:
+  # a User, a Repository::Owner (Repository#owner, StarEvent#actor), ...
+  def image_link_to_github_url(account, size = '30x30')
+    link_to avatar_image_tag(account, size), github_url(account.login)
   end
 
-  def avatar_image_tag(user, size)
-    username, avatar_url = if user.is_a?(User)
-      [user.username, user.avatar_url]
-    else
-      [user.login, user.avatar_url]
-    end
-
-    image_tag(avatar_url, title: username, alt: username, size: size)
-  end
-
-  def image_link_to_github_url_from_event(event)
-    owner = Repository::Owner.new(login: event.actor_login, avatar_url: event.actor_avatar_url)
-    image_link_to_github_url(owner)
+  def avatar_image_tag(account, size)
+    image_tag(account.avatar_url, title: account.login, alt: account.login, size: size)
   end
 
   def html_title_about_user(user)

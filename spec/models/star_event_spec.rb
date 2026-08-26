@@ -254,4 +254,16 @@ describe StarEvent do
       end
     end
   end
+
+  describe '#actor' do
+    subject(:actor) do
+      StarEvent.new(
+        actor_login: 'DIO',
+        actor_avatar_url: 'http://example.com/dio.png'
+      ).actor
+    end
+
+    its(:login) { is_expected.to eq('DIO') }
+    its(:avatar_url) { is_expected.to eq('http://example.com/dio.png') }
+  end
 end
