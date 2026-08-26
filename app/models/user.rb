@@ -25,7 +25,7 @@ class User < ApplicationRecord
 
   class << self
     def find_or_fetch_by_username(username)
-      self.find_by_username(username) || User.new {|user|
+      find_by(username: username) || User.new {|user|
         github_user = Settings.github_client.user(username)
         user.username = github_user.login
         user.avatar_url = github_user.avatar_url

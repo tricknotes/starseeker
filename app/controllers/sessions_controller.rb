@@ -46,7 +46,7 @@ class SessionsController < ApplicationController
   end
 
   def activate
-    @user = User.find_by_activation_token(params[:activation_token])
+    @user = User.find_by(activation_token: params[:activation_token])
 
     if @user
       @user.activate!
