@@ -20,9 +20,9 @@ feature 'Dashboard' do
     expect(page).to have_caption('starseeker user')
     expect(page).to have_content('user@starseeker.so')
     expect(page).to have_sub_title('Repositories you starred recently:')
-    expect(page).to have_css('.starred_repos_by_user li', text: 'github/octocat')
+    expect(page).to have_css('.starred_repos_by_user li', text: 'github/octocat [25]')
     expect(page).to have_sub_title('Your repositories recently starred by someone:')
-    expect(page).to have_css('.starred_repos_by_someone li', text: 'USER/try_git')
+    expect(page).to have_css('.starred_repos_by_someone li', text: 'USER/try_git [1]')
     expect(page).to have_sub_title('Menu')
   end
 

@@ -1,0 +1,9 @@
+-# One repository in a "starred recently" listing, with when it was starred.
+%li
+  = image_link_to_github_url repo.owner
+  = render 'shared/repository_summary', repo: repo
+  %span.starred_at
+    = time_ago_in_words star_event.starred_at
+  %div
+    %span.description
+      = repo.description

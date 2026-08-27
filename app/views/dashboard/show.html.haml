@@ -19,31 +19,16 @@
 (Within 7 days from now)
 %ul.starred_repos_by_user
   - @star_events.each_with_repo do |star_event, repo|
-    %li
-      = image_link_to_github_url repo.owner
-      %span.repo_name
-        = link_to_repo repo.full_name
-      = link_to_stargazers(repo)
-      %span.language
-        = link_to_language repo
-      %span.starred_at
-        = time_ago_in_words star_event.starred_at
-      %div
-        %span.description
-          = repo.description
+    = render 'shared/starred_repository', star_event: star_event, repo: repo
 - if @star_events.empty?
   Not starred.
 
 %h2 Your repositories recently starred by someone:
 (Within 7 days from now)
 %ul.starred_repos_by_someone
-  - @starred_events.starred_ranking.each do |repo_name, events, repo|
+  - @starred_events.starred_ranking.each do |_repo_name, events, repo|
     %li
-      %span.repo_name
-        = link_to_repo repo_name
-      = link_to_stargazers(repo)
-      %span.language
-        = link_to_language repo
+      = render 'shared/repository_summary', repo: repo
       %span.stargazers
         - events.each do |event|
           = image_link_to_github_url event.actor
