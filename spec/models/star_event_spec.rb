@@ -126,6 +126,15 @@ describe StarEvent do
         expect(repo.language).to eq('Ruby')
         expect(repo.stargazers_count).to eq(42)
       end
+
+      it 'stores the repository owner' do
+        fetch
+        expect(StarEvent.last.repo_owner).to eq('bob')
+        expect(Repository.find_by(name: 'bob/project')).to have_attributes(
+          owner_login:      'bob',
+          owner_avatar_url: 'https://github.com/bob.png'
+        )
+      end
     end
 
     # ── private repo ────────────────────────────────────────────────────────────
@@ -265,6 +274,24 @@ describe StarEvent do
           fallback_client: fallback_client
         )
         expect(StarEvent.pluck(:repo_name)).to contain_exactly('bob/first', 'bob/extra')
+      end
+
+      it 'persists the repository attributes returned by the REST path' do
+        StarEvent.fetch_and_upsert(
+          token:           token,
+          logins:          logins,
+          since:           since,
+          fallback_client: fallback_client
+        )
+
+        expect(Repository.find_by(name: 'bob/extra')).to have_attributes(
+          description:      'desc',
+          language:         'Ruby',
+          stargazers_count: 5,
+          owner_login:      'bob',
+          owner_avatar_url: 'https://github.com/bob.png'
+        )
+        expect(StarEvent.find_by(repo_name: 'bob/extra').repo_owner).to eq('bob')
       end
 
       context 'when the REST fallback returns a private repo' do

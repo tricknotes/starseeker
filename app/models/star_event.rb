@@ -44,6 +44,55 @@ class StarEvent < ApplicationRecord
     GRAPHQL_BATCH_SIZE = ENV.fetch('GRAPHQL_BATCH_SIZE', 5).to_i
     GRAPHQL_PAGE_SIZE = ENV.fetch('GRAPHQL_PAGE_SIZE', 10).to_i
 
+    # One starred repository, normalized from either API shape.  The GraphQL
+    # and the REST path return the same information under different names, so
+    # they are converted here and share a single set of parsing rules from
+    # then on.
+    StarredRepository = Data.define(
+      :starred_at,
+      :private,
+      :name,
+      :description,
+      :language,
+      :stargazers_count,
+      :owner_login,
+      :owner_avatar_url
+    ) do
+      # A GraphQL StarredRepositoryEdge.
+      def self.from_graphql_edge(edge)
+        node = edge['node']
+
+        new(
+          starred_at:       Time.parse(edge['starredAt']),
+          private:          node['isPrivate'],
+          name:             node['nameWithOwner'],
+          description:      node['description'],
+          language:         node.dig('primaryLanguage', 'name'),
+          stargazers_count: node['stargazerCount'],
+          owner_login:      node.dig('owner', 'login'),
+          owner_avatar_url: node.dig('owner', 'avatarUrl'),
+        )
+      end
+
+      # An entry of Octokit::Client#starred requested with the star+json media
+      # type, which wraps the repository in a starred_at / repo pair.
+      def self.from_rest_item(item)
+        repo       = item.repo
+        starred_at = item.starred_at
+
+        new(
+          starred_at:       starred_at.is_a?(String) ? Time.parse(starred_at) : starred_at,
+          private:          repo[:private],
+          name:             repo.full_name,
+          description:      repo.description,
+          language:         repo.language,
+          stargazers_count: repo.stargazers_count,
+          owner_login:      repo.owner.login,
+          owner_avatar_url: repo.owner.avatar_url,
+        )
+      end
+    end
+
     class_methods do
       # Fetch star events using the GitHub GraphQL API.
       #
@@ -92,7 +141,13 @@ class StarEvent < ApplicationRecord
               edges     = user_data.dig('starredRepositories', 'edges') || []
               page_info = user_data.dig('starredRepositories', 'pageInfo') || {}
 
-              star_events, repos, done = parse_starred_edges(login, edges, since, debug)
+              star_events, repos, done = build_upsert_rows(
+                login:                login,
+                starred_repositories: edges.lazy.map {|edge| StarredRepository.from_graphql_edge(edge) },
+                since:                since,
+                debug:                debug,
+                tag:                  'graphql'
+              )
 
               upsert_events(star_events, debug)        unless star_events.empty?
               upsert_repositories(repos.values, debug) unless repos.empty?
@@ -127,51 +182,49 @@ class StarEvent < ApplicationRecord
 
       private
 
-      # Parse a list of GraphQL StarredRepositoryEdge hashes into the shape
-      # expected by upsert_events / upsert_repositories.
+      # Turn normalized starred repositories into the rows expected by
+      # upsert_events / upsert_repositories.  Both the GraphQL and the REST
+      # path go through here, so the rules for what is stored and what is
+      # skipped live in one place.
       #
-      # Returns [star_events_array, repos_hash, done_boolean]
-      # done is true when the earliest edge in the slice predates `since`.
-      def parse_starred_edges(login, edges, since, debug)
+      # Returns [star_events_array, repos_hash, done_boolean].
+      # done is true once a repository older than `since` is reached; the list
+      # is ordered newest first, so nothing behind it is relevant.  Callers
+      # pass a lazy enumerator so that nothing past that point is parsed.
+      def build_upsert_rows(login:, starred_repositories:, since:, debug:, tag:)
         actor_avatar_url = "https://github.com/#{login}.png"
         star_events = []
         repos       = {}
         done        = false
 
-        edges.each do |edge|
-          starred_at = Time.parse(edge['starredAt'])
-
-          if starred_at < since
-            Rails.logger.info "[graphql] @#{login} reached since (starred_at=#{starred_at}), stopping" if debug
+        starred_repositories.each do |starred|
+          if starred.starred_at < since
+            Rails.logger.info "[#{tag}] @#{login} reached since (#{starred.name} starred_at=#{starred.starred_at}), stopping" if debug
             done = true
             break
           end
 
-          node      = edge['node']
-          if node['isPrivate']
-            Rails.logger.info "[graphql] @#{login} skipping private repo #{node['nameWithOwner']}" if debug
+          if starred.private
+            Rails.logger.info "[#{tag}] @#{login} skipping private repo #{starred.name}" if debug
             next
           end
 
-          repo_name  = node['nameWithOwner']
-          repo_owner = repo_name.split('/').first
-
-          Rails.logger.info "[graphql] @#{login} +#{repo_name} (starred_at=#{starred_at})" if debug
+          Rails.logger.info "[#{tag}] @#{login} +#{starred.name} (starred_at=#{starred.starred_at})" if debug
 
           star_events << {
             actor_login:      login,
             actor_avatar_url: actor_avatar_url,
-            repo_name:        repo_name,
-            repo_owner:       repo_owner,
-            starred_at:       starred_at,
+            repo_name:        starred.name,
+            repo_owner:       starred.owner_login,
+            starred_at:       starred.starred_at,
           }
-          repos[repo_name] ||= {
-            name:             repo_name,
-            description:      node['description'],
-            language:         node.dig('primaryLanguage', 'name'),
-            stargazers_count: node['stargazerCount'],
-            owner_login:      repo_owner,
-            owner_avatar_url: node.dig('owner', 'avatarUrl'),
+          repos[starred.name] ||= {
+            name:             starred.name,
+            description:      starred.description,
+            language:         starred.language,
+            stargazers_count: starred.stargazers_count,
+            owner_login:      starred.owner_login,
+            owner_avatar_url: starred.owner_avatar_url,
           }
         end
 
@@ -223,8 +276,6 @@ class StarEvent < ApplicationRecord
       end
 
       def fetch_each_page(client, login, since, debug)
-        actor_avatar_url = "https://github.com/#{login}.png"
-
         (1..).each do |page|
           Rails.logger.info "[fetch_each_page] @#{login} fetching page=#{page}" if debug
 
@@ -240,43 +291,13 @@ class StarEvent < ApplicationRecord
           Rails.logger.info "[fetch_each_page] @#{login} page=#{page}: #{starred.size} items" if debug
           break if starred.empty?
 
-          star_events = []
-          repos = {}
-          done = false
-
-          starred.each do |item|
-            starred_at = item.starred_at.is_a?(String) ? Time.parse(item.starred_at) : item.starred_at
-
-            if starred_at < since
-              Rails.logger.info "[fetch_each_page] @#{login} reached since (#{item.repo.full_name} starred_at=#{starred_at}), stopping" if debug
-              done = true
-              break
-            end
-
-            repo = item.repo
-            if repo[:private]
-              Rails.logger.info "[fetch_each_page] @#{login} skipping private repo #{repo.full_name}" if debug
-              next
-            end
-
-            Rails.logger.info "[fetch_each_page] @#{login} +#{repo.full_name} (starred_at=#{starred_at})" if debug
-
-            star_events << {
-              actor_login: login,
-              actor_avatar_url: actor_avatar_url,
-              repo_name: repo.full_name,
-              repo_owner: repo.owner.login,
-              starred_at: starred_at,
-            }
-            repos[repo.full_name] ||= {
-              name: repo.full_name,
-              description: repo.description,
-              language: repo.language,
-              stargazers_count: repo.stargazers_count,
-              owner_login: repo.owner.login,
-              owner_avatar_url: repo.owner.avatar_url,
-            }
-          end
+          star_events, repos, done = build_upsert_rows(
+            login:                login,
+            starred_repositories: starred.lazy.map {|item| StarredRepository.from_rest_item(item) },
+            since:                since,
+            debug:                debug,
+            tag:                  'fetch_each_page'
+          )
 
           Rails.logger.info "[fetch_each_page] @#{login} page=#{page}: yielding #{star_events.size} events" if debug
           yield star_events, repos.values unless star_events.empty?
