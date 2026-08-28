@@ -91,6 +91,34 @@ describe DailyMailScheduler do
       end
     end
 
+    context 'When the GitHub token is unauthorized' do
+      before do
+        user.activate!
+
+        allow(subject).to receive(:user_has_starred?).and_raise(Octokit::Unauthorized)
+
+        subject.schedule [user]
+
+        subject.send_mail_to_scheduled_users
+      end
+
+      it 'should skip mail sending' do
+        mail = ActionMailer::Base.deliveries.first
+        expect(mail).to be_nil
+      end
+
+      it 'should clear schedule' do
+        expect(subject.scheduled_users).to be_empty
+      end
+
+      it 'should puts log' do
+        log = io.string.split("\n").first
+
+        expect(log).to match('Because of unauthorized Token')
+        expect(log).to match('USER')
+      end
+    end
+
     context 'When error occurred' do
       let(:error) { StandardError }
 
