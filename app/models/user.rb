@@ -5,6 +5,11 @@ class User < ApplicationRecord
   DAILY_TERM  = 1.day
   RECENT_TERM = 7.days
 
+  # Repositories asked about per GraphQL query in #starred_repository_names.
+  # GitHub charges one point per repository node, so this stays far from the
+  # per-query limit.
+  STARRED_QUERY_BATCH_SIZE = 100
+
   scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
   scope :newly, -> { order(created_at: :desc) }
   scope :randomly, -> { order(Arel.sql('RANDOM()')) }
@@ -87,6 +92,41 @@ class User < ApplicationRecord
     StarEvent.owner(username).latest(RECENT_TERM.ago).newly
   end
 
+  # Names of the given repositories that this user has starred, as a Set.
+  #
+  # GitHub is asked (viewerHasStarred) so that a star put on a repository long
+  # ago is found too; the star events kept locally only go back a few days.
+  # When GitHub cannot be asked (no token, a revoked token, a network error)
+  # those local events are used instead, so the answer degrades to "starred
+  # recently" rather than breaking the page.
+  def starred_repository_names(repo_names)
+    repo_names = repo_names.uniq
+    return Set.new if repo_names.empty?
+
+    return locally_starred_repository_names(repo_names) unless access_token
+
+    starred = Set.new
+
+    GithubGraphql.connect do |http|
+      repo_names.each_slice(STARRED_QUERY_BATCH_SIZE) do |batch|
+        result = GithubGraphql.execute(http, access_token, starred_query_for(batch))
+
+        # A bad token gives a body without "data" at all, unlike a repository
+        # that no longer exists, which only nulls its own alias.
+        raise GithubGraphql::Error, result['message'] unless result.key?('data')
+
+        batch.each_with_index do |repo_name, idx|
+          starred << repo_name if result.dig('data', "r#{idx}", 'viewerHasStarred')
+        end
+      end
+    end
+
+    starred
+  rescue GithubGraphql::Error, *GithubGraphql::CONNECTION_ERRORS => e
+    Rails.logger.warn "[starred_repository_names] @#{username}: #{e.class}: #{e.message} - falling back to local star events"
+    locally_starred_repository_names(repo_names)
+  end
+
   def followings
     return @followings if @followings
 
@@ -107,6 +147,19 @@ class User < ApplicationRecord
   end
 
   private
+
+  def starred_query_for(repo_names)
+    fields = repo_names.each_with_index.map {|repo_name, idx|
+      owner, name = repo_name.split('/', 2)
+      "r#{idx}: repository(owner: #{owner.to_json}, name: #{name.to_json}) { viewerHasStarred }"
+    }
+
+    "query {\n#{fields.join("\n")}\n}"
+  end
+
+  def locally_starred_repository_names(repo_names)
+    StarEvent.by(username).where(repo_name: repo_names).pluck(:repo_name).to_set
+  end
 
   def generate_token
     OpenSSL::Random.random_bytes(16).unpack("H*").first

@@ -64,6 +64,113 @@ describe User do
     end
   end
 
+  describe '#starred_repository_names' do
+    let(:http) { instance_double(Net::HTTP) }
+    let(:requests) { [] }
+
+    def stub_graphql(*bodies)
+      allow(Net::HTTP).to receive(:start).and_yield(http)
+      allow(http).to receive(:request) {|request|
+        requests << request
+        instance_double(Net::HTTPResponse, body: bodies.shift.to_json)
+      }
+    end
+
+    def repository_result(starred)
+      starred.nil? ? nil : { 'viewerHasStarred' => starred }
+    end
+
+    context 'when the user has a GitHub token' do
+      subject(:user) { create(:user, :with_authentication, username: 'alice') }
+
+      it 'asks GitHub which of the repositories the user has starred' do
+        stub_graphql(
+          'data' => {
+            'r0' => repository_result(true),
+            'r1' => repository_result(false),
+            'r2' => repository_result(true),
+          }
+        )
+
+        expect(user.starred_repository_names(%w(a/one b/two c/three)))
+          .to eq(Set.new(%w(a/one c/three)))
+
+        expect(requests.size).to eq(1)
+        expect(requests.first['Authorization']).to eq('bearer GITHUB_TOKEN')
+        expect(JSON.parse(requests.first.body)['query'])
+          .to include('r0: repository(owner: "a", name: "one") { viewerHasStarred }')
+          .and include('r2: repository(owner: "c", name: "three") { viewerHasStarred }')
+      end
+
+      it 'treats a repository GitHub no longer knows as not starred' do
+        stub_graphql(
+          'data'   => { 'r0' => nil, 'r1' => repository_result(true) },
+          'errors' => [{ 'message' => "Could not resolve to a Repository with the name 'gone/repo'." }]
+        )
+
+        expect(user.starred_repository_names(%w(gone/repo b/two))).to eq(Set.new(%w(b/two)))
+      end
+
+      it 'asks about the repositories in batches' do
+        stub_const('User::STARRED_QUERY_BATCH_SIZE', 2)
+        stub_graphql(
+          { 'data' => { 'r0' => repository_result(true),  'r1' => repository_result(false) } },
+          { 'data' => { 'r0' => repository_result(false), 'r1' => repository_result(true) } },
+          { 'data' => { 'r0' => repository_result(true) } },
+        )
+
+        expect(user.starred_repository_names(%w(a/1 a/2 a/3 a/4 a/5))).to eq(Set.new(%w(a/1 a/4 a/5)))
+        expect(requests.size).to eq(3)
+      end
+
+      it 'asks about each repository once' do
+        stub_graphql('data' => { 'r0' => repository_result(true) })
+
+        expect(user.starred_repository_names(%w(a/one a/one))).to eq(Set.new(%w(a/one)))
+        expect(JSON.parse(requests.first.body)['query'].scan('repository(').size).to eq(1)
+      end
+
+      it 'does not ask GitHub when there is nothing to ask about' do
+        expect(Net::HTTP).not_to receive(:start)
+
+        expect(user.starred_repository_names([])).to eq(Set.new)
+      end
+
+      context 'when GitHub cannot be asked' do
+        before do
+          stub_star_event! actor: {login: 'alice'}, repo: {name: 'a/one'}
+        end
+
+        it 'falls back to the local star events when the token is rejected' do
+          stub_graphql('message' => 'Bad credentials')
+
+          expect(user.starred_repository_names(%w(a/one b/two))).to eq(Set.new(%w(a/one)))
+        end
+
+        it 'falls back to the local star events when the connection fails' do
+          allow(Net::HTTP).to receive(:start).and_raise(Net::OpenTimeout)
+
+          expect(user.starred_repository_names(%w(a/one b/two))).to eq(Set.new(%w(a/one)))
+        end
+      end
+    end
+
+    context 'when the user has no GitHub token' do
+      subject(:user) { create(:user, username: 'alice') }
+
+      before do
+        stub_star_event! actor: {login: 'alice'}, repo: {name: 'a/one'}
+        stub_star_event! actor: {login: 'bob'},   repo: {name: 'b/two'}
+      end
+
+      it 'answers from the local star events without asking GitHub' do
+        expect(Net::HTTP).not_to receive(:start)
+
+        expect(user.starred_repository_names(%w(a/one b/two c/three))).to eq(Set.new(%w(a/one)))
+      end
+    end
+  end
+
   describe '#followings' do
     subject(:user) { build(:user, username: 'alice') }
 

@@ -97,6 +97,15 @@ li {
   font-size: calc(var(--font-size) * 1.2);
 }
 
+.starred_by_me {
+  font-size: calc(var(--font-size) * 0.8);
+  color: var(--link-color, #edb020);
+  border: 1px solid var(--link-color, #edb020);
+  border-radius: 3px;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
 .starred_at, .stargazers {
   display: inline-block;
   text-align: right;
