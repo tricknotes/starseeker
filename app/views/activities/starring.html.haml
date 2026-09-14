@@ -12,5 +12,5 @@ Starred repositories by #{@user.username}'s followings
   = link_to '[News Feed]', private_feed, target: '_blank', rel: 'noopener noreferrer'
 
 %ul
-  - @star_events.starred_ranking.each do |_repo_name, events, repo|
-    = render 'shared/hot_repository', events: events, repo: repo
+  - @ranking.each do |repo_name, events, repo|
+    = render 'shared/hot_repository', events: events, repo: repo, starred_by_me: @starred_by_me.include?(repo_name)

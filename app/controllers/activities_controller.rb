@@ -5,6 +5,8 @@ class ActivitiesController < ApplicationController
   def starring
     @user = current_user
     @star_events = @user.daily_star_events_by_followings
+    @ranking = @star_events.starred_ranking
+    @starred_by_me = @user.starred_repository_names(@ranking.map(&:first))
   end
 
   def feed
