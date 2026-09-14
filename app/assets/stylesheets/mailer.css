@@ -1,0 +1,78 @@
+/*
+ * Styles for HTML mails only. Roadie inlines them on delivery.
+ *
+ * Mail clients render far less CSS than browsers do, so keep this file to
+ * plain, widely supported declarations:
+ *
+ * - No CSS custom properties nor calc(): Gmail drops declarations using them.
+ * - No float nor min-width: they force a fixed-width layout that gets cut off
+ *   or zoomed out on phones.
+ * - No @font-face: Gmail ignores it and the ttf would be a relative URL.
+ * - Colors and sizes are written out in px/hex, so nothing depends on
+ *   inheritance from <html> or <body>, which some clients replace.
+ */
+
+.mail {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 0 16px 30px 16px;
+  border-top: 7px solid #edb020;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+.mail a {
+  color: #edb020;
+  text-decoration: none;
+}
+
+.mail h1 {
+  font-size: 22px;
+  margin: 24px 0 8px 0;
+}
+
+.mail #feed {
+  display: block;
+  margin: 8px 0 0 0;
+}
+
+.mail ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mail li {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0 8px 0;
+}
+
+.mail img {
+  vertical-align: middle;
+  border: 0;
+  border-radius: 5px;
+}
+
+.mail .repo_name {
+  font-size: 18px;
+  word-break: break-all;
+}
+
+.mail .stargazers {
+  display: block;
+  margin-top: 6px;
+}
+
+.mail .description {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  min-height: 14px;
+}
+
+.mail .settings {
+  margin-top: 30px;
+}

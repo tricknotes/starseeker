@@ -1,4 +1,4 @@
-/* Use default value for mailer style since Gmail doesn't support custom CSS properies. */
+/* Styles for the web app. HTML mails use mailer.css instead. */
 :root {
   --font-size: 15px;
   --link-color: #edb020;

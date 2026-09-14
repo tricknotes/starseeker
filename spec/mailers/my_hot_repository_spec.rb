@@ -43,5 +43,22 @@ describe MyHotRepository do
         expect(part.body).to match('The endless is end. It is the Gold Experience Requiem.')
       end
     end
+
+    describe 'the delivered HTML part' do
+      let(:html) do
+        subject.deliver_now
+        ActionMailer::Base.deliveries.last.html_part.body.decoded
+      end
+
+      it 'should fit on mobile screens' do
+        expect(html).to include('name="viewport"')
+        expect(html).to include('max-width:650px')
+        expect(html).not_to match(/min-width|float:/)
+      end
+
+      it 'should not rely on CSS that mail clients drop' do
+        expect(html).not_to match(/var\(|calc\(|@font-face/)
+      end
+    end
   end
 end
