@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '4.0.6'
+ruby '4.0.7'
 
 gem 'rails', '~> 8.1.0'
 gem 'json', '< 3' # TODO: Remove once Rails includes https://github.com/rails/rails/pull/58601
