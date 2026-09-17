@@ -14,6 +14,10 @@ describe MyHotRepository do
         watchers_count: 8,
         description: 'The endless is end. It is the Gold Experience Requiem.'
       )
+
+      stub_star_event! actor: starred_user_data, repo: {name: 'Bruno/sticky-fingers'}
+      stub_star_event! actor: {login: user.username, avatar_url: user.avatar_url}, repo: {name: 'Bruno/sticky-fingers'}
+      stub_repository! 'Bruno/sticky-fingers', watchers_count: 5
     end
 
     it 'should have multipart contents' do
@@ -41,6 +45,15 @@ describe MyHotRepository do
     it 'should contains repository description' do
       subject.body.parts.each do |part|
         expect(part.body).to match('The endless is end. It is the Gold Experience Requiem.')
+      end
+    end
+
+    it 'should mark the repositories the user has starred' do
+      subject.body.parts.each do |part|
+        body = part.body.decoded
+
+        expect(body).to match(/Bruno\/sticky-fingers.*★ Starred/m)
+        expect(body.scan('★ Starred').size).to eq(1)
       end
     end
   end

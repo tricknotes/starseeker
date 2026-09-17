@@ -12,11 +12,14 @@ Starred repositories by #{@user.username}'s followings
   = link_to '[News Feed]', private_feed, target: '_blank', rel: 'noopener noreferrer'
 
 %ul
-  - @star_events.starred_ranking.each do |_repo_name, events, repo|
-    %li.repo
+  - @ranking.each do |repo_name, events, repo|
+    - starred_by_me = @starred_by_me.include?(repo_name)
+    %li.repo{class: ('starred_by_me' if starred_by_me)}
       %div
         = image_link_to_github_url repo.owner
         = render 'shared/repository_summary', repo: repo
+        - if starred_by_me
+          %span.starred_by_me{title: 'You starred this repository'} ★ Starred
         %span.stargazers
           - events.each do |event|
             = image_link_to_github_url event.actor
