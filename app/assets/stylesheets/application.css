@@ -97,6 +97,29 @@ li {
   font-size: calc(var(--font-size) * 1.2);
 }
 
+.repo_row {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.repo_row td {
+  padding: 0;
+  vertical-align: top;
+}
+
+.repo_row .repo_stargazers {
+  width: 1%;
+  padding-left: 10px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Outweighs the `#content img` rule above: with `max-width: 100%` the table
+ * squeezes these avatars to nothing when the repository name is long. */
+#content .repo_stargazers img {
+  max-width: none;
+}
+
 .starred_at, .stargazers {
   display: inline-block;
   text-align: right;

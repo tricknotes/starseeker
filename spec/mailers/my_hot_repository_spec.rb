@@ -56,6 +56,10 @@ describe MyHotRepository do
         expect(html).not_to match(/min-width|float:/)
       end
 
+      it 'should keep the stargazers beside the repository name' do
+        expect(html).to match(/class="repo_stargazers"[^>]*text-align:right/)
+      end
+
       it 'should not rely on CSS that mail clients drop' do
         expect(html).not_to match(/var\(|calc\(|@font-face/)
       end

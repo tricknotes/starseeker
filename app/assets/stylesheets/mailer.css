@@ -6,7 +6,7 @@
  *
  * - No CSS custom properties nor calc(): Gmail drops declarations using them.
  * - No float nor min-width: they force a fixed-width layout that gets cut off
- *   or zoomed out on phones.
+ *   or zoomed out on phones. Side-by-side layout uses table cells instead.
  * - No @font-face: Gmail ignores it and the ttf would be a relative URL.
  * - Colors and sizes are written out in px/hex, so nothing depends on
  *   inheritance from <html> or <body>, which some clients replace.
@@ -61,9 +61,24 @@
   word-break: break-all;
 }
 
-.mail .stargazers {
-  display: block;
-  margin-top: 6px;
+.mail .repo_row {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mail .repo_row td {
+  padding: 0;
+  vertical-align: top;
+}
+
+/* Shrink-to-fit so the avatars sit on the right of the repository name
+ * instead of on a line of their own.  The selector repeats .repo_row so that
+ * it outweighs the padding reset above. */
+.mail .repo_row .repo_stargazers {
+  width: 1%;
+  padding-left: 10px;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .mail .description {
