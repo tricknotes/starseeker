@@ -1,12 +1,4 @@
-!!! 5
-%html
-  %head
-    %meta{charset: 'utf-8'}
-    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
-    = stylesheet_link_tag 'mailer'
-  %body
-    .mail
-      = render template: 'activities/starring'
+= render template: 'activities/starring'
 
-      %p.settings
-        = link_to 'Manage your email settings', settings_email_url
+%p.settings
+  = link_to 'Manage your email settings', settings_email_url

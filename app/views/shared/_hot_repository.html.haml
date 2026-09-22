@@ -1,0 +1,18 @@
+-# One repository in the "hot repositories" listing, with the people who
+-# starred it.
+-#
+-# A table, not a float: this listing is also delivered as an HTML mail, and
+-# floats are dropped by Outlook. The cells keep the repository name and the
+-# people who starred it on one line.
+%li.repo
+  %table.repo_row
+    %tr
+      %td.repo_summary
+        = image_link_to_github_url repo.owner
+        = render 'shared/repository_summary', repo: repo
+      %td.repo_stargazers
+        - events.each do |event|
+          = image_link_to_github_url event.actor
+  %div
+    %span.description
+      = repo.description

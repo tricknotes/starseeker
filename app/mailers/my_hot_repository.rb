@@ -1,8 +1,5 @@
-class MyHotRepository < ActionMailer::Base
-  include Roadie::Rails::Automatic
-
+class MyHotRepository < ApplicationMailer
   helper :application
-  default from: "starseeker <noreply@#{Settings.url_options[:host]}>"
 
   def notify(user)
     @user = user
