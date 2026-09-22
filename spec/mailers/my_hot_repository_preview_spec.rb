@@ -1,4 +1,5 @@
-require Rails.root.join('spec/mailers/previews/my_hot_repository_preview')
+# Previews are only registered in development, so load this one by hand.
+require_relative 'previews/my_hot_repository_preview'
 
 describe MyHotRepositoryPreview do
   subject(:preview) { described_class.new.notify }
