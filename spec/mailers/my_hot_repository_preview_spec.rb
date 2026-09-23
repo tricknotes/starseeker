@@ -8,6 +8,8 @@ describe MyHotRepositoryPreview do
   let(:actor) { {login: 'Buccellati', avatar_url: 'http://example.com/icon.png'} }
 
   before do
+    allow_any_instance_of(User).to receive(:followings).and_return([actor[:login]])
+
     stub_star_event! actor: actor, repo: {name: 'Giorno/gold-experience'}
     stub_repository!(
       'Giorno/gold-experience',
@@ -16,7 +18,7 @@ describe MyHotRepositoryPreview do
     )
   end
 
-  it 'should show the repositories stored in the database' do
+  it 'should show the repositories starred by the followings' do
     expect(preview.html_part.body.decoded).to match('Giorno/gold-experience')
   end
 
@@ -28,17 +30,10 @@ describe MyHotRepositoryPreview do
   end
 
   it 'should render exactly what delivery renders' do
-    allow_any_instance_of(User).to receive(:followings).and_return([actor[:login]])
     MyHotRepository.notify(user).deliver_now
 
     expect(preview.html_part.body.decoded)
       .to eq(ActionMailer::Base.deliveries.last.html_part.body.decoded)
-  end
-
-  it 'should not ask GitHub for the followings' do
-    expect_any_instance_of(User).not_to receive(:followings)
-
-    preview
   end
 
   context 'with an empty database' do

@@ -43,9 +43,10 @@ $ docker compose up -d app
 The application will be available at http://localhost:3000
 
 Preview the daily mail at http://localhost:3000/rails/mailers, exactly as it
-is delivered (styles inlined).  It renders whatever `star_events:fetch` put in
-the database.  Mails that were actually sent are kept at
-http://localhost:3000/letter_opener
+is delivered (styles inlined).  It is built for the first user in the database
+the same way the daily job builds it, so it asks GitHub for that user's
+followings and shows what `star_events:fetch` collected from them.  Mails that
+were actually sent are kept at http://localhost:3000/letter_opener
 
 ## Tasks
 
