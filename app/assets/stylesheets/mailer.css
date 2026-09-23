@@ -1,16 +1,6 @@
-/*
- * Styles for HTML mails only. Roadie inlines them on delivery.
- *
- * Mail clients render far less CSS than browsers do, so keep this file to
- * plain, widely supported declarations:
- *
- * - No CSS custom properties nor calc(): Gmail drops declarations using them.
- * - No float nor min-width: they force a fixed-width layout that gets cut off
- *   or zoomed out on phones. Side-by-side layout uses table cells instead.
- * - No @font-face: Gmail ignores it and the ttf would be a relative URL.
- * - Colors and sizes are written out in px/hex, so nothing depends on
- *   inheritance from <html> or <body>, which some clients replace.
- */
+/* Inlined by Roadie on delivery. Mail clients drop much of what browsers
+ * accept, so: no custom properties, calc() or @font-face (Gmail), no float
+ * (Outlook), and no min-width (forces a fixed layout on phones). */
 
 .mail {
   max-width: 650px;
@@ -71,9 +61,7 @@
   vertical-align: top;
 }
 
-/* Shrink-to-fit so the avatars sit on the right of the repository name
- * instead of on a line of their own.  The selector repeats .repo_row so that
- * it outweighs the padding reset above. */
+/* Shrink-to-fit, so the avatars share the line with the repository name. */
 .mail .repo_row .repo_stargazers {
   width: 1%;
   padding-left: 10px;

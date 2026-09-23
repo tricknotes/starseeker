@@ -1,4 +1,3 @@
-/* Styles for the web app. HTML mails use mailer.css instead. */
 :root {
   --font-size: 15px;
   --link-color: #edb020;
@@ -114,8 +113,7 @@ li {
   white-space: nowrap;
 }
 
-/* Outweighs the `#content img` rule above: with `max-width: 100%` the table
- * squeezes these avatars to nothing when the repository name is long. */
+/* `#content img { max-width: 100% }` would squeeze these to nothing beside a long name. */
 #content .repo_stargazers img {
   max-width: none;
 }
