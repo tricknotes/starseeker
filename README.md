@@ -50,7 +50,14 @@ were actually sent are kept at http://localhost:3000/letter_opener
 
 ## Tasks
 
-Schedule users as to be sent mail:
+Fetch star events of each user's followings from GitHub (looks back 2 hours by
+default; set `hours` or `FETCH_HOURS` to change it):
+```sh
+$ docker compose run --rm app bin/rails star_events:fetch
+$ docker compose run --rm app bin/rails "star_events:fetch[24]"
+```
+
+Schedule users to be sent the daily mail:
 ```sh
 $ docker compose run --rm app bin/rails schedule_sending_hot_repositories
 ```
@@ -60,9 +67,9 @@ Send daily hot repositories mail to scheduled users:
 $ docker compose run --rm app bin/rails send_hot_repositories
 ```
 
-Refresh repository data for cache:
+Remove star events older than 7 days (set `KEEP_MAX_OLD_EVENT_DAY` to change it):
 ```sh
-$ docker compose run --rm app bin/rails fetch_repositories
+$ docker compose run --rm app bin/rails remove_old_events
 ```
 
 Update user account info:
