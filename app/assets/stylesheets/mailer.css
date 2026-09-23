@@ -1,0 +1,81 @@
+/* Inlined by Roadie on delivery. Mail clients drop much of what browsers
+ * accept, so: no custom properties, calc() or @font-face (Gmail), no float
+ * (Outlook), and no min-width (forces a fixed layout on phones). */
+
+.mail {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 0 16px 30px 16px;
+  border-top: 7px solid #edb020;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-text-size-adjust: 100%;
+}
+
+.mail a {
+  color: #edb020;
+  text-decoration: none;
+}
+
+.mail h1 {
+  font-size: 22px;
+  margin: 24px 0 8px 0;
+}
+
+.mail #feed {
+  display: block;
+  margin: 8px 0 0 0;
+}
+
+.mail ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mail li {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0 8px 0;
+}
+
+.mail img {
+  vertical-align: middle;
+  border: 0;
+  border-radius: 5px;
+}
+
+.mail .repo_name {
+  font-size: 18px;
+  word-break: break-all;
+}
+
+.mail .repo_row {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mail .repo_row td {
+  padding: 0;
+  vertical-align: top;
+}
+
+/* Shrink-to-fit, so the avatars share the line with the repository name. */
+.mail .repo_row .repo_stargazers {
+  width: 1%;
+  padding-left: 10px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.mail .description {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  min-height: 14px;
+}
+
+.mail .settings {
+  margin-top: 30px;
+}

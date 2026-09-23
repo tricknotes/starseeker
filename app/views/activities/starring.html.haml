@@ -13,13 +13,4 @@ Starred repositories by #{@user.username}'s followings
 
 %ul
   - @star_events.starred_ranking.each do |_repo_name, events, repo|
-    %li.repo
-      %div
-        = image_link_to_github_url repo.owner
-        = render 'shared/repository_summary', repo: repo
-        %span.stargazers
-          - events.each do |event|
-            = image_link_to_github_url event.actor
-      %div
-        %span.description
-          = repo.description
+    = render 'shared/hot_repository', events: events, repo: repo

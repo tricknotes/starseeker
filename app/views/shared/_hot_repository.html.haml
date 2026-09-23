@@ -1,0 +1,13 @@
+-# A table, not a float: this is also delivered as a mail, and Outlook drops floats.
+%li.repo
+  %table.repo_row
+    %tr
+      %td.repo_summary
+        = image_link_to_github_url repo.owner
+        = render 'shared/repository_summary', repo: repo
+      %td.repo_stargazers
+        - events.each do |event|
+          = image_link_to_github_url event.actor
+  %div
+    %span.description
+      = repo.description
