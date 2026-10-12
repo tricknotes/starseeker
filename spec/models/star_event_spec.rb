@@ -338,7 +338,7 @@ describe StarEvent do
       ).actor
     end
 
-    its(:login) { is_expected.to eq('DIO') }
-    its(:avatar_url) { is_expected.to eq('http://example.com/dio.png') }
+    it { expect(actor.login).to eq('DIO') }
+    it { expect(actor.avatar_url).to eq('http://example.com/dio.png') }
   end
 end

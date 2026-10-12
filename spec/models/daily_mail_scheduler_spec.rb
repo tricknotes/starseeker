@@ -14,7 +14,7 @@ describe DailyMailScheduler do
       subject.schedule [user]
     end
 
-    its(:scheduled_users) { is_expected.to eq([user]) }
+    it { expect(subject.scheduled_users).to eq([user]) }
   end
 
   describe '.send_mail_to_scheduled_users' do
