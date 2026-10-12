@@ -1,7 +1,7 @@
 describe User do
   describe 'default attributes' do
-    its(:activation_state) { is_expected.to be_nil }
-    its(:subscribe) { is_expected.to be_truthy }
+    it { expect(subject.activation_state).to be_nil }
+    it { expect(subject.subscribe).to be_truthy }
   end
 
   describe '#access_token' do
@@ -10,18 +10,18 @@ describe User do
         create(:user, :with_authentication)
       end
 
-      its(:access_token) { is_expected.to eq('GITHUB_TOKEN') }
+      it { expect(subject.access_token).to eq('GITHUB_TOKEN') }
     end
 
     context 'when github authentication is not exist' do
-      its(:access_token) { is_expected.to be_nil }
+      it { expect(subject.access_token).to be_nil }
     end
   end
 
   describe '#login' do
     subject { build(:user, username: 'alice') }
 
-    its(:login) { is_expected.to eq('alice') }
+    it { expect(subject.login).to eq('alice') }
   end
 
   describe '#feed_token' do
@@ -29,8 +29,8 @@ describe User do
       create(:user)
     end
 
-    its(:feed_token) { is_expected.to match(/\A.{32}\z/) }
-    its(:feed_token) { is_expected.not_to be_blank }
+    it { expect(subject.feed_token).to match(/\A.{32}\z/) }
+    it { expect(subject.feed_token).not_to be_blank }
   end
 
   describe '#email_sendable?' do
@@ -38,16 +38,16 @@ describe User do
 
     context 'when email is not exist' do
       before { subject.email = nil}
-      its(:email_sendable?) { is_expected.to be_falsey }
+      it { expect(subject.email_sendable?).to be_falsey }
     end
 
     context 'when subscribe is false' do
       before { subject.subscribe = false }
-      its(:email_sendable?) { is_expected.to be_falsey }
+      it { expect(subject.email_sendable?).to be_falsey }
     end
 
     context 'when email is exist and subscribe is true' do
-      its(:email_sendable?) { is_expected.to be_truthy }
+      it { expect(subject.email_sendable?).to be_truthy }
     end
   end
 
@@ -55,12 +55,12 @@ describe User do
     subject { build(:user) }
 
     context 'when activation_state is "active"' do
-      its(:active?) { is_expected.to be_truthy }
+      it { expect(subject.active?).to be_truthy }
     end
 
     context 'when activation_state is `nil`' do
       before { subject.activation_state = nil }
-      its(:active?) { is_expected.to be_falsey }
+      it { expect(subject.active?).to be_falsey }
     end
   end
 
