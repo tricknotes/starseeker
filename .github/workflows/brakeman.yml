@@ -11,6 +11,6 @@ jobs:
       - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
         with:
           ruby-version: 4.0.7
-      - uses: reviewdog/action-brakeman@5083efd49634e26645a0736681b618ccc3fb7f14 # v2.19.2
+      - uses: reviewdog/action-brakeman@3ca1f826ac652d188845fe8faa3a1423afb904b6 # v2.20.0
         with:
           reporter: github-pr-review # Default is github-pr-check
