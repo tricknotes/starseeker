@@ -8,12 +8,12 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17.4
+        image: postgres:17.10
         env:
           POSTGRES_PASSWORD: password
       redis:
-        image: redis:7.0
-        options: --entrypoint redis-server
+        image: valkey/valkey:9.1.2
+        options: --entrypoint valkey-server
 
     container:
       image: ruby:4.0.7
