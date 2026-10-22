@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   end
 
   get 'hot_repositories' => 'activities#starring', as: :hot_repositories
-  get 'stars/:username' => 'stars#index', as: 'stars'
+  # The username is passed on to the GitHub API as a path segment, so anything
+  # GitHub would not accept as a username (e.g. an encoded "../") must not reach it.
+  get 'stars/:username' => 'stars#index', as: 'stars', constraints: { username: /[A-Za-z0-9-]+/ }
   get 'stars/:username.private.:format' => 'activities#feed', as: 'feed'
 
   get 'auth/:provider/callback', to: 'sessions#create'
