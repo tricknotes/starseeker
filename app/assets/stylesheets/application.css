@@ -199,3 +199,10 @@ footer span {
   color: #888;
   font-size: calc(var(--font-size));
 }
+
+#fork-me {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+}
