@@ -21,6 +21,10 @@ RSpec.configure do |config|
     clear_mail_box
   end
 
+  config.before :each do
+    Rails.cache.clear
+  end
+
   config.after :each do
     OmniAuth.config.mock_auth.delete :github
   end
