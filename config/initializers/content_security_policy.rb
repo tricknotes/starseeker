@@ -12,7 +12,10 @@ Rails.application.configure do
     # Avatars and the "Fork me" ribbon are served from GitHub's hosts.
     policy.img_src         :self, :https
     policy.object_src      :none
-    policy.script_src      :self
+    # Cloudflare injects the Web Analytics beacon into every page. It is
+    # allowed by host because the script path varies by version
+    # (beacon.min.js/v...). Its data goes to /cdn-cgi/rum on this host.
+    policy.script_src      :self, 'https://static.cloudflareinsights.com'
     policy.style_src       :self
     # Signing in posts to /auth/github, which redirects to GitHub, and
     # browsers apply form-action to that redirect as well.
