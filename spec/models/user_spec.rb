@@ -33,6 +33,19 @@ describe User do
     it { expect(subject.feed_token).not_to be_blank }
   end
 
+  describe '#activation_token' do
+    subject { create(:user, email: 'first@example.com') }
+
+    it 'is not carried over to another email while the first one is unverified' do
+      first_token = subject.activation_token
+
+      subject.update!(email: 'second@example.com')
+
+      expect(subject.activation_token).to be_present
+      expect(subject.activation_token).not_to eq(first_token)
+    end
+  end
+
   describe '#email_sendable?' do
     subject { build(:user) }
 
