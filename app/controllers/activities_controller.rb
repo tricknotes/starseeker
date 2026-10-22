@@ -27,6 +27,6 @@ class ActivitiesController < ApplicationController
   end
 
   def logging_ua
-    Rails.logger.info "[TRACK][UA - #{params[:controller]}##{params[:action]}] User#id=#{@user.id} - \"#{request.user_agent}\""
+    Rails.logger.info "[TRACK][UA - #{params[:controller]}##{params[:action]}] User#id=#{@user.id} - #{request.user_agent.inspect}"
   end
 end
