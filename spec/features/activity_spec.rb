@@ -28,6 +28,18 @@ feature 'Activity' do
     expect(page.body).to match('<title>DIO/the-world</title>')
   end
 
+  scenario 'News Feed escapes values embedded in the HTML content' do
+    stub_star_event! actor: {login: '<b>actor</b>', avatar_url: 'http://example.com/actor.png'}, repo: {name: 'DIO/za-warudo'}
+    stub_repository! 'DIO/za-warudo', watchers_count: 1, language: '<b>lang</b>'
+    allow_any_instance_of(User).to receive(:followings).and_return(['<b>actor</b>'])
+
+    visit feed_path(username: user.username, format: 'atom', token: user.feed_token)
+
+    content = Nokogiri::XML(page.body).remove_namespaces!.at_xpath('//entry/content').text
+    expect(content).not_to include('<b>')
+    expect(content).to include('[&lt;b&gt;lang&lt;/b&gt;]')
+  end
+
   scenario 'News Feed without a token' do
     visit feed_path(username: user.username, format: 'atom')
 
