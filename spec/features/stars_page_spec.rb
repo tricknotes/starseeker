@@ -30,4 +30,13 @@ feature 'Stars page' do
 
     expect(page.status_code).to eq(404)
   end
+
+  scenario 'Show 404 page without asking GitHub for a username with an encoded path' do
+    allow(Settings).to receive(:github_client)
+
+    visit '/stars/%2E%2E%2Fuser'
+
+    expect(page.status_code).to eq(404)
+    expect(Settings).not_to have_received(:github_client)
+  end
 end
