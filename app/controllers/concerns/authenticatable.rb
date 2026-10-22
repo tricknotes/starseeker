@@ -13,6 +13,7 @@ module Authenticatable
   end
 
   def store_user(user)
+    reset_session # protect from session fixation attack
     session[:user_id] = user.id
   end
 

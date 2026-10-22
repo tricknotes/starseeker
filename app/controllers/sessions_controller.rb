@@ -28,8 +28,6 @@ class SessionsController < ApplicationController
           UserMailer.activation_needed_email(@user).deliver_now
         end
 
-        reset_session # protect from session fixation attack
-
         store_user @user
       rescue => e
         logger.error ["#{e.class} #{e.message}:", *e.backtrace.map {|m| '  '+m }].join("\n")
