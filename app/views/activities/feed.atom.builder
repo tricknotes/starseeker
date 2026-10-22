@@ -15,7 +15,7 @@ atom_feed do |feed|
         starred by #{
           safe_join(
             events.map {|event|
-              "#{image_tag(event.actor_avatar_url, size: '20x20')}#{event.actor_login}"
+              safe_join([image_tag(event.actor_avatar_url, size: '20x20'), event.actor_login])
             },
           ',')
         }

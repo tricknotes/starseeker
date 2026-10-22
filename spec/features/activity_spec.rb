@@ -38,6 +38,15 @@ feature 'Activity' do
     content = Nokogiri::XML(page.body).remove_namespaces!.at_xpath('//entry/content').text
     expect(content).not_to include('<b>')
     expect(content).to include('[&lt;b&gt;lang&lt;/b&gt;]')
+    expect(content).to include('&lt;b&gt;actor&lt;/b&gt;')
+  end
+
+  scenario 'News Feed shows the avatars of who starred' do
+    visit feed_path(username: user.username, format: 'atom', token: user.feed_token)
+
+    content = Nokogiri::XML(page.body).remove_namespaces!.at_xpath('//entry/content').text
+    expect(Nokogiri::HTML.fragment(content).at_css('img')['src']).to eq('http://example.com/joseph.png')
+    expect(content).to include('Jeseph')
   end
 
   scenario 'News Feed without a token' do
