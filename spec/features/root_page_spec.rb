@@ -11,7 +11,7 @@ feature 'Root page' do
       visit root_path
 
       policy = page.response_headers['Content-Security-Policy']
-      expect(policy).to include("script-src 'self'")
+      expect(policy).to include("script-src 'self' https://static.cloudflareinsights.com")
       expect(policy).to include("style-src 'self'")
       expect(policy).to include("frame-ancestors 'none'")
     end
