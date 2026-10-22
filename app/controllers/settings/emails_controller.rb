@@ -1,6 +1,11 @@
 class Settings::EmailsController < ApplicationController
   before_action :require_login, :assign_current_user
 
+  # Both actions can mail an address that has not been verified yet, so
+  # without a limit they could be used to flood someone else's inbox.
+  rate_limit to: 5, within: 1.hour, by: -> { @user.id }, only: %i(update send_confirmation),
+             with: -> { redirect_to dashboard_path, alert: 'Too many requests. Please try again later.' }
+
   def show
   end
 

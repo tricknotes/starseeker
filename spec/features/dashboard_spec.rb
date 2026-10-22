@@ -68,4 +68,23 @@ feature 'Dashboard' do
     expect(mail.to).to eq(['user@starseeker.so'])
     expect(mail.body).to match('Welcome to starseeker, USER')
   end
+
+  scenario 'Limit how often confirmation mail is sent' do
+    click_link 'dashboard'
+
+    5.times do
+      click_link('Send confirmation mail')
+    end
+    click_link('Send confirmation mail')
+
+    expect(page).to have_css('#alert', text: 'Too many requests. Please try again later.')
+    expect(ActionMailer::Base.deliveries.size).to eq(5)
+  end
+
+  scenario 'Do not send confirmation mail on GET' do
+    visit '/settings/email/send_confirmation'
+
+    expect(page.status_code).to eq(404)
+    expect(ActionMailer::Base.deliveries).to be_empty
+  end
 end

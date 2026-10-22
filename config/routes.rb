@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :settings do
     resource 'email', only: %w(show update) do
       member do
-        get 'send_confirmation'
+        post 'send_confirmation'
       end
     end
   end
