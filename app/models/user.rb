@@ -15,6 +15,8 @@ class User < ApplicationRecord
   before_save do
     if self.email_changed?
       self.activation_state = nil
+      # The token mailed to the previous address must not verify the new one.
+      self.activation_token = generate_token
     end
     unless self.active?
       self.activation_token ||= generate_token
