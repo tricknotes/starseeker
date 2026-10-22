@@ -6,6 +6,15 @@ feature 'Root page' do
       expect(page).to have_css('#catch-phrase', text: 'Seek your following\'s stars!')
       expect(page).to have_link('Sign in with GitHub')
     end
+
+    scenario 'Send a content security policy' do
+      visit root_path
+
+      policy = page.response_headers['Content-Security-Policy']
+      expect(policy).to include("script-src 'self'")
+      expect(policy).to include("style-src 'self'")
+      expect(policy).to include("frame-ancestors 'none'")
+    end
   end
 
   context 'With signin' do

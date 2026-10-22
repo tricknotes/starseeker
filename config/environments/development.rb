@@ -73,4 +73,7 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.web_console.permissions = '0.0.0.0/0'
+
+  # letter_opener_web renders inline scripts, which the policy would block.
+  config.content_security_policy_report_only = true
 end
