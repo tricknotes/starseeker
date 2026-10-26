@@ -16,7 +16,7 @@ jobs:
         options: --entrypoint valkey-server
 
     container:
-      image: ruby:4.0.7
+      image: ruby:4.0.9
       env:
         BASE_URL: 'http://example.com'
         DATABASE_URL: postgresql://postgres:password@postgres
