@@ -50,8 +50,8 @@
 
 ## 依存関係の更新
 
-- GitHub Actions は Dependabot が毎週更新します（`.github/dependabot.yml`）。Actions はコミット SHA で固定し、行末にバージョンをコメントで残してください。
-  - 例: `uses: actions/checkout@<sha> # v7.0.1`
+- GitHub Actions は Dependabot が毎週更新します（`.github/dependabot.yml`）。`uses:` はタグで書き（例: `uses: actions/checkout@v7.0.1`）、実行される commit は `.github/workflows/actions.lock` で固定します。
+  - `uses:` を追加・変更したら `gh actions-lock`（[github/gh-actions-lock](https://github.com/github/gh-actions-lock)）を実行してロックファイルを更新してください。CI の `actions-lock` ワークフローが `gh actions-lock --verify` でずれを検知します。
 - Ruby のバージョンを上げるときは、次のすべてを揃えて更新してください。必要なら `ruby/setup-ruby` も新しいバージョンに対応したものへ上げてください。
   - `Gemfile`
   - `Gemfile.lock`（`RUBY VERSION`）
