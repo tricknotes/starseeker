@@ -8,7 +8,7 @@ workflows:
     '.github/workflows/brakeman.yml':
         - 'actions/checkout@v7.0.1'
         - 'reviewdog/action-brakeman@v2.20.0'
-        - 'ruby/setup-ruby@v1.335.0'
+        - 'ruby/setup-ruby@v1.336.0'
     '.github/workflows/build.yml':
         - 'actions/cache@v6.1.0'
         - 'actions/checkout@v7.0.1'
@@ -28,8 +28,8 @@ dependencies:
         commit: 'sha1-3ca1f826ac652d188845fe8faa3a1423afb904b6'
         owner_id: 48765237
         repo_id: 229958179
-    'ruby/setup-ruby@v1.335.0':
-        ref: 'v1.335.0'
-        commit: 'sha1-7f797815d8adceb1c412e7abefdd1ab4abc47a5f'
+    'ruby/setup-ruby@v1.336.0':
+        ref: 'v1.336.0'
+        commit: 'sha1-de492cf36cbab201753d720ce4f4e336cd688c94'
         owner_id: 210414
         repo_id: 231208785
