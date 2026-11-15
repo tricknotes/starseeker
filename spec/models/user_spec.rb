@@ -216,6 +216,20 @@ describe User do
       end
     end
 
+    context 'when the GitHub token is known to be revoked' do
+      subject(:user) { create(:user, :with_authentication, username: 'alice').tap(&:revoke_token!) }
+
+      before do
+        stub_star_event! actor: {login: 'alice'}, repo: {name: 'a/one'}
+      end
+
+      it 'answers from the local star events without asking GitHub' do
+        expect(Net::HTTP).not_to receive(:start)
+
+        expect(user.starred_repository_names(%w(a/one b/two))).to eq(Set.new(%w(a/one)))
+      end
+    end
+
     context 'when the user has no GitHub token' do
       subject(:user) { create(:user, username: 'alice') }
 

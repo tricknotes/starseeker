@@ -131,7 +131,7 @@ class User < ApplicationRecord
     repo_names = repo_names.uniq
     return Set.new if repo_names.empty?
 
-    return locally_starred_repository_names(repo_names) unless access_token
+    return locally_starred_repository_names(repo_names) if !access_token || token_revoked?
 
     starred = Set.new
 
