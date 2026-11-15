@@ -69,6 +69,15 @@
   white-space: nowrap;
 }
 
+.mail .starred_by_me {
+  font-size: 12px;
+  color: #edb020;
+  border: 1px solid #edb020;
+  border-radius: 3px;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
 .mail .description {
   display: block;
   margin-top: 4px;

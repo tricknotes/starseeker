@@ -104,19 +104,15 @@ class StarEvent < ApplicationRecord
       # lookback window the method falls back to the REST path for that user,
       # keeping the happy-path lean while remaining correct.
       def fetch_and_upsert(token:, logins:, since:, debug: false, fallback_client: nil)
-        require 'net/http'
-
         total = logins.size
         processed = 0
         needs_rest_fallback = []
 
         Rails.logger.info "[graphql] start: #{total} logins, batch_size=#{GRAPHQL_BATCH_SIZE}, page_size=#{GRAPHQL_PAGE_SIZE}, since=#{since}" if debug
 
-        # Open a single persistent HTTPS connection for all batch requests.
-        # Re-using one connection avoids repeated TLS handshakes and OpenSSL
-        # context allocations (which can reach hundreds of MB when running
-        # N_logins / GRAPHQL_BATCH_SIZE batches serially).
-        Net::HTTP.start('api.github.com', 443, use_ssl: true, open_timeout: 15, read_timeout: 60) do |http|
+        # Open a single persistent HTTPS connection for all batch requests
+        # (N_logins / GRAPHQL_BATCH_SIZE of them, sent serially).
+        GithubGraphql.connect do |http|
 
           logins.each_slice(GRAPHQL_BATCH_SIZE) do |batch|
             processed += batch.size
@@ -257,22 +253,7 @@ class StarEvent < ApplicationRecord
           GQL
         end.join
 
-        execute_graphql(http, token, "query {\n#{aliases_str}}")
-      end
-
-      # POST a GraphQL query over an existing Net::HTTP connection and return
-      # the parsed JSON body.  The caller is responsible for opening and closing
-      # the connection; this keeps each call allocation-free with respect to
-      # TCP / TLS setup.
-      def execute_graphql(http, token, query)
-        request = Net::HTTP::Post.new('/graphql')
-        request['Authorization'] = "bearer #{token}"
-        request['Content-Type']  = 'application/json'
-        request['User-Agent']    = 'Starseeker'
-        request.body             = { query: query }.to_json
-
-        response = http.request(request)
-        JSON.parse(response.body)
+        GithubGraphql.execute(http, token, "query {\n#{aliases_str}}")
       end
 
       def fetch_each_page(client, login, since, debug)

@@ -5,6 +5,8 @@
       %td.repo_summary
         = image_link_to_github_url repo.owner
         = render 'shared/repository_summary', repo: repo
+        - if starred_by_me
+          %span.starred_by_me{title: 'You starred this repository'} ★ Starred
       %td.repo_stargazers
         - events.each do |event|
           = image_link_to_github_url event.actor
