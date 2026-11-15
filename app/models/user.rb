@@ -10,6 +10,11 @@ class User < ApplicationRecord
   # per-query limit.
   STARRED_QUERY_BATCH_SIZE = 100
 
+  # #starred_repository_names runs while a page is being served, so GitHub is
+  # given only a few seconds before the local star events are used instead.
+  # The defaults of GithubGraphql.connect are sized for the batch fetch job.
+  STARRED_QUERY_TIMEOUTS = { open_timeout: 3, read_timeout: 5 }.freeze
+
   # GitHub answers 401 for a token the user revoked and for one whose account
   # was deleted. Neither recovers on its own, so such users are left out of
   # every batch job until they log in again.
@@ -130,7 +135,7 @@ class User < ApplicationRecord
 
     starred = Set.new
 
-    GithubGraphql.connect do |http|
+    GithubGraphql.connect(**STARRED_QUERY_TIMEOUTS) do |http|
       repo_names.each_slice(STARRED_QUERY_BATCH_SIZE) do |batch|
         result = GithubGraphql.execute(http, access_token, starred_query_for(batch))
 

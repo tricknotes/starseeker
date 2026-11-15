@@ -30,8 +30,8 @@ module GithubGraphql
     # Re-using a connection for several queries avoids repeated TLS handshakes
     # and OpenSSL context allocations, which add up when many batches are sent
     # in a row.
-    def connect(&block)
-      Net::HTTP.start(HOST, 443, use_ssl: true, open_timeout: 15, read_timeout: 60, &block)
+    def connect(open_timeout: 15, read_timeout: 60, &block)
+      Net::HTTP.start(HOST, 443, use_ssl: true, open_timeout: open_timeout, read_timeout: read_timeout, &block)
     end
 
     # POST a query over an already-open connection and return the parsed JSON

@@ -204,6 +204,15 @@ describe User do
 
           expect(user.starred_repository_names(%w(a/one b/two))).to eq(Set.new(%w(a/one)))
         end
+
+        it 'gives up after a few seconds rather than holding the page' do
+          allow(Net::HTTP).to receive(:start)
+            .with('api.github.com', 443, hash_including(open_timeout: 3, read_timeout: 5))
+            .and_yield(http)
+          allow(http).to receive(:request).and_raise(Net::ReadTimeout)
+
+          expect(user.starred_repository_names(%w(a/one b/two))).to eq(Set.new(%w(a/one)))
+        end
       end
     end
 
