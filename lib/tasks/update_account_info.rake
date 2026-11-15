@@ -1,10 +1,11 @@
 desc 'Update account info with github.com API'
 task :update_account_info => :environment do
-  User.all.each do |user|
+  User.with_valid_token.each do |user|
     puts "Fetch user info about \033[36m%s\033[39m..." % [user.username]
     begin
       user_info = user.github_client.user
     rescue Octokit::Unauthorized
+      user.revoke_token!
       puts "User \033[33m%s\033[39m is unauthorized." % [user.username]
       next
     rescue => e

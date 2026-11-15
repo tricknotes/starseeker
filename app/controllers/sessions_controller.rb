@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     uid      = auth_hash['uid']
 
     if @user = User.find_by_uid(uid)
+      @user.renew_token! auth_hash['credentials']['token']
       store_user @user
 
       redirect_to dashboard_path

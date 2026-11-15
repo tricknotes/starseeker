@@ -5,7 +5,11 @@ class User < ApplicationRecord
   DAILY_TERM  = 1.day
   RECENT_TERM = 7.days
 
-  scope :email_sendables, -> { where(subscribe: true, activation_state: 'active') }
+  # GitHub answers 401 for a token the user revoked and for one whose account
+  # was deleted. Neither recovers on its own, so such users are left out of
+  # every batch job until they log in again.
+  scope :with_valid_token, -> { where(token_revoked_at: nil) }
+  scope :email_sendables, -> { with_valid_token.where(subscribe: true, activation_state: 'active') }
   scope :newly, -> { order(created_at: :desc) }
   scope :randomly, -> { order(Arel.sql('RANDOM()')) }
 
@@ -53,6 +57,23 @@ class User < ApplicationRecord
 
   def access_token
     @access_token ||= authentications.find_by(provider: :github)&.token
+  end
+
+  def token_revoked?
+    token_revoked_at.present?
+  end
+
+  def revoke_token!
+    update!(token_revoked_at: Time.current) unless token_revoked?
+  end
+
+  def renew_token!(token)
+    transaction do
+      authentications.find_by!(provider: :github).update!(token: token)
+      update!(token_revoked_at: nil)
+    end
+
+    @access_token = @github_client = nil
   end
 
   def email_sendable?

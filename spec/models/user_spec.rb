@@ -77,6 +77,45 @@ describe User do
     end
   end
 
+  describe '.email_sendables' do
+    let!(:user) { create(:user).tap(&:activate!) }
+
+    it { expect(User.email_sendables).to eq([user]) }
+
+    context 'when the token is revoked' do
+      before { user.revoke_token! }
+
+      it { expect(User.email_sendables).to be_empty }
+    end
+  end
+
+  describe '#revoke_token!' do
+    include ActiveSupport::Testing::TimeHelpers
+
+    let(:user) { create(:user) }
+
+    it 'keeps the time it was first revoked' do
+      travel_to(Time.zone.local(2026, 11, 1)) { user.revoke_token! }
+      travel_to(Time.zone.local(2026, 11, 2)) { user.revoke_token! }
+
+      expect(user.reload.token_revoked_at).to eq(Time.zone.local(2026, 11, 1))
+    end
+  end
+
+  describe '#renew_token!' do
+    let(:user) { create(:user, :with_authentication) }
+
+    before do
+      user.revoke_token!
+      user.access_token
+
+      user.renew_token!('NEW_TOKEN')
+    end
+
+    it { expect(user.reload).not_to be_token_revoked }
+    it { expect(user.access_token).to eq('NEW_TOKEN') }
+  end
+
   describe '#followings' do
     subject(:user) { build(:user, username: 'alice') }
 

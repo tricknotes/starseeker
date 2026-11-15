@@ -46,7 +46,7 @@ module DailyMailScheduler
     #
     # The user goes back on the schedule only when the failure looks
     # retriable. An expired token never becomes valid on a retry, so that case
-    # is dropped with a log line instead.
+    # is dropped and the user is left out until they log in again.
     def deliver_hot_repositories_to(user)
       if user_has_starred?(user)
         MyHotRepository.notify(user).deliver_now
@@ -59,6 +59,7 @@ module DailyMailScheduler
       finish_sending_mail user
     rescue Octokit::Unauthorized
       finish_sending_mail user
+      user.revoke_token!
 
       logger.info "Skip sending mail to \033[31m%s\033[39m. Because of unauthorized Token." % [label_for(user)]
     rescue => e
