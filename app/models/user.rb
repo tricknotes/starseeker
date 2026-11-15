@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   MAX_FOLLOWER_PAGE_COUNT = 50
+  # Pages of followings after the first one are fetched this many at a time.
+  # GitHub asks clients to avoid many concurrent requests on one token.
+  FOLLOWING_PAGE_CONCURRENCY = 5
 
   # How far back the "daily" and "recent" listings look.
   DAILY_TERM  = 1.day
@@ -158,16 +161,12 @@ class User < ApplicationRecord
   def followings
     return @followings if @followings
 
-    @followings = []
+    first_page = github_client.following(username, page: 1)
+    last_page  = [last_page_number(github_client.last_response), MAX_FOLLOWER_PAGE_COUNT].min
 
-    (1..MAX_FOLLOWER_PAGE_COUNT).each do |page|
-      followings_in_one_page = github_client.following(username, page: page)
-                                            .filter_map { |f| f['login'] if f['type'] == 'User' }
-      @followings += followings_in_one_page
-      break if Octokit.per_page > followings_in_one_page.count
-    end
-
-    @followings
+    @followings = [first_page, *fetch_following_pages(2..last_page)].flat_map {|entries|
+      entries.filter_map {|f| f['login'] if f['type'] == 'User' }
+    }
   end
 
   def github_client
@@ -187,6 +186,28 @@ class User < ApplicationRecord
 
   def locally_starred_repository_names(repo_names)
     StarEvent.by(username).where(repo_name: repo_names).pluck(:repo_name).to_set
+  end
+
+  # The page count comes from the Link header of the first page, so that the
+  # rest can be asked for at once instead of one after another.
+  def fetch_following_pages(pages)
+    return [] if pages.none?
+
+    pool = Concurrent::FixedThreadPool.new(FOLLOWING_PAGE_CONCURRENCY)
+    futures = pages.map {|page|
+      Concurrent::Promises.future_on(pool) { github_client.following(username, page: page) }
+    }
+
+    Concurrent::Promises.zip(*futures).value!
+  ensure
+    pool&.shutdown
+  end
+
+  def last_page_number(response)
+    last = response&.rels&.[](:last)
+    return 1 unless last
+
+    Rack::Utils.parse_query(URI(last.href).query)['page'].to_i
   end
 
   def generate_token
