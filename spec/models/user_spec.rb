@@ -253,10 +253,64 @@ describe User do
 
     before do
       allow(user).to receive(:github_client).and_return(client)
+      allow(client).to receive(:last_response).and_return(response_with_last_page(nil))
     end
 
     def following_entry(login:, type: 'User')
       { 'login' => login, 'type' => type }
+    end
+
+    def response_with_last_page(page)
+      rels = page ? { last: double(href: "https://api.github.com/user/1/following?per_page=100&page=#{page}") } : {}
+
+      instance_double(Sawyer::Response, rels: rels)
+    end
+
+    context 'when followings span several pages' do
+      before do
+        allow(client).to receive(:last_response).and_return(response_with_last_page(3))
+        allow(client).to receive(:following) {|_, page:| [following_entry(login: "user#{page}")] }
+      end
+
+      it 'fetches every page and keeps them in order' do
+        expect(user.followings).to eq(%w(user1 user2 user3))
+        expect(client).to have_received(:following).with('alice', page: 1).once
+        expect(client).to have_received(:following).with('alice', page: 2).once
+        expect(client).to have_received(:following).with('alice', page: 3).once
+      end
+
+      it 'fetches the pages after the first one concurrently' do
+        started = Queue.new
+        release = Queue.new
+        allow(client).to receive(:following) {|_, page:|
+          if page > 1
+            started << page
+            release.pop
+          end
+
+          [following_entry(login: "user#{page}")]
+        }
+
+        thread = Thread.new { user.followings }
+        # Page 3 is asked for while page 2 is still waiting for its answer.
+        2.times { Timeout.timeout(5) { started.pop } }
+        2.times { release << true }
+
+        expect(thread.value).to eq(%w(user1 user2 user3))
+      end
+
+      it 'does not fetch beyond MAX_FOLLOWER_PAGE_COUNT' do
+        stub_const('User::MAX_FOLLOWER_PAGE_COUNT', 2)
+
+        expect(user.followings).to eq(%w(user1 user2))
+        expect(client).not_to have_received(:following).with('alice', page: 3)
+      end
+
+      it 'raises what a page raised' do
+        allow(client).to receive(:following).with('alice', page: 2).and_raise(Octokit::Unauthorized)
+
+        expect { user.followings }.to raise_error(Octokit::Unauthorized)
+      end
     end
 
     context 'when followings include both users and organizations' do
