@@ -5,7 +5,7 @@ namespace :star_events do
     since = hours.hours.ago
 
     Rails.logger.info "[star_events:fetch] start: hours=#{hours}, since=#{since}"
-    Rails.logger.info "[star_events:fetch] #{User.count} users found"
+    Rails.logger.info "[star_events:fetch] #{User.with_valid_token.count} users found"
 
     # Process users in slices of FETCH_CONCURRENCY.  Waiting for each slice to
     # complete before starting the next one lets GC.compact reclaim memory from
@@ -13,7 +13,7 @@ namespace :star_events do
     # are loaded.  This avoids accumulating all users' data in memory at once.
     pool = Concurrent::FixedThreadPool.new(StarEvent::FETCH_CONCURRENCY)
 
-    User.find_in_batches(batch_size: StarEvent::FETCH_CONCURRENCY) do |user_batch|
+    User.with_valid_token.find_in_batches(batch_size: StarEvent::FETCH_CONCURRENCY) do |user_batch|
       futures = user_batch.map do |user|
         Concurrent::Future.execute(executor: pool) do
           client = user.github_client
@@ -27,6 +27,9 @@ namespace :star_events do
             debug:           true,
             fallback_client: client
           )
+        rescue Octokit::Unauthorized
+          user.revoke_token!
+          Rails.logger.warn "[star_events:fetch] @#{user.username}: token revoked, skipped until next login"
         end
       end
 

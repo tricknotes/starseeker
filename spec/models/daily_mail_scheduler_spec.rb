@@ -111,6 +111,10 @@ describe DailyMailScheduler do
         expect(subject.scheduled_users).to be_empty
       end
 
+      it 'should mark the token as revoked' do
+        expect(user.reload).to be_token_revoked
+      end
+
       it 'should puts log' do
         log = io.string.split("\n").first
 

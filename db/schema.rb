@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_20_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_16_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,6 +61,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_000002) do
     t.string "name"
     t.string "salt"
     t.boolean "subscribe", default: true
+    t.datetime "token_revoked_at"
     t.datetime "updated_at", precision: nil
     t.string "username", null: false
     t.index ["activation_token"], name: "index_users_on_activation_token"
