@@ -14,6 +14,8 @@ gem 'propshaft'
 gem 'puma', require: false
 gem 'redis-client'
 gem 'roadie-rails'
+gem 'sentry-rails'
+gem 'sentry-ruby'
 
 group :development do
   gem 'brakeman'

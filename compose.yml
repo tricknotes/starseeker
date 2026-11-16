@@ -30,6 +30,7 @@ services:
       GITHUB_LOGIN: ${GITHUB_LOGIN}
       GITHUB_SECRET: ${GITHUB_SECRET}
       GITHUB_TOKEN: ${GITHUB_TOKEN}
+      SENTRY_DSN: ${SENTRY_DSN}
       RUBYOPT: '-W:deprecated'
 
 volumes:
