@@ -32,6 +32,7 @@ Setup environment variables that are described in `compose.yml`:
 - `GITHUB_TOKEN`: Your GitHub personal access token
 - `GITHUB_LOGIN`: Your GitHub username
 - `BASE_URL`: Base URL for the application (defaults to http://localhost:3000)
+- `SENTRY_DSN`: DSN of the Sentry project to report errors to (optional; Sentry is disabled when unset)
 
 You can set these variables in your environment or use a `.env` file.
 
