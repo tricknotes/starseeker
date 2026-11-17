@@ -17,8 +17,7 @@
     %meta{property: 'og:description', content: 'Seek your following\'s stars!'}
     %meta{property: 'og:type',        content: 'website'}
     %meta{property: 'og:url',         content: request.url}
-    - if @og_image # TODO Set default image
-      %meta{property: 'og:image',     content: @og_image}
+    %meta{property: 'og:image',       content: @og_image || image_url('og-image.png')}
     %meta{property: 'og:site_name',   content: 'starseeker'}
 
     = yield :head

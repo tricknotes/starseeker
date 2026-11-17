@@ -7,6 +7,13 @@ feature 'Root page' do
       expect(page).to have_link('Sign in with GitHub')
     end
 
+    scenario 'Offer the site image to whoever shares the page' do
+      visit root_path
+
+      og_image = page.find('meta[property="og:image"]', visible: false)[:content]
+      expect(og_image).to match(%r{\Ahttp://www\.example\.com/assets/og-image-\h+\.png\z})
+    end
+
     scenario 'Send a content security policy' do
       visit root_path
 
