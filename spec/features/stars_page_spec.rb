@@ -21,6 +21,12 @@ feature 'Stars page' do
     expect(page).to have_link('#GitHub')
   end
 
+  scenario 'Offer the avatar of the user to whoever shares the page' do
+    visit stars_path(username: user.username)
+
+    expect(page).to have_css(%(meta[property="og:image"][content="#{user.avatar_url}"]), visible: false)
+  end
+
   scenario 'Show 404 page for an unknown user' do
     github_client = instance_double(Octokit::Client)
     allow(github_client).to receive(:user).and_raise(Octokit::NotFound)

@@ -1,0 +1,12 @@
+<!-- Source of og-image.png. The text needs app/assets/fonts/ABeeZee-Regular.ttf to render. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#fff"/>
+  <rect width="1200" height="14" fill="#edb020"/>
+  <g transform="translate(490 104) scale(0.4296875)">
+    <rect width="512" height="512" rx="112" fill="#333"/>
+    <polygon points="248.0,76.0 295.0,207.3 434.4,211.4 324.1,296.7 363.2,430.6 248.0,352.0 132.8,430.6 171.9,296.7 61.6,211.4 201.0,207.3" fill="#edb020" stroke="#edb020" stroke-width="24" stroke-linejoin="round"/>
+    <path d="M416 48 Q416 104 472 104 Q416 104 416 160 Q416 104 360 104 Q416 104 416 48Z" fill="#edb020"/>
+  </g>
+  <text x="600" y="446" text-anchor="middle" font-family="ABeeZee" font-size="104" fill="#333">starseeker</text>
+  <text x="600" y="526" text-anchor="middle" font-family="ABeeZee" font-size="42" fill="#333">Seek your following's stars!</text>
+</svg>
