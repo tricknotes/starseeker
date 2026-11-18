@@ -1,5 +1,11 @@
 module DailyMailScheduler
-  TABLE_NAME = 'users_to_be_sent_email'
+  # Rails.cache cannot list its keys, so the ids of the scheduled users are
+  # kept in one entry and the status of each user in an entry of its own.
+  # A user is on the schedule for as long as the latter exists, which lets a
+  # single write or delete move one user without touching the others.
+  USER_IDS_KEY = 'daily_mail_schedule/user_ids'
+
+  WriteError = Class.new(StandardError)
 
   module Status
     SCHEDULED  = 'scheduled'
@@ -14,9 +20,10 @@ module DailyMailScheduler
     attr_accessor :logger
 
     def schedule(users)
-      statuses = users.flat_map {|user| [user.id, Status::SCHEDULED] }
+      user_ids = users.map(&:id)
 
-      redis.call 'HMSET', TABLE_NAME, *statuses
+      user_ids.each {|user_id| write status_key(user_id), Status::SCHEDULED }
+      write USER_IDS_KEY, scheduled_user_ids | user_ids
     end
 
     def send_mail_to_scheduled_users
@@ -31,13 +38,12 @@ module DailyMailScheduler
     end
 
     def clear!
-      redis.call 'DEL', TABLE_NAME
+      Rails.cache.delete_multi(user_ids.map {|user_id| status_key(user_id) })
+      Rails.cache.delete(USER_IDS_KEY)
     end
 
     def scheduled_users
-      user_ids = redis.call('HKEYS', TABLE_NAME)
-
-      User.find(user_ids)
+      User.find(scheduled_user_ids)
     end
 
     private
@@ -72,34 +78,42 @@ module DailyMailScheduler
       '%s(%s)' % [user.username, user.email]
     end
 
-    def redis
-      @redis ||=
-        begin
-          config = RedisClient.config(
-            url: Settings.redis_url,
-            ssl_params: {
-              verify_mode: OpenSSL::SSL::VERIFY_NONE
-            }
-          )
+    def user_ids
+      Rails.cache.read(USER_IDS_KEY) || []
+    end
 
-          config.new_client
-        end
+    def scheduled_user_ids
+      user_ids = self.user_ids
+      statuses = Rails.cache.read_multi(*user_ids.map {|user_id| status_key(user_id) })
+
+      user_ids.select {|user_id| statuses.key?(status_key(user_id)) }
+    end
+
+    def status_key(user_id)
+      "daily_mail_schedule/statuses/#{user_id}"
     end
 
     def status_for_user(user)
-      redis.call('HMGET', TABLE_NAME, user.id).first
+      Rails.cache.read(status_key(user.id))
     end
 
     def start_processing(user)
-      redis.call('HMSET', TABLE_NAME, user.id, Status::PROCESSING)
+      write status_key(user.id), Status::PROCESSING
     end
 
     def finish_sending_mail(user)
-      redis.call('HDEL', TABLE_NAME, user.id)
+      Rails.cache.delete(status_key(user.id))
     end
 
     def schedule_as_retry(user)
-      redis.call('HMSET', TABLE_NAME, user.id, Status::FAILED)
+      write status_key(user.id), Status::FAILED
+    end
+
+    # A cache store reports a failing backend and carries on, which is right
+    # for a cache but would let a mail that could not be scheduled, or one
+    # that is about to be sent twice, go unnoticed.
+    def write(key, value)
+      Rails.cache.write(key, value) or raise WriteError, "Could not write #{key}"
     end
 
     def user_has_starred?(user)

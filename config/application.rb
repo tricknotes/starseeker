@@ -39,9 +39,8 @@ module Starseeker
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # The cache lives in the Redis that also holds the daily mail schedule.
-    # It is namespaced because Rails.cache.clear flushes the whole database
-    # otherwise, and the schedule with it.
+    # Namespaced so that Rails.cache.clear deletes what the cache wrote instead
+    # of flushing the whole database.
     config.cache_store = :redis_cache_store, {
       url: ENV['REDIS_URL'],
       namespace: 'cache',

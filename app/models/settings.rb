@@ -5,10 +5,6 @@ module Settings
       ENV['BASE_URL']
     end
 
-    def redis_url
-      ENV['REDIS_URL']
-    end
-
     def url_options
       {
         host: uri.host,

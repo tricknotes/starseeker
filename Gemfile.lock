@@ -379,7 +379,6 @@ DEPENDENCIES
   puma
   rails (~> 8.1.0)
   redis
-  redis-client
   roadie-rails
   rspec-rails
   sentry-rails
