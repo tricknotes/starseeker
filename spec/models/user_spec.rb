@@ -351,6 +351,63 @@ describe User do
       it 'returns an empty array' do
         expect(user.followings).to be_empty
       end
+
+      it 'does not ask GitHub again' do
+        2.times { user.followings }
+
+        expect(client).to have_received(:following).once
+      end
+    end
+
+    context 'when they have been fetched before' do
+      include ActiveSupport::Testing::TimeHelpers
+
+      subject(:user) { create(:user, username: 'alice') }
+
+      before do
+        allow(client).to receive(:following).and_return([following_entry(login: 'bob')])
+        user.followings
+        allow(client).to receive(:following).and_return([following_entry(login: 'carol')])
+      end
+
+      it 'returns them without asking GitHub again' do
+        expect(user.followings).to eq(%w(bob))
+        expect(client).to have_received(:following).once
+      end
+
+      it 'returns them to whoever loads the user next' do
+        loaded = User.find(user.id)
+        allow(loaded).to receive(:github_client).and_return(client)
+
+        expect(loaded.followings).to eq(%w(bob))
+      end
+
+      it 'does not return them for another user' do
+        other = create(:user, username: 'dave')
+        allow(other).to receive(:github_client).and_return(client)
+
+        expect(other.followings).to eq(%w(carol))
+      end
+
+      it 'asks GitHub again once they expired' do
+        travel User::FOLLOWINGS_EXPIRY + 1.minute do
+          expect(user.followings).to eq(%w(carol))
+        end
+      end
+
+      context 'with refresh: true' do
+        it 'replaces them with what GitHub answers' do
+          expect(user.followings(refresh: true)).to eq(%w(carol))
+          expect(user.followings).to eq(%w(carol))
+        end
+
+        it 'keeps them when GitHub cannot be asked' do
+          allow(client).to receive(:following).and_raise(Octokit::Unauthorized)
+
+          expect { user.followings(refresh: true) }.to raise_error(Octokit::Unauthorized)
+          expect(user.followings).to eq(%w(bob))
+        end
+      end
     end
   end
 end

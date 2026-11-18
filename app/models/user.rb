@@ -18,6 +18,11 @@ class User < ApplicationRecord
   # The defaults of GithubGraphql.connect are sized for the batch fetch job.
   STARRED_QUERY_TIMEOUTS = { open_timeout: 3, read_timeout: 5 }.freeze
 
+  # How long followings stay in the cache. star_events:fetch stores them again
+  # on every run, so this only matters once that stops for a user, e.g. when
+  # the token got revoked.
+  FOLLOWINGS_EXPIRY = 1.day
+
   # GitHub answers 401 for a token the user revoked and for one whose account
   # was deleted. Neither recovers on its own, so such users are left out of
   # every batch job until they log in again.
@@ -158,15 +163,17 @@ class User < ApplicationRecord
     locally_starred_repository_names(repo_names)
   end
 
-  def followings
-    return @followings if @followings
-
-    first_page = github_client.following(username, page: 1)
-    last_page  = [last_page_number(github_client.last_response), MAX_FOLLOWER_PAGE_COUNT].min
-
-    @followings = [first_page, *fetch_following_pages(2..last_page)].flat_map {|entries|
-      entries.filter_map {|f| f['login'] if f['type'] == 'User' }
-    }
+  # Logins of the people this user follows.
+  #
+  # The list is read from the cache, so that pages, feeds and mails are built
+  # without a request to GitHub however many people the user follows.
+  # star_events:fetch refreshes it on every run, right before it fetches the
+  # stars of those people, so it is as fresh as the star events shown with it.
+  #
+  # GitHub is asked from here only when the cache has no list, e.g. for a user
+  # that job has not visited yet.
+  def followings(refresh: false)
+    Rails.cache.fetch("users/#{id}/followings", expires_in: FOLLOWINGS_EXPIRY, force: refresh) { fetch_followings }
   end
 
   def github_client
@@ -186,6 +193,15 @@ class User < ApplicationRecord
 
   def locally_starred_repository_names(repo_names)
     StarEvent.by(username).where(repo_name: repo_names).pluck(:repo_name).to_set
+  end
+
+  def fetch_followings
+    first_page = github_client.following(username, page: 1)
+    last_page  = [last_page_number(github_client.last_response), MAX_FOLLOWER_PAGE_COUNT].min
+
+    [first_page, *fetch_following_pages(2..last_page)].flat_map {|entries|
+      entries.filter_map {|f| f['login'] if f['type'] == 'User' }
+    }
   end
 
   # The page count comes from the Link header of the first page, so that the

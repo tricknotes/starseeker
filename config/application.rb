@@ -39,6 +39,17 @@ module Starseeker
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # The cache lives in the Redis that also holds the daily mail schedule.
+    # It is namespaced because Rails.cache.clear flushes the whole database
+    # otherwise, and the schedule with it.
+    config.cache_store = :redis_cache_store, {
+      url: ENV['REDIS_URL'],
+      namespace: 'cache',
+      # Heroku serves Redis over TLS with a self-signed certificate.
+      # https://devcenter.heroku.com/articles/connecting-heroku-redis#connecting-in-ruby
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE },
+    }
+
     config.after_initialize do
       unless Rails.env.test?
         Rails.application.default_url_options = Settings.url_options
