@@ -1,0 +1,62 @@
+# Production-like stack, for a host that runs Compose apps (for example
+# koroku). compose.yml is the development setup.
+#
+# Required environment variables (set them in the host's app settings):
+#   SECRET_KEY_BASE    bin/rails secret
+#   POSTGRES_PASSWORD  password of the bundled PostgreSQL
+#   BASE_URL           public URL, for example https://starseeker.example.com
+#   GITHUB_CLIENT_ID, GITHUB_SECRET          GitHub OAuth app (login)
+#   GITHUB_LOGIN, GITHUB_TOKEN               API access for fetching stars
+# Optional: SENTRY_DSN, SENDGRID_USERNAME, SENDGRID_PASSWORD
+#
+# The web service listens on port 3000 and answers / once the database is
+# migrated. TLS is terminated by the reverse proxy in front of it.
+
+x-rails: &rails
+  build:
+    context: .
+    dockerfile: Dockerfile.production
+  environment:
+    DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@postgres/starseeker_production
+    REDIS_URL: redis://redis:6379
+
+services:
+  postgres:
+    image: postgres:17.10-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  redis:
+    image: valkey/valkey:9.1.2-alpine
+    volumes:
+      - redis-data:/data
+
+  # Creates or migrates the database, then exits. web starts after it.
+  migrate:
+    <<: *rails
+    command: ["bin/rails", "db:prepare"]
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    <<: *rails
+    ports:
+      - "3000:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+
+volumes:
+  postgres-data:
+  redis-data:
