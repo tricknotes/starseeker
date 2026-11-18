@@ -15,6 +15,40 @@ describe DailyMailScheduler do
     end
 
     it { expect(subject.scheduled_users).to eq([user]) }
+
+    context 'when called again for another user' do
+      let!(:another) { create(:user, username: 'ANOTHER') }
+
+      before do
+        subject.schedule [another]
+      end
+
+      it { expect(subject.scheduled_users).to contain_exactly(user, another) }
+    end
+
+    context 'when the cache store does not accept the write' do
+      before do
+        allow(Rails.cache).to receive(:write).and_return(false)
+      end
+
+      it { expect { subject.schedule [user] }.to raise_error(DailyMailScheduler::WriteError) }
+    end
+  end
+
+  describe '.clear!' do
+    before do
+      subject.schedule [user]
+      subject.clear!
+    end
+
+    it { expect(subject.scheduled_users).to be_empty }
+
+    it 'should not bring the cleared users back with the next schedule' do
+      another = create(:user, username: 'ANOTHER')
+      subject.schedule [another]
+
+      expect(subject.scheduled_users).to eq([another])
+    end
   end
 
   describe '.send_mail_to_scheduled_users' do
@@ -136,6 +170,16 @@ describe DailyMailScheduler do
 
       it 'should keep schedule' do
         expect(subject.scheduled_users).to eq([user])
+      end
+
+      it 'should send mail on the next run' do
+        allow(subject).to receive(:user_has_starred?).and_return(true)
+        allow_any_instance_of(User).to receive(:followings).and_return([])
+
+        subject.send_mail_to_scheduled_users
+
+        expect(ActionMailer::Base.deliveries.size).to eq(1)
+        expect(subject.scheduled_users).to be_empty
       end
 
       it 'should puts log' do
