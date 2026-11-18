@@ -45,14 +45,15 @@ The application will be available at http://localhost:3000
 
 Preview the daily mail at http://localhost:3000/rails/mailers, exactly as it
 is delivered (styles inlined).  It is built for the first user in the database
-the same way the daily job builds it, so it asks GitHub for that user's
-followings and shows what `star_events:fetch` collected from them.  Mails that
-were actually sent are kept at http://localhost:3000/letter_opener
+the same way the daily job builds it, so it shows what `star_events:fetch`
+collected from that user's followings.  Mails that were actually sent are kept
+at http://localhost:3000/letter_opener
 
 ## Tasks
 
 Fetch star events of each user's followings from GitHub (looks back 2 hours by
-default; set `hours` or `FETCH_HOURS` to change it):
+default; set `hours` or `FETCH_HOURS` to change it).  It also caches who each
+user follows, which is what pages, feeds and mails are built from:
 ```sh
 $ docker compose run --rm app bin/rails star_events:fetch
 $ docker compose run --rm app bin/rails "star_events:fetch[24]"

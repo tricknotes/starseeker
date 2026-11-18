@@ -17,7 +17,7 @@ namespace :star_events do
       futures = user_batch.map do |user|
         Concurrent::Future.execute(executor: pool) do
           client = user.github_client
-          logins = (user.followings + [user.username]).uniq
+          logins = (user.followings(refresh: true) + [user.username]).uniq
           Rails.logger.info "[star_events:fetch] @#{user.username}: #{logins.size} logins"
 
           StarEvent.fetch_and_upsert(
