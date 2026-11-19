@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: ruby/setup-ruby@v1.336.0
+      - uses: ruby/setup-ruby@v1.342.0
         with:
-          ruby-version: 4.0.9
+          ruby-version: 4.0.10
       - uses: reviewdog/action-brakeman@v2.20.0
         with:
           reporter: github-pr-review # Default is github-pr-check
