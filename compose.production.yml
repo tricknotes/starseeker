@@ -9,12 +9,12 @@
 #   GITHUB_LOGIN, GITHUB_TOKEN               API access for fetching stars
 # Optional: SENTRY_DSN, SENDGRID_USERNAME, SENDGRID_PASSWORD
 #
-# The web service listens on port 3000 and answers / once the database is
-# migrated. TLS is terminated by the reverse proxy in front of it.
+# The web service listens on port 3000 and answers /up (any host) once the
+# database is migrated. TLS is terminated by the reverse proxy in front of it.
 # The scheduler service runs the recurring tasks in config/crontab.
 #
 # On koroku: Compose file compose.production.yml, public service web on port
-# 3000, health check path /. Back up the database with the dump hook (service
+# 3000, health check path /up. Back up the database with the dump hook (service
 # postgres, command: pg_dump -U postgres -Fc starseeker_production) and leave
 # the postgres-data volume out of the file backup, since a running database
 # is not consistent on disk.
