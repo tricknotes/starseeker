@@ -21,8 +21,11 @@
 
 x-rails: &rails
   # Built from Dockerfile.production and pushed by .github/workflows/image.yml
-  # on every merge to main. Pulled on each deploy, since latest moves.
-  image: ghcr.io/tricknotes/starseeker:latest
+  # on every merge to main, tagged latest and sha-<commit>. koroku passes the
+  # deployed commit as KOROKU_COMMIT_SHA, so a deploy (or a rollback) runs the
+  # image of that commit; elsewhere this falls back to latest. Pulled on each
+  # deploy, since latest moves.
+  image: ghcr.io/tricknotes/starseeker:${KOROKU_COMMIT_SHA:+sha-}${KOROKU_COMMIT_SHA:-latest}
   pull_policy: always
   environment:
     DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@postgres/starseeker_production
