@@ -11,6 +11,13 @@
 #
 # The web service listens on port 3000 and answers / once the database is
 # migrated. TLS is terminated by the reverse proxy in front of it.
+# The scheduler service runs the recurring tasks in config/crontab.
+#
+# On koroku: Compose file compose.production.yml, public service web on port
+# 3000, health check path /. Back up the database with the dump hook (service
+# postgres, command: pg_dump -U postgres -Fc starseeker_production) and leave
+# the postgres-data volume out of the file backup, since a running database
+# is not consistent on disk.
 
 x-rails: &rails
   build:
@@ -19,6 +26,14 @@ x-rails: &rails
   environment:
     DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@postgres/starseeker_production
     REDIS_URL: redis://redis:6379
+    # Passed through as they are. Naming them here lets the host check that
+    # the required ones are set before it deploys.
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE:?set SECRET_KEY_BASE}
+    BASE_URL: ${BASE_URL:?set BASE_URL}
+    GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:?set GITHUB_CLIENT_ID}
+    GITHUB_SECRET: ${GITHUB_SECRET:?set GITHUB_SECRET}
+    GITHUB_LOGIN: ${GITHUB_LOGIN:?set GITHUB_LOGIN}
+    GITHUB_TOKEN: ${GITHUB_TOKEN:?set GITHUB_TOKEN}
 
 services:
   postgres:
@@ -51,6 +66,17 @@ services:
     <<: *rails
     ports:
       - "3000:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
+
+  # Runs the recurring tasks (config/crontab). The host has no scheduler of
+  # its own, so the schedule lives with the app.
+  scheduler:
+    <<: *rails
+    command: ["supercronic", "config/crontab"]
     depends_on:
       migrate:
         condition: service_completed_successfully

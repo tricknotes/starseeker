@@ -24,6 +24,9 @@ COPY . .
 RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
 
 FROM base
+# Runs config/crontab in the scheduler service of compose.production.yml.
+ADD --checksum=sha256:cc232108374e8e2b537045f2d5eaa1229f619db314c3ba6a14d38b35dc0aa123 --chmod=755 \
+    https://github.com/aptible/supercronic/releases/download/v0.2.51/supercronic-linux-amd64 /usr/local/bin/supercronic
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /app /app
 RUN groupadd --system --gid 1000 rails \
