@@ -1,0 +1,10 @@
+# Used by Dockerfile.production only (BuildKit reads <Dockerfile>.dockerignore).
+.git
+.github
+.env*
+log/*
+tmp/*
+public/assets
+spec
+vendor/bundle
+node_modules

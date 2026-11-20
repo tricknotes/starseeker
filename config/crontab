@@ -1,0 +1,18 @@
+# Schedule of the recurring tasks for the scheduler service of
+# compose.production.yml, read by supercronic (https://github.com/aptible/supercronic).
+# Times are UTC. Each line runs one task in the scheduler container; the next
+# run of a task does not start while the previous one is still running.
+
+# Star events of each user's followings. The task looks back 2 hours, so an
+# hourly run overlaps the previous one and misses nothing.
+15 * * * * bin/rails star_events:fetch
+
+# Put the users who get the daily mail on today's schedule, then send it.
+# Sending runs every hour: it only mails users still on the schedule, so the
+# later runs retry the deliveries that failed and do nothing otherwise.
+0 22 * * * bin/rails schedule_sending_hot_repositories
+45 * * * * bin/rails send_hot_repositories
+
+# Housekeeping.
+0 3 * * * bin/rails remove_old_events
+30 3 * * * bin/rails update_account_info

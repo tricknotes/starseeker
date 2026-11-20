@@ -87,4 +87,6 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   # Only the host the app is published at (BASE_URL) is accepted.
   config.hosts << URI.parse(ENV['BASE_URL']).host if ENV['BASE_URL']
+  # The host's health check calls the app by its address, not by BASE_URL.
+  config.host_authorization = { exclude: ->(request) { request.path == '/up' } }
 end

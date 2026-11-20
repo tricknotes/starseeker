@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if defined?(LetterOpenerWeb)
 
   root to: 'root#index'
+
+  # Health check for the host the app runs on: 200 once the app has booted.
+  get 'up' => 'rails/health#show', as: :rails_health_check
   resource 'dashboard', only: %w(show), controller: 'dashboard'
   namespace :settings do
     resource 'email', only: %w(show update) do
