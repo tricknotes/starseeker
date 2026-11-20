@@ -20,9 +20,14 @@
 # is not consistent on disk.
 
 x-rails: &rails
-  build:
-    context: .
-    dockerfile: Dockerfile.production
+  # Built from Dockerfile.production and pushed by .github/workflows/image.yml
+  # on every merge to main, tagged latest and sha-<commit>. koroku passes the
+  # deployed commit as KOROKU_COMMIT_SHA, so a deploy (or a rollback) runs the
+  # image of that commit; elsewhere this falls back to latest, so run
+  # `docker compose pull` before `up` there. No pull_policy: always, which
+  # would make koroku's rollbacks pull again instead of starting the image
+  # they ran before.
+  image: ghcr.io/tricknotes/starseeker:${KOROKU_COMMIT_SHA:+sha-}${KOROKU_COMMIT_SHA:-latest}
   environment:
     DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@postgres/starseeker_production
     REDIS_URL: redis://redis:6379
