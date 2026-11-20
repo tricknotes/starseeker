@@ -7,8 +7,10 @@ ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_WITHOUT="development test"
+# The base image already has libyaml, and the precompiled pg gem ships its
+# own libpq, so jemalloc is the only runtime package added.
 RUN apt-get update -qq \
- && apt-get install --no-install-recommends -y libjemalloc2 libpq5 libyaml-0-2 \
+ && apt-get install --no-install-recommends -y libjemalloc2 \
  && rm -rf /var/lib/apt/lists/* \
  && ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so
 # glibc malloc fragments memory across Puma's threads and RSS keeps growing;
@@ -20,10 +22,16 @@ RUN apt-get update -qq \
  && apt-get install --no-install-recommends -y build-essential git libpq-dev libyaml-dev pkg-config \
  && rm -rf /var/lib/apt/lists/*
 # The Bundler bundled with the base image lags behind BUNDLED WITH.
+# After installing, drop what is only needed to build native extensions, and
+# the extensions that precompiled gems ship for other Ruby versions.
 COPY Gemfile Gemfile.lock ./
 RUN gem install bundler -v "$(awk '/BUNDLED WITH/ { getline; print $1 }' Gemfile.lock)" \
  && bundle install \
- && rm -rf "$BUNDLE_PATH"/ruby/*/cache
+ && rm -rf "$BUNDLE_PATH"/ruby/*/cache \
+ && find "$BUNDLE_PATH"/ruby/*/gems -type f \( -name '*.[cho]' -o -name Makefile -o -name mkmf.log \) -delete \
+ && abi="$(ruby -e 'print RUBY_VERSION[/\A\d+\.\d+/]')" \
+ && find "$BUNDLE_PATH"/ruby/*/gems/*/lib -mindepth 1 -maxdepth 2 -type d -regex '.*/[0-9]+\.[0-9]+' ! -name "$abi" -prune \
+      -exec sh -c 'ls "$1"/*.so >/dev/null 2>&1 && rm -rf "$1"' _ {} \;
 COPY . .
 RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
 

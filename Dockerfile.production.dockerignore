@@ -1,6 +1,7 @@
 # Used by Dockerfile.production only (BuildKit reads <Dockerfile>.dockerignore).
 .git
 .github
+.claude
 .env*
 log/*
 tmp/*
