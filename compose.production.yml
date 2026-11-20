@@ -20,9 +20,10 @@
 # is not consistent on disk.
 
 x-rails: &rails
-  build:
-    context: .
-    dockerfile: Dockerfile.production
+  # Built from Dockerfile.production and pushed by .github/workflows/image.yml
+  # on every merge to main. Pulled on each deploy, since latest moves.
+  image: ghcr.io/tricknotes/starseeker:latest
+  pull_policy: always
   environment:
     DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@postgres/starseeker_production
     REDIS_URL: redis://redis:6379

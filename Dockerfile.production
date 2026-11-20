@@ -1,5 +1,6 @@
-# Production image, used by compose.production.yml. The Dockerfile next to it
-# is for development (it mounts the checkout and keeps gems in a volume).
+# Production image, pushed to ghcr.io by .github/workflows/image.yml and run by
+# compose.production.yml. The Dockerfile next to it is for development (it
+# mounts the checkout and keeps gems in a volume).
 
 FROM ruby:4.0.10-slim AS base
 WORKDIR /app
