@@ -33,6 +33,13 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
+      # Checking out a sha leaves HEAD detached with no ref pointing at it,
+      # and metadata-action's git context cannot infer a ref from that.
+      # Put the branch Build ran on at the checked-out commit.
+      - name: Name the checked-out commit's branch
+        env:
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: git switch --create "$HEAD_BRANCH"
       - uses: docker/setup-buildx-action@v4.4.1
       - uses: docker/login-action@v4.8.0
         with:
