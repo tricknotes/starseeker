@@ -17,6 +17,17 @@ RUN apt-get update -qq \
 # glibc malloc fragments memory across Puma's threads and RSS keeps growing;
 # jemalloc keeps it much lower.
 ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so
+# Ruby only frees garbage when GC runs, and an idle Puma runs none, so after a
+# burst of requests the garbage stays allocated and jemalloc cannot hand its
+# pages back. The GC limits make GC run before much garbage piles up and keep
+# the heap from growing past what is live; jemalloc then returns freed pages
+# within a second from a background thread instead of waiting for the next
+# allocation. Two arenas are enough for Puma's three threads.
+ENV MALLOC_CONF=narenas:2,dirty_decay_ms:1000,muzzy_decay_ms:0,background_thread:true \
+    RUBY_GC_HEAP_GROWTH_FACTOR=1.1 \
+    RUBY_GC_HEAP_FREE_SLOTS_MAX_RATIO=0.1 \
+    RUBY_GC_MALLOC_LIMIT_MAX=8000000 \
+    RUBY_GC_OLDMALLOC_LIMIT_MAX=16000000
 
 FROM base AS build
 RUN apt-get update -qq \
