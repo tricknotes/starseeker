@@ -65,13 +65,16 @@ Rails.application.configure do
   # }
 
   config.action_mailer.perform_deliveries = true
+  # Mailgun's SMTP relay. The variable names are those of Mailgun's Heroku
+  # add-on. A sending domain in Mailgun's EU region needs
+  # MAILGUN_SMTP_SERVER=smtp.eu.mailgun.org.
   config.action_mailer.smtp_settings = {
-    address: 'smtp.sendgrid.net',
-    port: 587,
-    domain: 'heroku.com',
+    address: ENV.fetch('MAILGUN_SMTP_SERVER', 'smtp.mailgun.org'),
+    port: Integer(ENV.fetch('MAILGUN_SMTP_PORT', 587)),
+    domain: (URI.parse(ENV['BASE_URL']).host if ENV['BASE_URL']),
     authentication: :plain,
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
+    user_name: ENV['MAILGUN_SMTP_LOGIN'],
+    password: ENV['MAILGUN_SMTP_PASSWORD'],
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

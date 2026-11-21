@@ -7,7 +7,9 @@
 #   BASE_URL           public URL, for example https://starseeker.example.com
 #   GITHUB_CLIENT_ID, GITHUB_SECRET          GitHub OAuth app (login)
 #   GITHUB_LOGIN, GITHUB_TOKEN               API access for fetching stars
-# Optional: SENTRY_DSN, SENDGRID_USERNAME, SENDGRID_PASSWORD
+# Optional: SENTRY_DSN
+#   MAILGUN_SMTP_LOGIN, MAILGUN_SMTP_PASSWORD   Mailgun SMTP credentials (mail)
+#   MAILGUN_SMTP_SERVER, MAILGUN_SMTP_PORT      default smtp.mailgun.org:587
 #
 # The web service listens on port 3000 and answers /up (any host) once the
 # database is migrated. TLS is terminated by the reverse proxy in front of it.
