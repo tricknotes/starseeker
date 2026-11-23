@@ -8,8 +8,8 @@
 0 1,7,13,19 * * * FETCH_CONCURRENCY=20 bin/rails 'star_events:fetch[8]'
 
 # Housekeeping.
-30 19 * * * bin/rails remove_old_events
-30 19 * * * bin/rails update_account_info
+0 17 * * * bin/rails update_account_info
+30 17 * * * bin/rails remove_old_events
 
 # Put the users who get the daily mail on today's schedule, then send it.
 # Sending runs every 30 minutes until midnight: it only mails users still on
